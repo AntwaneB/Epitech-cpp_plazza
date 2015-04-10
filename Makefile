@@ -18,7 +18,8 @@ MKDIR		  =  mkdir -p
 SRCS_DIR	  =  src
 SRCS		  =  main.cpp \
 		     App.cpp \
-		     Mutex.cpp
+		     Mutex.cpp \
+		     ScopedLock.cpp
 
 OBJS_DIR	  =  obj
 OBJS		  =  $(SRCS:%.cpp=$(OBJS_DIR)/%.o)
@@ -26,7 +27,8 @@ OBJS		  =  $(SRCS:%.cpp=$(OBJS_DIR)/%.o)
 INCS_DIR	  =  inc
 INCS		  =  Exception.hpp \
 		     App.hpp \
-		     Mutex.hpp
+		     Mutex.hpp \
+		     ScopedLock.hpp \
 
 DEPS		  =  $(patsubst %,$(INCS_DIR)/%,$(INCS))
 
