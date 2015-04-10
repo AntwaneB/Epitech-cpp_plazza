@@ -17,18 +17,20 @@ MKDIR		  =  mkdir -p
 
 SRCS_DIR	  =  src
 SRCS		  =  main.cpp \
-		     App.cpp
+		     App.cpp \
+		     Mutex.cpp
 
 OBJS_DIR	  =  obj
 OBJS		  =  $(SRCS:%.cpp=$(OBJS_DIR)/%.o)
 
 INCS_DIR	  =  inc
 INCS		  =  Exception.hpp \
-		     App.hpp
+		     App.hpp \
+		     Mutex.hpp
 
 DEPS		  =  $(patsubst %,$(INCS_DIR)/%,$(INCS))
 
-CFLAGS		  += -I./inc -ldl
+CFLAGS		  += -I./inc -lpthread
 CFLAGS		  += -std=c++11 -Wall -Wextra -W -Werror -fPIC
 
 CFLAGS		  += -g
