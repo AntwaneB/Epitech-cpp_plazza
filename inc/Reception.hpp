@@ -8,6 +8,8 @@
 #ifndef RECEPTION_HPP
 #define	RECEPTION_HPP
 
+class Reception;
+
 #include "Kitchen.hpp"
 
 class Reception

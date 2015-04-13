@@ -6,3 +6,4 @@
  */
 
 #include "NamedPipe.hpp"
+

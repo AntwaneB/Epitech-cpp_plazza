@@ -7,14 +7,6 @@
 
 #include "APizza.hpp"
 
-APizza::APizza()
-{
-}
-
-APizza::APizza(const APizza& orig)
-{
-}
-
 APizza::~APizza()
 {
 }

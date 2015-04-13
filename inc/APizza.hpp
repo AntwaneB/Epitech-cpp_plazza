@@ -44,17 +44,19 @@ public:
 	};
 
 public:
-	APizza();
+	APizza(APizza::TypePizza, APizza::SizePizza);
 	virtual ~APizza() = 0;
 
 	APizza::TypePizza						getType(void) const;
 	APizza::SizePizza						getSize(void) const;
 	std::vector<APizza::Ingredients>	getIngredients(void) const;
+	size_t									getCookingTime(void) const;
 
 private:
 	APizza::TypePizza						_type;
 	APizza::SizePizza						_size;
 	std::vector<APizza::Ingredients>	_ingredients;
+	size_t									_cookingTime;
 };
 
 #endif	/* APIZZA_HPP */

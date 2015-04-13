@@ -17,20 +17,32 @@ MKDIR		  =  mkdir -p
 
 SRCS_DIR	  =  src
 SRCS		  =  main.cpp \
-		     App.cpp \
 		     Mutex.cpp \
 		     ScopedLock.cpp \
-		     Thread.cpp
+		     Thread.cpp \
+		     NamedPipe.cpp \
+		     \
+		     App.cpp \
+		     APizza.cpp \
+		     Cook.cpp \
+		     Kitchen.cpp \
+		     Reception.cpp
 
 OBJS_DIR	  =  obj
 OBJS		  =  $(SRCS:%.cpp=$(OBJS_DIR)/%.o)
 
 INCS_DIR	  =  inc
 INCS		  =  Exception.hpp \
-		     App.hpp \
 		     Mutex.hpp \
 		     ScopedLock.hpp \
-	 	     Thread.hpp
+		     Thread.hpp \
+		     NamedPipe.hpp \
+		     \
+		     App.hpp \
+		     APizza.hpp \
+		     Cook.hpp \
+		     Kitchen.hpp \
+		     Reception.hpp
 
 DEPS		  =  $(patsubst %,$(INCS_DIR)/%,$(INCS))
 
