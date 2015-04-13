@@ -12,6 +12,9 @@
 #include <unistd.h>
 #include "Exception.hpp"
 #include "App.hpp"
+#include "Thread.hpp"
+#include "Mutex.hpp"
+#include "ScopedLock.hpp"
 
 App::App(int ac, char** av)
 	: _ac(ac), _av(av)
@@ -33,7 +36,58 @@ bool	App::validateArgs() const
 	return (true);
 }
 
+Thread	thread1;
+Thread	thread2;
+Thread	threadWaiter;
+
+void*	runThreadContent1(void* time)
+{
+	std::cout << "Starting thread execution" << std::endl;
+	sleep(2);
+	std::cout << "Middle thread execution" << std::endl;
+	thread1.stop(strdup("Owned"));
+	sleep(50);
+	std::cout << "Ending thread execution" << std::endl;
+
+	return (time);
+}
+
+void*	runThreadContent2(void* time)
+{
+	std::cout << "Starting thread execution" << std::endl;
+	sleep(2);
+	std::cout << "Middle thread execution" << std::endl;
+	sleep(5);
+	std::cout << "Ending thread execution" << std::endl;
+
+	return (time);
+}
+
+void*	waiter(void* time)
+{
+	void* ret1 = thread1.wait();
+	std::cout << "Retour du thread 1 : " << (char*)ret1 << std::endl;
+
+	void* ret2 = thread2.wait();
+	std::cout << "Retour du thread 2 : " << (char*)ret2 << std::endl;
+
+	return (time);
+}
+
 int	App::run() const
 {
+	try
+	{
+		thread1.run(&runThreadContent1, strdup("Hey salut"));
+		thread2.run(&runThreadContent2, strdup("Hey coucou"));
+		sleep(1);
+//		threadWaiter.run(&waiter, NULL);
+		waiter(NULL);
+
+	} catch (std::exception const & e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+
 	return (0);
 }

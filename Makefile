@@ -19,7 +19,8 @@ SRCS_DIR	  =  src
 SRCS		  =  main.cpp \
 		     App.cpp \
 		     Mutex.cpp \
-		     ScopedLock.cpp
+		     ScopedLock.cpp \
+		     Thread.cpp
 
 OBJS_DIR	  =  obj
 OBJS		  =  $(SRCS:%.cpp=$(OBJS_DIR)/%.o)
@@ -29,6 +30,7 @@ INCS		  =  Exception.hpp \
 		     App.hpp \
 		     Mutex.hpp \
 		     ScopedLock.hpp \
+	 	     Thread.hpp
 
 DEPS		  =  $(patsubst %,$(INCS_DIR)/%,$(INCS))
 
