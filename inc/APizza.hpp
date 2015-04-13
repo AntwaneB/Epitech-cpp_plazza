@@ -9,6 +9,7 @@
 #define	APIZZA_HPP
 
 #include <vector>
+#include <unistd.h>
 
 class APizza
 {
@@ -52,7 +53,7 @@ public:
 	std::vector<APizza::Ingredients>	getIngredients(void) const;
 	size_t									getCookingTime(void) const;
 
-private:
+protected:
 	APizza::TypePizza						_type;
 	APizza::SizePizza						_size;
 	std::vector<APizza::Ingredients>	_ingredients;

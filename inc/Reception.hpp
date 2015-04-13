@@ -10,6 +10,7 @@
 
 class Reception;
 
+#include <list>
 #include "Kitchen.hpp"
 
 class Reception
@@ -22,6 +23,8 @@ private:
 	size_t	_cookingTime;
 	size_t	_cooksCount;
 	size_t	_resupplyTime;
+
+	std::list<Kitchen*>	_kitchens;
 };
 
 #endif	/* RECEPTION_HPP */

@@ -21,6 +21,7 @@ SRCS		  =  main.cpp \
 		     ScopedLock.cpp \
 		     Thread.cpp \
 		     NamedPipe.cpp \
+		     Process.cpp \
 		     \
 		     App.cpp \
 		     APizza.cpp \
@@ -37,6 +38,8 @@ INCS		  =  Exception.hpp \
 		     ScopedLock.hpp \
 		     Thread.hpp \
 		     NamedPipe.hpp \
+	 	     ITask.hpp \
+	 	     Process.hpp \
 		     \
 		     App.hpp \
 		     APizza.hpp \

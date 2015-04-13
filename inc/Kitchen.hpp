@@ -23,6 +23,7 @@ public:
 	virtual ~Kitchen();
 
 	bool	canCook(APizza*);
+	void	cook(APizza*);
 
 private:
 	Reception*	_reception;
