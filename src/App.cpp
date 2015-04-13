@@ -92,13 +92,10 @@ int	App::run() const
 			}
 		}
 
-		/*
-		thread1.run(&runThreadContent1, strdup("Hey salut"));
-		thread2.run(&runThreadContent2, strdup("Hey coucou"));
-		sleep(1);
-//		threadWaiter.run(&waiter, NULL);
-		waiter(NULL);
-		*/
+	thread1.run(&runThreadContent1, strdup("Hey salut"));
+	thread2.run(&runThreadContent2, strdup("Hey coucou"));
+	sleep(1);
+	waiter(NULL);
 	} catch (std::exception const & e)
 	{
 		std::cerr << e.what() << std::endl;
