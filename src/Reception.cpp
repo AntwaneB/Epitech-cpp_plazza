@@ -11,10 +11,6 @@ Reception::Reception()
 {
 }
 
-Reception::Reception(const Reception& orig)
-{
-}
-
 Reception::~Reception()
 {
 }

@@ -21,7 +21,7 @@ App::App(int ac, char** av)
 {
 	if (!this->validateArgs())
 		throw ArgumentsException("usage:\n" \
-										 "   ./plazza [cooking time] [cooks per kitchen]");
+										 "./plazza [cooking time] [cooks per kitchen] [resupply time]");
 }
 
 App::~App()
