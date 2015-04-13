@@ -11,3 +11,7 @@ Kitchen::~Kitchen()
 {
 }
 
+void Kitchen::execute()
+{
+
+}

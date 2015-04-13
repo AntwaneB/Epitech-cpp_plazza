@@ -11,7 +11,7 @@
 class ITask
 {
 public:
-	virtual ~ITask();
+	virtual ~ITask() {};
 	virtual void	execute(void) = 0;
 };
 

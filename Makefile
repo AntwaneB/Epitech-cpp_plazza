@@ -27,7 +27,8 @@ SRCS		  =  main.cpp \
 		     APizza.cpp \
 		     Cook.cpp \
 		     Kitchen.cpp \
-		     Reception.cpp
+		     Reception.cpp \
+		     Clock.cpp
 
 OBJS_DIR	  =  obj
 OBJS		  =  $(SRCS:%.cpp=$(OBJS_DIR)/%.o)
@@ -45,7 +46,8 @@ INCS		  =  Exception.hpp \
 		     APizza.hpp \
 		     Cook.hpp \
 		     Kitchen.hpp \
-		     Reception.hpp
+		     Reception.hpp \
+		     Clock.hpp
 
 DEPS		  =  $(patsubst %,$(INCS_DIR)/%,$(INCS))
 

@@ -13,15 +13,20 @@ class Kitchen;
 
 #include <map>
 #include <queue>
+#include "ITask.hpp"
+#include "Process.hpp"
 #include "Reception.hpp"
 #include "APizza.hpp"
 
-class Kitchen
+class Kitchen : public ITask
 {
 public:
 	Kitchen(size_t cookingTime, size_t cooks, size_t resupplyTime);
 	virtual ~Kitchen();
 
+	virtual void	execute(void);
+
+private:
 	bool	canCook(APizza*);
 	void	cook(APizza*);
 

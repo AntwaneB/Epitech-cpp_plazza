@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include "Exception.hpp"
 #include "App.hpp"
+#include "Clock.hpp"
 #include "Thread.hpp"
 #include "Mutex.hpp"
 #include "ScopedLock.hpp"
@@ -78,12 +79,26 @@ int	App::run() const
 {
 	try
 	{
+		Clock	clock;
+
+		while ("supernatural c'est trop bien")
+		{
+			seconds_t sec = clock.tick();
+			if (sec >= 5.0)
+			{
+				std::cout << "5 secondes" << std::endl;
+				clock.resetSec();
+				exit(0);
+			}
+		}
+
+		/*
 		thread1.run(&runThreadContent1, strdup("Hey salut"));
 		thread2.run(&runThreadContent2, strdup("Hey coucou"));
 		sleep(1);
 //		threadWaiter.run(&waiter, NULL);
 		waiter(NULL);
-
+		*/
 	} catch (std::exception const & e)
 	{
 		std::cerr << e.what() << std::endl;
