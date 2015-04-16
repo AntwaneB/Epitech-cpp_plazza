@@ -11,26 +11,30 @@
 class Reception;
 
 #include <list>
+#include <queue>
 #include <vector>
 #include "Kitchen.hpp"
+#include "APizza.hpp"
 
 class Reception
 {
 public:
-	Reception();
+	Reception(size_t cookingTime, size_t cooksCount, size_t resupplyTime);
 	virtual ~Reception();
-
 	void	start(void);
 
 private:
+	void	handleQueue(void);
 	bool	inStr(char const, std::string const &);
 	std::vector<std::string>	strtovec(std::string const &, std::string const &);
 	void	createPizza(std::vector<std::string>);
+
 	size_t	_cookingTime;
 	size_t	_cooksCount;
 	size_t	_resupplyTime;
 
 	std::list<Kitchen*>	_kitchens;
+	std::queue<APizza*>	_orders;
 };
 
 #endif	/* RECEPTION_HPP */
