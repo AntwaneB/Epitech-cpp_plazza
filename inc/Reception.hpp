@@ -11,6 +11,7 @@
 class Reception;
 
 #include <list>
+#include <vector>
 #include "Kitchen.hpp"
 
 class Reception
@@ -22,6 +23,8 @@ public:
 	void	start(void);
 
 private:
+	bool	inStr(char const, std::string const &);
+	std::vector<std::string>	strtovec(std::string const &, std::string const &);
 	size_t	_cookingTime;
 	size_t	_cooksCount;
 	size_t	_resupplyTime;
