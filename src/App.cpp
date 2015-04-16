@@ -35,6 +35,8 @@ App::~App()
 
 bool	App::validateArgs() const
 {
+	if (_ac != 3 || _av[1] < 0 || _av[2] < 0 || _av[3] < 0)
+		return (false);
 	return (true);
 }
 
