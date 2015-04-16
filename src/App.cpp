@@ -16,6 +16,7 @@
 #include "Thread.hpp"
 #include "Mutex.hpp"
 #include "ScopedLock.hpp"
+#include "Reception.hpp"
 
 App::App(int ac, char** av)
 	: _ac(ac), _av(av)
@@ -79,6 +80,10 @@ int	App::run() const
 {
 	try
 	{
+		Reception	reception;
+
+		reception.start();
+		/*
 		Clock	clock;
 
 		while ("supernatural c'est trop bien")
@@ -86,16 +91,17 @@ int	App::run() const
 			seconds_t sec = clock.tick();
 			if (sec >= 5.0)
 			{
-				std::cout << "5 secondes" << std::endl;
+				std::cout << (int)sec << " secondes" << std::endl;
 				clock.resetSec();
 				exit(0);
 			}
 		}
 
-	thread1.run(&runThreadContent1, strdup("Hey salut"));
-	thread2.run(&runThreadContent2, strdup("Hey coucou"));
-	sleep(1);
-	waiter(NULL);
+		thread1.run(&runThreadContent1, strdup("Hey salut"));
+		thread2.run(&runThreadContent2, strdup("Hey coucou"));
+		sleep(1);
+		waiter(NULL);
+		*/
 	} catch (std::exception const & e)
 	{
 		std::cerr << e.what() << std::endl;

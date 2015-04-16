@@ -19,11 +19,10 @@ public:
 	Clock();
 	virtual ~Clock();
 
-//	struct timespec	getTimer(void) const;
-	seconds_t			tick(void);
+	seconds_t	tick(void);
 	long double	elapsedTime(void) const;
-	void					restart(void);
-	void					resetSec(void);
+	void			restart(void);
+	void			resetSec(void);
 
 private:
 	std::chrono::high_resolution_clock::time_point	_timer;

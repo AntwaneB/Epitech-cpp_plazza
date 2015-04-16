@@ -11,7 +11,6 @@
 
 Clock::Clock()
 {
-//	clock_gettime(CLOCK_REALTIME, &_timer);
 	this->restart();
 	_seconds = 0;
 }
@@ -19,12 +18,7 @@ Clock::Clock()
 Clock::~Clock()
 {
 }
-/*
-struct timespec	Clock::getTimer() const
-{
-	return (_timer);
-}
-*/
+
 long double Clock::elapsedTime() const
 {
 	std::chrono::high_resolution_clock::time_point now = std::chrono::high_resolution_clock::now();

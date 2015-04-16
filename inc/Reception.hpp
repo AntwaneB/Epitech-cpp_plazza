@@ -19,6 +19,8 @@ public:
 	Reception();
 	virtual ~Reception();
 
+	void	start(void);
+
 private:
 	size_t	_cookingTime;
 	size_t	_cooksCount;
