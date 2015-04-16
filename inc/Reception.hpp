@@ -12,6 +12,7 @@ class Reception;
 
 #include <list>
 #include <queue>
+#include <vector>
 #include "Kitchen.hpp"
 #include "APizza.hpp"
 
@@ -25,6 +26,8 @@ public:
 
 private:
 	void	handleQueue(void);
+	bool	inStr(char const, std::string const &);
+	std::vector<std::string>	strtovec(std::string const &, std::string const &);
 
 private:
 	size_t	_cookingTime;
