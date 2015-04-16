@@ -35,7 +35,7 @@ std::vector<std::string>		Reception::strtovec(std::string const & str, std::stri
 	size_t		len = str.size();
 	for (size_t i = 0; i < len; i++)
 	{
-		if (Reception::inStr(str[i], delim))
+		if (inStr(str[i], delim))
 		{
 			if (!tmp.empty())
 			res.push_back(tmp);
@@ -50,6 +50,14 @@ std::vector<std::string>		Reception::strtovec(std::string const & str, std::stri
 	return (res);
 }
 
+void	Reception::createPizza(std::vector<std::string> pizza)
+{
+	for (size_t i = 0; i < pizza.size(); i++)
+		{
+			std::cout << pizza[i] << std::endl;
+		}
+}
+
 void	Reception::start()
 {
 	std::string 				save;
@@ -58,5 +66,10 @@ void	Reception::start()
 	{
 		std::getline(std::cin, save);
 		std::cout << "Supernatural:" << save << std::endl;
+		std::vector<std::string> orders = strtovec(save, ";");
+		for (size_t i = 0; i < orders.size(); i++)
+		{
+			createPizza(strtovec(orders[i], " "));
+		}
 	}
 }

@@ -25,6 +25,7 @@ public:
 private:
 	bool	inStr(char const, std::string const &);
 	std::vector<std::string>	strtovec(std::string const &, std::string const &);
+	void	createPizza(std::vector<std::string>);
 	size_t	_cookingTime;
 	size_t	_cooksCount;
 	size_t	_resupplyTime;
