@@ -11,15 +11,20 @@
 class Reception;
 
 #include <list>
+#include <queue>
 #include "Kitchen.hpp"
+#include "APizza.hpp"
 
 class Reception
 {
 public:
-	Reception();
+	Reception(size_t cookingTime, size_t cooksCount, size_t resupplyTime);
 	virtual ~Reception();
 
 	void	start(void);
+
+private:
+	void	handleQueue(void);
 
 private:
 	size_t	_cookingTime;
@@ -27,6 +32,7 @@ private:
 	size_t	_resupplyTime;
 
 	std::list<Kitchen*>	_kitchens;
+	std::queue<APizza*>	_orders;
 };
 
 #endif	/* RECEPTION_HPP */

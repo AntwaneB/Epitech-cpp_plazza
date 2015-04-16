@@ -10,12 +10,19 @@
 #include <string>
 #include "Reception.hpp"
 
-Reception::Reception()
+Reception::Reception(size_t cookingTime, size_t cooksCount, size_t resupplyTime)
+	: _cookingTime(cookingTime), _cooksCount(cooksCount), _resupplyTime(resupplyTime)
 {
+
 }
 
 Reception::~Reception()
 {
+}
+
+void	Reception::handleQueue()
+{
+	
 }
 
 void	Reception::start()
