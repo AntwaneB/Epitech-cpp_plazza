@@ -111,8 +111,8 @@ std::vector<std::string>		Reception::strtovec(std::string const & str, std::stri
 
 void	Reception::createPizza(std::vector<std::string> pizza)
 {
-	if (!pizza.empty() && _pizzaCvt.find(pizza[0]) != _pizzaCvt.end())
-		(this->*(_pizzaCvt.find(pizza[0]))(Margarita::newMargarita(, _cookingTime));
+	if (!pizza.empty() && _pizzaCvt.find(pizza[0]) != _pizzaCvt.end() && _sizeCvt.find(pizza[1]) != _sizeCvt.end())
+		(this->*(_pizzaCvt.find(pizza[0])->second)(Margarita::newMargarita(_sizeCvt.find(pizza[1])->second, _cookingTime));
 	else if (!parts.empty() && operations.find(parts[0]) == operations.end())
 	{
 		std::cout << "Pizza '" << pizza[0] << "' does not exist." << std::endl;
