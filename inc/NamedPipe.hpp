@@ -15,13 +15,24 @@
 
 namespace NamedPipe
 {
+	class Exception : public std::runtime_error
+	{
+	public:
+		Exception(std::string const & s) : std::runtime_error(s), _message(s) {};
+		virtual ~Exception() throw() {};
+		virtual const char* what() const throw() { return (_message.c_str()); }
+
+	protected:
+		std::string _message;
+	};
+
 	class APipe
 	{
 	public:
 		APipe(std::string const &);
 		virtual ~APipe();
 
-	private:
+	protected:
 		std::string	_path;
 	};
 
