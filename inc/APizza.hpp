@@ -8,6 +8,7 @@
 #ifndef APIZZA_HPP
 #define	APIZZA_HPP
 
+#include <string>
 #include <vector>
 #include <unistd.h>
 
