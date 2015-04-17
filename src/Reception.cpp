@@ -7,6 +7,7 @@
 #include "Reception.hpp"
 #include "NamedPipe.hpp"
 #include "Margarita.hpp"
+#include "StringHelper.hpp"
 
 Reception::Reception(double cookingTime, size_t cooksCount, size_t resupplyTime)
 	: _cookingTime(cookingTime), _cooksCount(cooksCount), _resupplyTime(resupplyTime)
@@ -80,37 +81,6 @@ void	Reception::handleQueue()
 	}
 }
 
-bool	Reception::inStr(char const c, std::string const & str)
-{
-	for (size_t i = 0; i < str.size(); i++)
-		if (str[i] == c)
-			return (true);
-	return (false);
-}
-
-std::vector<std::string>		Reception::strtovec(std::string const & str, std::string const & delim)
-{
-	std::vector<std::string>	res;
-
-	std::string	tmp = "";
-	size_t		len = str.size();
-	for (size_t i = 0; i < len; i++)
-	{
-		if (inStr(str[i], delim))
-		{
-			if (!tmp.empty())
-			res.push_back(tmp);
-			tmp.clear();
-		}
-		else
-			tmp += str[i];
-	}
-	if (!tmp.empty())
-		res.push_back(tmp);
-
-	return (res);
-}
-
 void	Reception::createPizza(std::vector<std::string> pizza)
 {
 	if (!pizza.empty() && pizza.size() == 3 && _pizzaCvt.find(pizza[0]) != _pizzaCvt.end() && _sizeCvt.find(pizza[1]) != _sizeCvt.end())
@@ -136,10 +106,10 @@ void	Reception::start()
 	while ("Supernatural")
 	{
 		std::getline(std::cin, save);
-		std::vector<std::string> orders = strtovec(save, ";");
+		std::vector<std::string> orders = StringHelper::strtovec(save, ";");
 		for (size_t i = 0; i < orders.size(); i++)
 		{
-			createPizza(strtovec(orders[i], " "));
+			createPizza(StringHelper::strtovec(orders[i], " "));
 		}
 		this->handleQueue();
 	}
