@@ -58,7 +58,13 @@ void	Reception::handleQueue()
 			std::string cooksCount;
 			toKitchen << "count_available_cooks";
 			fromKitchen >> cooksCount;
-			freeCooks.insert(std::map<std::string, int>::value_type(*kitchen, std::stoi(cooksCount)));
+			if (cooksCount != "kitchen_closed")
+				freeCooks.insert(std::map<std::string, int>::value_type(*kitchen, std::stoi(cooksCount)));
+			else
+			{
+				kitchen = _kitchens.erase(kitchen);
+				--kitchen;
+			}
 		}
 
 		std::pair<std::string, int> freeKitchen(*(std::max_element(freeCooks.begin(), freeCooks.end())));
