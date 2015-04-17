@@ -53,6 +53,9 @@ public:
 	std::vector<APizza::Ingredients>	getIngredients(void) const;
 	size_t									getCookingTime(void) const;
 
+	static std::string	pack(APizza const &);
+	static APizza*			unpack(std::string const &);
+
 protected:
 	APizza::TypePizza						_type;
 	APizza::SizePizza						_size;
