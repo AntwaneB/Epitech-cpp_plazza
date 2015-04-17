@@ -6,6 +6,7 @@
 #include <utility>
 #include "Reception.hpp"
 #include "NamedPipe.hpp"
+#include "Margarita.hpp"
 
 Reception::Reception(double cookingTime, size_t cooksCount, size_t resupplyTime)
 	: _cookingTime(cookingTime), _cooksCount(cooksCount), _resupplyTime(resupplyTime)
@@ -113,9 +114,14 @@ void	Reception::createPizza(std::vector<std::string> pizza)
 {
 	if (!pizza.empty() && _pizzaCvt.find(pizza[0]) != _pizzaCvt.end() && _sizeCvt.find(pizza[1]) != _sizeCvt.end())
 		(this->*(_pizzaCvt.find(pizza[0])->second))(_sizeCvt.find(pizza[1])->second, _cookingTime);
-	else if (!parts.empty() && operations.find(parts[0]) == operations.end())
+	else if (!pizza.empty() && _pizzaCvt.find(pizza[0]) == _pizzaCvt.end())
 	{
 		std::cout << "Pizza '" << pizza[0] << "' does not exist." << std::endl;
+		// lancer une exception !!!
+	}
+	else if (!pizza.empty() && _sizeCvt.find(pizza[1]) == _sizeCvt.end())
+	{
+		std::cout << "Pizza size '" << pizza[0] << "' does not exist." << std::endl;
 		// lancer une exception !!!
 	}
 }
