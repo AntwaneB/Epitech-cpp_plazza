@@ -44,7 +44,6 @@ namespace NamedPipe
 		virtual ~In();
 
 		In&	operator>>(std::string &);
-		std::ifstream&	getStream(void);
 		void	read(std::string &);
 
 	private:

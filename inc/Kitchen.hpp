@@ -34,6 +34,9 @@ private:
 	void	handleCommand(std::string const &);
 
 private:
+	std::string			_pathIn;
+	std::string			_pathOut;
+
 	Process*				_process;
 	NamedPipe::In*		_fromReception;
 	NamedPipe::Out*	_toReception;

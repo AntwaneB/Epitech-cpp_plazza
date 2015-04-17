@@ -28,6 +28,7 @@ SRCS		  =  main.cpp \
 		     APizza.cpp \
 		     Cook.cpp \
 		     Kitchen.cpp \
+		     KitchenFactory.cpp \
 		     Reception.cpp \
 		     Clock.cpp \
 		     \
@@ -50,6 +51,7 @@ INCS		  =  Exception.hpp \
 		     APizza.hpp \
 		     Cook.hpp \
 		     Kitchen.hpp \
+		     KitchenFactory.hpp \
 		     Reception.hpp \
 		     Clock.hpp \
 		     \

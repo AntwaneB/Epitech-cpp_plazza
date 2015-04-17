@@ -14,7 +14,8 @@ class Reception;
 #include <list>
 #include <queue>
 #include <vector>
-#include "Kitchen.hpp"
+#include "NamedPipe.hpp"
+#include "KitchenFactory.hpp"
 #include "APizza.hpp"
 
 class Reception
@@ -27,7 +28,7 @@ public:
 
 private:
 	void											createPizza(std::vector<std::string>);
-	std::pair<std::string, std::string>	openKitchen(void);
+	std::pair<NamedPipe::In*, NamedPipe::Out*>	openKitchen(void);
 	void											handleQueue(void);
 
 private:
@@ -39,7 +40,7 @@ private:
 	size_t	_cooksCount;
 	size_t	_resupplyTime;
 
-	std::list<std::pair<std::string, std::string> >	_kitchens;
+	std::list<std::pair<NamedPipe::In*, NamedPipe::Out*> >	_kitchens;
 	std::queue<APizza*>										_orders;
 };
 
