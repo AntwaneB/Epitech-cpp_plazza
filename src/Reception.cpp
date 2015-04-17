@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include <string>
 #include <algorithm>
@@ -23,8 +24,26 @@ Reception::~Reception()
 {
 }
 
+std::string Reception::openKitchen()
+{
+	size_t	count = 0;
+
+	std::stringstream sstm;
+	sstm << "/tmp/buchse_a_kitchen_" << count;
+	std::string kitchenPath = sstm.str();
+
+	new Kitchen(kitchenPath, _cooksCount, _resupplyTime);
+	_kitchens.push_back(kitchenPath);
+	count++;
+
+	return (kitchenPath);
+}
+
 void	Reception::handleQueue()
 {
+	if (!_orders.empty() && _kitchens.empty())
+		this->openKitchen();
+
 	while (!_orders.empty())
 	{
 		APizza* pizza = _orders.front();
