@@ -11,6 +11,8 @@
 class StringHelper {
 public:
 	virtual ~StringHelper();
+	static bool								inStr(char const, std::string const &);
+	static std::vector<std::string>	strtovec(std::string const &, std::string const &);
 
 private:
 	StringHelper();
