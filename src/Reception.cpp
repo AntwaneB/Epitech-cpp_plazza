@@ -10,7 +10,7 @@
 #include <string>
 #include "Reception.hpp"
 
-Reception::Reception(size_t cookingTime, size_t cooksCount, size_t resupplyTime)
+Reception::Reception(double cookingTime, size_t cooksCount, size_t resupplyTime)
 	: _cookingTime(cookingTime), _cooksCount(cooksCount), _resupplyTime(resupplyTime)
 {
 
@@ -22,7 +22,14 @@ Reception::~Reception()
 
 void	Reception::handleQueue()
 {
+	while (!_orders.empty())
+	{
+		APizza* pizza = _orders.front();
+		_orders.pop();
 
+		
+
+	}
 }
 
 bool	Reception::inStr(char const c, std::string const & str)
