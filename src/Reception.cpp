@@ -45,7 +45,8 @@ void	Reception::handleQueue()
 		std::pair<std::string, int> freeKitchen(*(std::max_element(freeCooks.begin(), freeCooks.end())));
 		std::cout << freeKitchen.first << std::endl;
 
-		NamedPipe::Out	toKitchen(freeKitchen.first);
+		// Opening a new kitchen if needed
+		NamedPipe::Out	toKitchen(freeKitchen.second > 0 ? freeKitchen.first : this->openKitchen());
 		toKitchen << "cook " << APizza::pack(*pizza);
 	}
 }
