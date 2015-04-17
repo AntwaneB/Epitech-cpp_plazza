@@ -7,6 +7,12 @@
 
 #include "Margarita.hpp"
 
+
+Margarita*	Margarita::newMargarita(APizza::SizePizza size)
+{
+	return (new Margarita(size));
+}
+
 Margarita::Margarita(APizza::SizePizza size)
 	: APizza(APizza::Margarita, size)
 {
@@ -19,4 +25,3 @@ Margarita::Margarita(APizza::SizePizza size)
 Margarita::~Margarita()
 {
 }
-
