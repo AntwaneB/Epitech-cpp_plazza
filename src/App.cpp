@@ -82,7 +82,7 @@ int	App::run() const
 {
 	try
 	{
-		Reception	reception;
+		Reception	reception(atof(_av[1]), atoi(_av[2]), atoi(_av[3]));
 
 		reception.start();
 		/*

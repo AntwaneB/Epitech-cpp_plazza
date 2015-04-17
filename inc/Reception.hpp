@@ -19,7 +19,7 @@ class Reception;
 class Reception
 {
 public:
-	Reception(size_t cookingTime, size_t cooksCount, size_t resupplyTime);
+	Reception(double cookingTime, size_t cooksCount, size_t resupplyTime);
 	virtual ~Reception();
 	void	start(void);
 

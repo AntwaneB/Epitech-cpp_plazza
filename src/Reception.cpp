@@ -8,7 +8,10 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <algorithm>
+#include <utility>
 #include "Reception.hpp"
+#include "NamedPipe.hpp"
 
 Reception::Reception(double cookingTime, size_t cooksCount, size_t resupplyTime)
 	: _cookingTime(cookingTime), _cooksCount(cooksCount), _resupplyTime(resupplyTime)
@@ -27,7 +30,22 @@ void	Reception::handleQueue()
 		APizza* pizza = _orders.front();
 		_orders.pop();
 
-		
+		std::map<std::string, int> freeCooks;
+		for (std::list<std::string>::iterator kitchen = _kitchens.begin(); kitchen != _kitchens.end(); ++kitchen)
+		{
+			NamedPipe::Out	toKitchen(*kitchen);
+			NamedPipe::In	fromKitchen(*kitchen);
+
+			std::string cooksCount;
+			toKitchen << "count_available_cooks";
+			fromKitchen >> cooksCount;
+			freeCooks.insert(std::map<std::string, int>::value_type(*kitchen, std::stoi(cooksCount)));
+		}
+
+		std::pair<std::string, int> freeKitchen(*(std::max_element(freeCooks.begin(), freeCooks.end())));
+		std::cout << freeKitchen.first << std::endl;
+
+		(void)pizza;
 
 	}
 }
