@@ -19,7 +19,7 @@ Margarita::Margarita(APizza::SizePizza size, double cookingTime)
 	_ingredients.push_back(APizza::Ingredients::Doe);
 	_ingredients.push_back(APizza::Ingredients::Tomato);
 	_ingredients.push_back(APizza::Ingredients::Gruyere);
-	_cookingTime = 1 * cookingTime;
+	_cookingTime = 1.0 * cookingTime;
 }
 
 Margarita::~Margarita()

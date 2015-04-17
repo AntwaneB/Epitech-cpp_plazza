@@ -61,7 +61,7 @@ protected:
 	APizza::TypePizza						_type;
 	APizza::SizePizza						_size;
 	std::vector<APizza::Ingredients>	_ingredients;
-	size_t									_cookingTime;
+	double									_cookingTime;
 };
 
 #endif	/* APIZZA_HPP */
