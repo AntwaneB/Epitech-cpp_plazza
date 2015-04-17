@@ -7,10 +7,12 @@
 
 #include "StringHelper.hpp"
 
-StringHelper::StringHelper() {
+StringHelper::StringHelper()
+{
 }
 
-StringHelper::~StringHelper() {
+StringHelper::~StringHelper()
+{
 }
 
 bool	StringHelper::inStr(char const c, std::string const & str)

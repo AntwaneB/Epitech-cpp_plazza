@@ -10,6 +10,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include <unistd.h>
 
 class APizza
@@ -48,13 +49,12 @@ public:
 public:
 	APizza(APizza::TypePizza, APizza::SizePizza);
 	virtual ~APizza() = 0;
-
 	APizza::TypePizza						getType(void) const;
 	APizza::SizePizza						getSize(void) const;
-	std::vector<APizza::Ingredients>	getIngredients(void) const;
+	std::vector<APizza::Ingredients>		getIngredients(void) const;
 	size_t									getCookingTime(void) const;
-
-	static std::string	pack(APizza const &);
+	static APizza*									stringToAPizza(std::vector<std::string> const);
+	static std::string		pack(APizza const &);
 	static APizza*			unpack(std::string const &);
 
 protected:

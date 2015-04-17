@@ -8,7 +8,11 @@
 #ifndef STRINGHELPER_HPP
 #define	STRINGHELPER_HPP
 
-class StringHelper {
+#include <vector>
+#include <string>
+
+class StringHelper
+{
 public:
 	virtual ~StringHelper();
 	static bool								inStr(char const, std::string const &);
