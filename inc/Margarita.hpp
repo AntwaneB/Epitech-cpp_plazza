@@ -15,10 +15,10 @@ class Margarita : public APizza
 public:
 	virtual ~Margarita();
 
-	static Margarita*	newMargarita(APizza::SizePizza);
+	static APizza*	newMargarita(APizza::SizePizza, double);
 
 private:
-	Margarita(APizza::SizePizza);
+	Margarita(APizza::SizePizza, double);
 
 };
 

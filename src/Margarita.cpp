@@ -8,18 +8,18 @@
 #include "Margarita.hpp"
 
 
-Margarita*	Margarita::newMargarita(APizza::SizePizza size)
+APizza*	Margarita::newMargarita(APizza::SizePizza size, double cookingTime)
 {
-	return (new Margarita(size));
+	return (new Margarita(size, cookingTime));
 }
 
-Margarita::Margarita(APizza::SizePizza size)
+Margarita::Margarita(APizza::SizePizza size, double cookingTime)
 	: APizza(APizza::Margarita, size)
 {
 	_ingredients.push_back(APizza::Ingredients::Doe);
 	_ingredients.push_back(APizza::Ingredients::Tomato);
 	_ingredients.push_back(APizza::Ingredients::Gruyere);
-	_cookingTime = 1;
+	_cookingTime = 1 * cookingTime;
 }
 
 Margarita::~Margarita()

@@ -29,6 +29,9 @@ private:
 	std::vector<std::string>	strtovec(std::string const &, std::string const &);
 	void	createPizza(std::vector<std::string>);
 
+	std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>	_pizzasCtor;
+	std::map<std::string, APizza::TypePizza>	_pizzaCvt;
+	std::map<std::string, APizza::SizePizza>	_sizeCvt;
 	double	_cookingTime;
 	size_t	_cooksCount;
 	size_t	_resupplyTime;

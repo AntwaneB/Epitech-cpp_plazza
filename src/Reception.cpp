@@ -13,7 +13,16 @@
 Reception::Reception(double cookingTime, size_t cooksCount, size_t resupplyTime)
 	: _cookingTime(cookingTime), _cooksCount(cooksCount), _resupplyTime(resupplyTime)
 {
-
+	_pizzasCtor.insert(std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza)>::value_type("Margarita", &Margarita::newMargarita));
+	_pizzaCvt["Regina"] = APizza::Regina;
+	_pizzaCvt["Margarita"] = APizza::Margarita;
+	_pizzaCvt["Americaine"] = APizza::Americaine;
+	_pizzaCvt["Fantasia"] = APizza::Fantasia;
+	_sizeCvt["S"] = APizza::S;
+	_sizeCvt["M"] = APizza::M;
+	_sizeCvt["L"] = APizza::L;
+	_sizeCvt["XL"] = APizza::XL;
+	_sizeCvt["XXL"] = APizza::XXL;
 }
 
 Reception::~Reception()
@@ -65,10 +74,13 @@ std::vector<std::string>		Reception::strtovec(std::string const & str, std::stri
 
 void	Reception::createPizza(std::vector<std::string> pizza)
 {
-	for (size_t i = 0; i < pizza.size(); i++)
-		{
-			std::cout << pizza[i] << std::endl;
-		}
+	if (!pizza.empty() && _pizzaCvt.find(pizza[0]) != _pizzaCvt.end())
+		(this->*(_pizzaCvt.find(pizza[0]))(Margarita::newMargarita(, _cookingTime));
+	else if (!parts.empty() && operations.find(parts[0]) == operations.end())
+	{
+		std::cout << "Pizza '" << pizza[0] << "' does not exist." << std::endl;
+		// lancer une exception !!!
+	}
 }
 
 void	Reception::start()
