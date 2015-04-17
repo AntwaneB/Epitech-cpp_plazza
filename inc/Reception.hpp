@@ -22,17 +22,13 @@ public:
 	Reception(double cookingTime, size_t cooksCount, size_t resupplyTime);
 	virtual ~Reception();
 
-	void	start(void);
-
+	void		start(void);
+	
 private:
-	bool								inStr(char const, std::string const &);
-	std::vector<std::string>	strtovec(std::string const &, std::string const &);
-	void								createPizza(std::vector<std::string>);
-
-	std::string	openKitchen(void);
+	void			createPizza(std::vector<std::string>);
+	std::string		openKitchen(void);
 	void			handleQueue(void);
 
-private:
 	std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>	_pizzasCtor;
 	std::map<std::string, APizza::TypePizza>	_pizzaCvt;
 	std::map<std::string, APizza::SizePizza>	_sizeCvt;

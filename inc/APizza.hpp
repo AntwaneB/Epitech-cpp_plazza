@@ -10,6 +10,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include <unistd.h>
 
 class APizza
@@ -48,13 +49,12 @@ public:
 public:
 	APizza(APizza::TypePizza, APizza::SizePizza);
 	virtual ~APizza() = 0;
-
 	APizza::TypePizza						getType(void) const;
 	APizza::SizePizza						getSize(void) const;
-	std::vector<APizza::Ingredients>	getIngredients(void) const;
+	std::vector<APizza::Ingredients>		getIngredients(void) const;
 	size_t									getCookingTime(void) const;
-
-	static std::string	pack(APizza const &);
+	static APizza*									stringToAPizza(std::vector<std::string> const);
+	static std::string		pack(APizza const &);
 	static APizza*			unpack(std::string const &);
 
 protected:
@@ -62,6 +62,21 @@ protected:
 	APizza::SizePizza						_size;
 	std::vector<APizza::Ingredients>	_ingredients;
 	double									_cookingTime;
+};
+
+std::map<APizza::TypePizza, std::string> TypePizzaMap = {
+	{APizza::Regina, "Regina"},
+	{APizza::Margarita, "Margarita"},
+	{APizza::Americaine, "Americaine"},
+	{APizza::Fantasia, "Fantasia"}
+};
+
+std::map<APizza::SizePizza, std::string> SizePizzaMap = {
+	{APizza::S, "S"},
+	{APizza::M, "M"},
+	{APizza::L, "L"},
+	{APizza::XL, "XL"},
+	{APizza::XXL, "XXL"}
 };
 
 #endif	/* APIZZA_HPP */
