@@ -56,10 +56,11 @@ void	Reception::handleQueue()
 		for (std::list<std::string>::iterator kitchen = _kitchens.begin(); kitchen != _kitchens.end(); ++kitchen)
 		{
 			NamedPipe::Out	toKitchen(*kitchen);
-			NamedPipe::In	fromKitchen(*kitchen);
 
 			std::string cooksCount;
 			toKitchen << "count_available_cooks";
+
+			NamedPipe::In	fromKitchen(*kitchen);
 			fromKitchen >> cooksCount;
 			if (cooksCount != "kitchen_closed")
 				freeCooks.insert(std::map<std::string, int>::value_type(*kitchen, std::stoi(cooksCount)));
