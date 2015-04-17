@@ -11,7 +11,7 @@
 Reception::Reception(double cookingTime, size_t cooksCount, size_t resupplyTime)
 	: _cookingTime(cookingTime), _cooksCount(cooksCount), _resupplyTime(resupplyTime)
 {
-	_pizzasCtor.insert(std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza)>::value_type("Margarita", &Margarita::newMargarita));
+	_pizzasCtor.insert(std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>::value_type(APizza::Margarita, &Margarita::newMargarita));
 	_pizzaCvt["Regina"] = APizza::Regina;
 	_pizzaCvt["Margarita"] = APizza::Margarita;
 	_pizzaCvt["Americaine"] = APizza::Americaine;
@@ -113,7 +113,7 @@ std::vector<std::string>		Reception::strtovec(std::string const & str, std::stri
 void	Reception::createPizza(std::vector<std::string> pizza)
 {
 	if (!pizza.empty() && _pizzaCvt.find(pizza[0]) != _pizzaCvt.end() && _sizeCvt.find(pizza[1]) != _sizeCvt.end())
-		(this->*(_pizzaCvt.find(pizza[0])->second))(_sizeCvt.find(pizza[1])->second, _cookingTime);
+		(_pizzasCtor.find(_pizzaCvt.find(pizza[0])->second)->second)(_sizeCvt.find(pizza[1])->second, _cookingTime);
 	else if (!pizza.empty() && _pizzaCvt.find(pizza[0]) == _pizzaCvt.end())
 	{
 		std::cout << "Pizza '" << pizza[0] << "' does not exist." << std::endl;

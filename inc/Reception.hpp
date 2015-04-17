@@ -32,6 +32,7 @@ private:
 	std::string	openKitchen(void);
 	void			handleQueue(void);
 
+private:
 	std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>	_pizzasCtor;
 	std::map<std::string, APizza::TypePizza>	_pizzaCvt;
 	std::map<std::string, APizza::SizePizza>	_sizeCvt;
