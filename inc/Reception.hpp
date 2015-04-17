@@ -34,8 +34,8 @@ private:
 	size_t	_cooksCount;
 	size_t	_resupplyTime;
 
-	std::list<Kitchen*>	_kitchens;
-	std::queue<APizza*>	_orders;
+	std::list<std::string>	_kitchens;
+	std::queue<APizza*>		_orders;
 };
 
 #endif	/* RECEPTION_HPP */
