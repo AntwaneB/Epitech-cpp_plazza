@@ -112,16 +112,18 @@ std::vector<std::string>		Reception::strtovec(std::string const & str, std::stri
 
 void	Reception::createPizza(std::vector<std::string> pizza)
 {
-	if (!pizza.empty() && _pizzaCvt.find(pizza[0]) != _pizzaCvt.end() && _sizeCvt.find(pizza[1]) != _sizeCvt.end())
-		(_pizzasCtor.find(_pizzaCvt.find(pizza[0])->second)->second)(_sizeCvt.find(pizza[1])->second, _cookingTime);
-	else if (!pizza.empty() && _pizzaCvt.find(pizza[0]) == _pizzaCvt.end())
+	if (!pizza.empty() && pizza.size() == 3 && _pizzaCvt.find(pizza[0]) != _pizzaCvt.end() && _sizeCvt.find(pizza[1]) != _sizeCvt.end())
 	{
-		std::cout << "Pizza '" << pizza[0] << "' does not exist." << std::endl;
-		// lancer une exception !!!
+		pizza[2].erase(0);
+		int nb = stoi(pizza[2]);
+		for (int i = 0; i < nb; i++)
+		{
+			(_pizzasCtor.find(_pizzaCvt.find(pizza[0])->second)->second)(_sizeCvt.find(pizza[1])->second, _cookingTime);
+		}
 	}
-	else if (!pizza.empty() && _sizeCvt.find(pizza[1]) == _sizeCvt.end())
+	else if (!pizza.empty() && (pizza.size() != 3 || _pizzaCvt.find(pizza[0]) == _pizzaCvt.end() || _sizeCvt.find(pizza[1]) == _sizeCvt.end()))
 	{
-		std::cout << "Pizza size '" << pizza[0] << "' does not exist." << std::endl;
+		std::cout << "Invalid pizza '" << pizza[0] << "'" << std::endl;
 		// lancer une exception !!!
 	}
 }
