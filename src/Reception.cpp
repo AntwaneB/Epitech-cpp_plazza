@@ -3,7 +3,6 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
-#include <utility>
 #include "Reception.hpp"
 #include "NamedPipe.hpp"
 #include "Margarita.hpp"
@@ -27,19 +26,24 @@ Reception::~Reception()
 {
 }
 
-std::string Reception::openKitchen()
+std::pair<std::string, std::string> Reception::openKitchen()
 {
-	size_t	count = 0;
+	static size_t	count = 0;
 
 	std::stringstream sstm;
-	sstm << "/tmp/buchse_a_kitchen_" << count;
-	std::string kitchenPath = sstm.str();
+	sstm << "/tmp/buchse_a_kitchenIn_" << count;
+	std::string kitchenPathIn = sstm.str();
 
-	new Kitchen(kitchenPath, _cooksCount, _resupplyTime);
-	_kitchens.push_back(kitchenPath);
+	sstm.str(std::string());
+	sstm << "/tmp/buchse_a_kitchenOut_" << count;
+	std::string kitchenPathOut = sstm.str();
+
+	new Kitchen(kitchenPathIn, kitchenPathOut, _cooksCount, _resupplyTime);
+
+	_kitchens.push_back(std::make_pair(kitchenPathIn, kitchenPathOut));
 	count++;
 
-	return (kitchenPath);
+	return (std::make_pair(kitchenPathIn, kitchenPathOut));
 }
 
 void	Reception::handleQueue()
@@ -52,18 +56,18 @@ void	Reception::handleQueue()
 		APizza* pizza = _orders.front();
 		_orders.pop();
 
-		std::map<std::string, int> freeCooks;
-		for (std::list<std::string>::iterator kitchen = _kitchens.begin(); kitchen != _kitchens.end(); ++kitchen)
+		std::map<std::pair<std::string, std::string>, int> freeCooks;
+		for (std::list<std::pair<std::string, std::string> >::iterator kitchen = _kitchens.begin(); kitchen != _kitchens.end(); ++kitchen)
 		{
-			NamedPipe::Out	toKitchen(*kitchen);
+			NamedPipe::Out	toKitchen((*kitchen).second);
+			toKitchen << "count_available_cooks\n";
 
+			NamedPipe::In	fromKitchen((*kitchen).first);
 			std::string cooksCount;
-			toKitchen << "count_available_cooks";
-
-			NamedPipe::In	fromKitchen(*kitchen);
 			fromKitchen >> cooksCount;
+
 			if (cooksCount != "kitchen_closed")
-				freeCooks.insert(std::map<std::string, int>::value_type(*kitchen, std::stoi(cooksCount)));
+				freeCooks.insert(std::map<std::pair<std::string, std::string>, int>::value_type(std::make_pair((*kitchen).first, (*kitchen).second), std::stoi(cooksCount)));
 			else
 			{
 				kitchen = _kitchens.erase(kitchen);
@@ -71,11 +75,11 @@ void	Reception::handleQueue()
 			}
 		}
 
-		std::pair<std::string, int> freeKitchen(*(std::max_element(freeCooks.begin(), freeCooks.end())));
-		std::cout << freeKitchen.first << std::endl;
+		std::pair<std::pair<std::string, std::string>, int> freeKitchen(*(std::max_element(freeCooks.begin(), freeCooks.end())));
+		std::cout << freeKitchen.first.first << std::endl;
 
 		// Opening a new kitchen if needed
-		NamedPipe::Out	toKitchen(freeKitchen.second > 0 ? freeKitchen.first : this->openKitchen());
+		NamedPipe::Out	toKitchen(freeKitchen.second > 0 ? freeKitchen.first.second : this->openKitchen().second);
 		toKitchen << "cook " << APizza::pack(*pizza);
 	}
 }

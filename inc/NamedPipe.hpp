@@ -44,6 +44,8 @@ namespace NamedPipe
 		virtual ~In();
 
 		In&	operator>>(std::string &);
+		std::ifstream&	getStream(void);
+		void	read(std::string &);
 
 	private:
 		std::ifstream	_stream;
@@ -56,6 +58,7 @@ namespace NamedPipe
 		virtual ~Out();
 
 		Out&	operator<<(std::string const &);
+		void	write(std::string const &);
 
 	private:
 		std::ofstream	_stream;

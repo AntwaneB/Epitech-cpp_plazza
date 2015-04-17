@@ -10,6 +10,7 @@
 
 class Reception;
 
+#include <utility>
 #include <list>
 #include <queue>
 #include <vector>
@@ -29,8 +30,8 @@ private:
 	std::vector<std::string>	strtovec(std::string const &, std::string const &);
 	void								createPizza(std::vector<std::string>);
 
-	std::string	openKitchen(void);
-	void			handleQueue(void);
+	std::pair<std::string, std::string>	openKitchen(void);
+	void											handleQueue(void);
 
 private:
 	std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>	_pizzasCtor;
@@ -40,8 +41,8 @@ private:
 	size_t	_cooksCount;
 	size_t	_resupplyTime;
 
-	std::list<std::string>	_kitchens;
-	std::queue<APizza*>		_orders;
+	std::list<std::pair<std::string, std::string> >	_kitchens;
+	std::queue<APizza*>										_orders;
 };
 
 #endif	/* RECEPTION_HPP */
