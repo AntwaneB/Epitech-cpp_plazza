@@ -21,7 +21,7 @@ class Kitchen;
 class Kitchen : public ITask
 {
 public:
-	Kitchen(size_t cookingTime, size_t cooks, size_t resupplyTime);
+	Kitchen(std::string const & path, size_t cooks, size_t resupplyTime);
 	virtual ~Kitchen();
 
 	virtual void	execute(void);
@@ -31,11 +31,10 @@ private:
 	void	cook(APizza*);
 
 private:
-	Reception*	_reception;
+	std::string	_path;
 
-	size_t	_cookingTime;
-	size_t	_cooksCount;
-	size_t	_resupplyTime;
+	size_t		_cooksCount;
+	size_t		_resupplyTime;
 
 	std::queue<APizza*>							_orders;
 	std::map<APizza::Ingredients, size_t>	_supplies;

@@ -6,9 +6,13 @@
  */
 
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include <string>
+#include <algorithm>
+#include <utility>
 #include "Reception.hpp"
+#include "NamedPipe.hpp"
 
 Reception::Reception(double cookingTime, size_t cooksCount, size_t resupplyTime)
 	: _cookingTime(cookingTime), _cooksCount(cooksCount), _resupplyTime(resupplyTime)
@@ -29,15 +33,55 @@ Reception::~Reception()
 {
 }
 
+std::string Reception::openKitchen()
+{
+	size_t	count = 0;
+
+	std::stringstream sstm;
+	sstm << "/tmp/buchse_a_kitchen_" << count;
+	std::string kitchenPath = sstm.str();
+
+	new Kitchen(kitchenPath, _cooksCount, _resupplyTime);
+	_kitchens.push_back(kitchenPath);
+	count++;
+
+	return (kitchenPath);
+}
+
 void	Reception::handleQueue()
 {
+	if (!_orders.empty() && _kitchens.empty())
+		this->openKitchen();
+
 	while (!_orders.empty())
 	{
 		APizza* pizza = _orders.front();
 		_orders.pop();
 
-		
+		std::map<std::string, int> freeCooks;
+		for (std::list<std::string>::iterator kitchen = _kitchens.begin(); kitchen != _kitchens.end(); ++kitchen)
+		{
+			NamedPipe::Out	toKitchen(*kitchen);
+			NamedPipe::In	fromKitchen(*kitchen);
 
+			std::string cooksCount;
+			toKitchen << "count_available_cooks";
+			fromKitchen >> cooksCount;
+			if (cooksCount != "kitchen_closed")
+				freeCooks.insert(std::map<std::string, int>::value_type(*kitchen, std::stoi(cooksCount)));
+			else
+			{
+				kitchen = _kitchens.erase(kitchen);
+				--kitchen;
+			}
+		}
+
+		std::pair<std::string, int> freeKitchen(*(std::max_element(freeCooks.begin(), freeCooks.end())));
+		std::cout << freeKitchen.first << std::endl;
+
+		// Opening a new kitchen if needed
+		NamedPipe::Out	toKitchen(freeKitchen.second > 0 ? freeKitchen.first : this->openKitchen());
+		toKitchen << "cook " << APizza::pack(*pizza);
 	}
 }
 

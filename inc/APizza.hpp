@@ -8,6 +8,7 @@
 #ifndef APIZZA_HPP
 #define	APIZZA_HPP
 
+#include <string>
 #include <vector>
 #include <unistd.h>
 
@@ -52,6 +53,9 @@ public:
 	APizza::SizePizza						getSize(void) const;
 	std::vector<APizza::Ingredients>	getIngredients(void) const;
 	size_t									getCookingTime(void) const;
+
+	static std::string	pack(APizza const &);
+	static APizza*			unpack(std::string const &);
 
 protected:
 	APizza::TypePizza						_type;
