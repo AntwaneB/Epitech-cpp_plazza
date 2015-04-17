@@ -10,6 +10,7 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <stdexcept>
 #include <string>
 #include <fstream>
 
