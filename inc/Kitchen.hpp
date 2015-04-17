@@ -31,10 +31,10 @@ private:
 	void	cook(APizza*);
 
 private:
-	std::string	_path;
+	const std::string	_path;
 
-	size_t		_cooksCount;
-	size_t		_resupplyTime;
+	size_t				_cooksCount;
+	size_t				_resupplyTime;
 
 	std::queue<APizza*>							_orders;
 	std::map<APizza::Ingredients, size_t>	_supplies;

@@ -7,6 +7,12 @@
 
 #include "Kitchen.hpp"
 
+Kitchen::Kitchen(const std::string& path, size_t cooks, size_t resupplyTime)
+	: _path(path), _cooksCount(cooks), _resupplyTime(resupplyTime)
+{
+
+}
+
 Kitchen::~Kitchen()
 {
 }
