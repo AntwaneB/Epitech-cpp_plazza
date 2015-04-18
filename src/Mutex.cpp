@@ -38,3 +38,8 @@ bool Mutex::trylock()
 {
 	return (pthread_mutex_trylock(_mutex) == 0);
 }
+
+pthread_mutex_t* Mutex::getMutex(void) const
+{
+	return (_mutex);
+}

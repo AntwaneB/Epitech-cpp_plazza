@@ -5,6 +5,8 @@
 #include <algorithm>
 #include "Reception.hpp"
 #include "NamedPipe.hpp"
+#include "Mutex.hpp"
+#include "ScopedLock.hpp"
 #include "Margarita.hpp"
 #include "StringHelper.hpp"
 
@@ -29,6 +31,8 @@ Reception::~Reception()
 
 std::pair<NamedPipe::In*, NamedPipe::Out*> Reception::openKitchen()
 {
+	Mutex mutex;
+	ScopedLock	lock(mutex);
 	static size_t	count = 0;
 
 	std::stringstream sstm;
@@ -78,16 +82,27 @@ void	Reception::handleQueue()
 				freeCooks.insert(std::map<std::pair<NamedPipe::In*, NamedPipe::Out*>, int>::value_type(std::make_pair((*kitchen).first, (*kitchen).second), std::stoi(cooksCount)));
 			else
 			{
+				std::cout << "Erasing kitchen from list" << std::endl;
+				delete (*kitchen).first;
+				delete (*kitchen).second;
 				kitchen = _kitchens.erase(kitchen);
 				--kitchen;
 			}
 		}
 
-		std::pair<std::pair<NamedPipe::In*, NamedPipe::Out*>, int> freeKitchen(*(std::max_element(freeCooks.begin(), freeCooks.end())));
+		if (!_kitchens.empty())
+		{
+			std::pair<std::pair<NamedPipe::In*, NamedPipe::Out*>, int> freeKitchen(*(std::max_element(freeCooks.begin(), freeCooks.end())));
 
-		// Opening a new kitchen if needed
-		NamedPipe::Out*	toKitchen = freeKitchen.second > 0 ? freeKitchen.first.second : this->openKitchen().second;
-		(*toKitchen) << "cook " + APizza::pack(*pizza);
+			// Opening a new kitchen if needed
+			NamedPipe::Out*	toKitchen = freeKitchen.second > 0 ? freeKitchen.first.second : this->openKitchen().second;
+			(*toKitchen) << "cook " + APizza::pack(*pizza);
+		}
+		else
+		{
+			NamedPipe::Out*	toKitchen = this->openKitchen().second;
+			(*toKitchen) << "cook " + APizza::pack(*pizza);
+		}
 	}
 }
 
@@ -118,11 +133,13 @@ void	Reception::closeKitchens()
 
 void	Reception::start()
 {
-	std::string save;
 	bool			run = true;
 
 	while (run)
 	{
+		std::cout << "> " << std::flush;
+
+		std::string save;
 		std::getline(std::cin, save);
 		if (save == "exit")
 		{

@@ -17,6 +17,7 @@ class Kitchen;
 #include "Process.hpp"
 #include "Reception.hpp"
 #include "NamedPipe.hpp"
+#include "Clock.hpp"
 #include "APizza.hpp"
 
 class Kitchen : public ITask
@@ -31,7 +32,7 @@ private:
 	void		cook(APizza*) const;
 	size_t	countOrdersSpots() const;
 
-	void	handleCommand(std::string const &);
+	void	handleCommand(std::string const &, Clock &);
 
 private:
 	std::string			_pathIn;
@@ -46,6 +47,8 @@ private:
 
 	std::queue<APizza*>							_orders;
 	std::map<APizza::Ingredients, size_t>	_supplies;
+
+	bool					_dead;
 };
 
 #endif	/* KITCHEN_HPP */

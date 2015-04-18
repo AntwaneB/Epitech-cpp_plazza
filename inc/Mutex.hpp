@@ -36,6 +36,8 @@ public:
 	virtual void	unlock(void);
 	virtual bool	trylock(void);
 
+	pthread_mutex_t*	getMutex(void) const;
+
 private:
 	Mutex(const Mutex& orig){ (void)orig; };
 	Mutex& operator=(const Mutex& orig){ (void)orig; return (*this); };

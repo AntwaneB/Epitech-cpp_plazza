@@ -35,9 +35,9 @@ public:
 	Thread();
 	virtual ~Thread();
 
-	void run(void* (*startRoutine)(void*), void* routineArg);
-	void* wait(void);
-	void stop(void* retValue);
+	void	run(void* (*startRoutine)(void*), void* routineArg);
+	void*	wait(void);
+	void	stop(void* retValue);
 
 	Thread::Status	getStatus(void) const;
 

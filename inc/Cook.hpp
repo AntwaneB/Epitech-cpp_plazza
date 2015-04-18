@@ -8,7 +8,9 @@
 #ifndef COOK_HPP
 #define	COOK_HPP
 
-class Cook
+#include "ITask.hpp"
+
+class Cook : public ITask
 {
 public:
 	Cook();
