@@ -36,23 +36,23 @@ NamedPipe::In::In(std::string const & path)
 	if (_stream.fail())
 		throw NamedPipe::Exception("Couldn't open named pipe.");
 
-	std::cerr << "Creating (read) " << _path << std::endl;
+//	std::cerr << "Creating (read) " << _path << std::endl;
 }
 
 NamedPipe::In::~In()
 {
-	std::cout << "Deleting (read) " << _path << std::endl;
+//	std::cout << "Deleting (read) " << _path << std::endl;
 	_stream.close();
 	unlink(_path.c_str());
 }
 
 NamedPipe::In&	NamedPipe::In::operator>>(std::string & str)
 {
-	std::cout << "Reading (" << getpid() << ")" << _path << std::endl;
+//	std::cout << "Reading (" << getpid() << ")" << _path << std::endl;
 
 	std::getline(_stream, str);
 
-	std::cout << "Done reading (" << getpid() << ")" << _path << std::endl;
+//	std::cout << "Done reading (" << getpid() << ")" << _path << std::endl;
 
 	return (*this);
 }
@@ -75,21 +75,21 @@ NamedPipe::Out::Out(std::string const & path)
 	if (_stream.fail())
 		throw NamedPipe::Exception("Couldn't open named pipe.");
 
-	std::cout << "Creating (write) " << _path << std::endl;
+//	std::cout << "Creating (write) " << _path << std::endl;
 }
 
 NamedPipe::Out::~Out()
 {
-	std::cout << "Deleting (write) " << _path << std::endl;
+//	std::cout << "Deleting (write) " << _path << std::endl;
 	_stream.close();
 	unlink(_path.c_str());
 }
 
 NamedPipe::Out&	NamedPipe::Out::operator<<(std::string const & str)
 {
-	std::cout << "Writing " << _path;
+//	std::cout << "Writing " << _path;
 	_stream << str << std::endl;
-	std::cout << " --- Done writing " << _path << std::endl;
+//	std::cout << " --- Done writing " << _path << std::endl;
 
 	return (*this);
 }

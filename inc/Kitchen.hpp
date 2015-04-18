@@ -28,8 +28,8 @@ public:
 	virtual void	execute(void);
 
 private:
-	bool	canCook(APizza*);
-	void	cook(APizza*);
+	void		cook(APizza*) const;
+	size_t	countOrdersSpots() const;
 
 	void	handleCommand(std::string const &);
 

@@ -44,19 +44,19 @@ std::string APizza::pack(const APizza& pizza)
 {
 	std::map<APizza::TypePizza, std::string> TypePizzaMap =
 	{
-		{APizza::Regina, "Regina"},
-		{APizza::Margarita, "Margarita"},
-		{APizza::Americaine, "Americaine"},
-		{APizza::Fantasia, "Fantasia"}
+		{ APizza::Regina, "Regina" },
+		{ APizza::Margarita, "Margarita" },
+		{ APizza::Americaine, "Americaine" },
+		{ APizza::Fantasia, "Fantasia" }
 	};
 
 	std::map<APizza::SizePizza, std::string> SizePizzaMap =
 	{
-		{APizza::S, "S"},
-		{APizza::M, "M"},
-		{APizza::L, "L"},
-		{APizza::XL, "XL"},
-		{APizza::XXL, "XXL"}
+		{ APizza::S, "S" },
+		{ APizza::M, "M" },
+		{ APizza::L, "L" },
+		{ APizza::XL, "XL" },
+		{ APizza::XXL, "XXL" }
 	};
 
 	return (TypePizzaMap[pizza.getType()] + " " + SizePizzaMap[pizza.getSize()]);

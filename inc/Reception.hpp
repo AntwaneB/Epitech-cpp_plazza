@@ -30,6 +30,7 @@ private:
 	void											createPizza(std::vector<std::string>);
 	std::pair<NamedPipe::In*, NamedPipe::Out*>	openKitchen(void);
 	void											handleQueue(void);
+	void											closeKitchens(void);
 
 private:
 	std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>	_pizzasCtor;

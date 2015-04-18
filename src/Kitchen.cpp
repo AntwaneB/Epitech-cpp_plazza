@@ -24,15 +24,12 @@ Kitchen::~Kitchen()
 
 void Kitchen::execute()
 {
-	std::cout << "In kitchen (" << getpid() << ") : ";
 	_toReception = new NamedPipe::Out(_pathOut);
-	std::cout << "In kitchen : ";
 	_fromReception = new NamedPipe::In(_pathIn);
 	std::string command;
 
 	while ("Ceci est une boucle infinie, c'est à dire une boucle qui ne termine jamais.")
 	{
-		std::cout << "In kitchen : " << std::endl;
 		_fromReception->read(command);
 
 		this->handleCommand(command);
@@ -41,16 +38,31 @@ void Kitchen::execute()
 
 void Kitchen::handleCommand(const std::string& command)
 {
-	if (command == "count_available_cooks")
+	if (command == "count_available_spots")
 	{
-		std::cout << "Sending available cooks count to reception" << std::endl;
-		std::cout << "In kitchen : ";
-		_toReception->write("1");
+		_toReception->write(std::to_string(this->countOrdersSpots()));
 	}
 	else if (command.substr(0, 4) == "cook")
 	{
-		std::cout << "Kitchen is cooking " << command.substr(5) << std::endl;
+		std::cout << "Kitchen " << getpid() << " is cooking " << command.substr(5) << std::endl;
+	}
+	else if (command == "die")
+	{
+		std::cout << "Kitchen " << getpid() << " is closing" << std::endl;
+		exit(0);
 	}
 	else
-		std::cerr << "Bad command" << std::endl;
+		std::cerr << "Bad command : '" << command << "'" << std::endl;
+}
+
+size_t Kitchen::countOrdersSpots() const
+{
+	static size_t minus = -1;
+
+	if (minus > _cooksCount)
+		minus = 0;
+	else
+		minus++;
+
+	return (_cooksCount - minus > _cooksCount ? _cooksCount : _cooksCount - minus); // TO CHANGE
 }
