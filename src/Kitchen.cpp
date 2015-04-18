@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include "Cook.hpp"
 #include "Mutex.hpp"
 #include "ScopedLock.hpp"
 #include "Kitchen.hpp"
@@ -16,6 +17,7 @@ Kitchen::Kitchen(const std::string& pathIn, const std::string& pathOut, size_t c
 	_toReception = NULL;
 	_fromReception = NULL;
 	_process = NULL;
+	_cooks = new ThreadPool(_cooksCount);
 }
 
 Kitchen::~Kitchen()
@@ -67,8 +69,10 @@ void Kitchen::handleCommand(const std::string& command, Clock & clock)
 		}
 		else if (command.substr(0, 4) == "cook")
 		{
-			std::cout << "Kitchen " << getpid() << " is cooking " << command.substr(5) << std::endl;
 			clock.resetSec();
+			_cooks->pushTask(new Cook(APizza::unpack(command.substr(5))));
+			_cooks->runTasks();
+
 		}
 		else if (command == "die")
 		{

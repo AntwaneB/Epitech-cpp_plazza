@@ -59,3 +59,27 @@ void Thread::stop(void* retValue)
 	_status = Thread::DEAD;
 	pthread_exit(retValue);
 }
+
+void Thread::runTask(ITask* task)
+{
+	_task = task;
+
+	if (_status == Thread::RUNNING)
+		throw Thread::Exception("Thread::runTask : Trying to run already running thread.");
+	else if (_status == Thread::DEAD)
+		throw Thread::Exception("Thread::runTask : Trying to re-run dead thread.");
+
+	_status = Thread::RUNNING;
+	if (pthread_create(&_thread, NULL, &Thread::threadRunner, this) != 0)
+		throw Thread::Exception(std::string("pthread_create") + strerror(errno));
+}
+
+void* Thread::threadRunner(void* arg)
+{
+	Thread* thread = static_cast<Thread*>(arg);
+	std::cout << "Coucou" << std::endl;
+	thread->_task->execute();
+	thread->_status = Thread::NOTSTARTED;
+
+	return (NULL);
+}

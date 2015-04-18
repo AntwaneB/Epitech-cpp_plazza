@@ -23,6 +23,7 @@ SRCS		  =  main.cpp \
 		     NamedPipe.cpp \
 		     Process.cpp \
 		     CondVar.cpp \
+		     ThreadPool.cpp \
 		     StringHelper.cpp \
 		     \
 		     App.cpp \
@@ -47,6 +48,7 @@ INCS		  =  Exception.hpp \
 	 	     ITask.hpp \
 	 	     Process.hpp \
 		     CondVar.hpp \
+		     ThreadPool.hpp \
 		     StringHelper.hpp \
 		     \
 		     App.hpp \

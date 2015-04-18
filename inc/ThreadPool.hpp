@@ -14,10 +14,13 @@
 class ThreadPool
 {
 public:
-	ThreadPool();
+	ThreadPool(size_t count);
 	virtual ~ThreadPool();
 
-	void	pushTask(ITask*);
+	void		pushTask(ITask*);
+	void		runTasks(void);
+
+	std::vector<Thread::Status>	getStatus(void) const;
 
 private:
 	std::list<Thread*>	_threads;

@@ -13,6 +13,7 @@
 #include <string.h>
 #include <errno.h>
 #include <pthread.h>
+#include "ITask.hpp"
 
 class Thread
 {
@@ -35,6 +36,7 @@ public:
 	Thread();
 	virtual ~Thread();
 
+	void	runTask(ITask*);
 	void	run(void* (*startRoutine)(void*), void* routineArg);
 	void*	wait(void);
 	void	stop(void* retValue);
@@ -45,9 +47,13 @@ private:
 	Thread(const Thread& orig) { (void)orig; };
 	Thread& operator=(const Thread& orig) { (void)orig; return (*this); };
 
+	static void*	threadRunner(void*);
+
 private:
 	Thread::Status	_status;
 	pthread_t		_thread;
+
+	ITask*			_task;
 };
 
 #endif	/* THREAD_HPP */

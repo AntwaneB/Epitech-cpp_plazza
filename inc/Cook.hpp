@@ -9,15 +9,18 @@
 #define	COOK_HPP
 
 #include "ITask.hpp"
+#include "APizza.hpp"
 
 class Cook : public ITask
 {
 public:
-	Cook();
+	Cook(APizza*);
 	virtual ~Cook();
 
-private:
+	virtual void execute(void);
 
+private:
+	APizza*	_pizza;
 };
 
 #endif	/* COOK_HPP */

@@ -20,22 +20,22 @@ APizza::~APizza()
 {
 }
 
-APizza::TypePizza						APizza::getType(void) const
+APizza::TypePizza APizza::getType(void) const
 {
 	return (_type);
 }
 
-APizza::SizePizza						APizza::getSize(void) const
+APizza::SizePizza APizza::getSize(void) const
 {
 	return (_size);
 }
 
-std::vector<APizza::Ingredients>		APizza::getIngredients(void) const
+std::vector<APizza::Ingredients> APizza::getIngredients(void) const
 {
 	return (_ingredients);
 }
 
-size_t									APizza::getCookingTime(void) const
+double APizza::getCookingTime(void) const
 {
 	return (_cookingTime);
 }

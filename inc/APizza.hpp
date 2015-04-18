@@ -49,13 +49,17 @@ public:
 public:
 	APizza(APizza::TypePizza, APizza::SizePizza);
 	virtual ~APizza() = 0;
+
 	APizza::TypePizza						getType(void) const;
 	APizza::SizePizza						getSize(void) const;
-	std::vector<APizza::Ingredients>		getIngredients(void) const;
-	size_t									getCookingTime(void) const;
-	static APizza*									stringToAPizza(std::vector<std::string> const);
-	static std::string		pack(APizza const &);
-	static APizza*			unpack(std::string const &);
+	std::vector<APizza::Ingredients>	getIngredients(void) const;
+	double									getCookingTime(void) const;
+
+	static std::string					pack(APizza const &);
+	static APizza*							unpack(std::string const &);
+
+private:
+	static APizza*							stringToAPizza(std::vector<std::string> const);
 
 protected:
 	APizza::TypePizza						_type;

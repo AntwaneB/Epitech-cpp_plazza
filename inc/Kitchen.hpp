@@ -18,6 +18,7 @@ class Kitchen;
 #include "Reception.hpp"
 #include "NamedPipe.hpp"
 #include "Clock.hpp"
+#include "ThreadPool.hpp"
 #include "APizza.hpp"
 
 class Kitchen : public ITask
@@ -37,10 +38,10 @@ private:
 private:
 	std::string			_pathIn;
 	std::string			_pathOut;
-
 	Process*				_process;
 	NamedPipe::In*		_fromReception;
 	NamedPipe::Out*	_toReception;
+	ThreadPool*			_cooks;
 
 	size_t				_cooksCount;
 	size_t				_resupplyTime;
