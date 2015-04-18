@@ -91,7 +91,7 @@ void	Reception::handleQueue()
 		// Opening a new kitchen if needed
 		std::cout << "In reception : ";
 		NamedPipe::Out*	toKitchen = freeKitchen.second > 0 ? freeKitchen.first.second : this->openKitchen().second;
-		(*toKitchen) << "cook " << APizza::pack(*pizza);
+		(*toKitchen) << "cook " + APizza::pack(*pizza);
 	}
 }
 
