@@ -77,6 +77,7 @@ void	App::drawGui() const
 	pizzaSize.addItem("XXL");
 
 	QLineEdit	count;
+
 	QPushButton	submitBtn("Passer la commande");
 
 	QGridLayout* layout = new QGridLayout;
