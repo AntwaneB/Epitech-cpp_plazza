@@ -30,7 +30,7 @@ NamedPipe::In::In(std::string const & path)
 	if (access(_path.c_str(), R_OK) == -1)
 	{
 		if (mkfifo(_path.c_str(), 0644) == -1)
-			throw NamedPipe::Exception(std::string("NamedPipe::In::In: ") + strerror(errno));
+			throw NamedPipe::Exception(std::string("NamedPipe::In::In: ") + strerror(errno) + _path);
 	}
 
 	_stream.open(_path);

@@ -91,7 +91,6 @@ APizza*	APizza::stringToAPizza(std::vector<std::string> const pizza)
 
 APizza*		APizza::unpack(std::string const & pizza)
 {
-	std::cout << "Pizza to cook : '" << pizza << "'" << std::endl;
 	std::vector<std::string> order = StringHelper::strtovec(pizza, " ");
 
 	return (stringToAPizza(order));

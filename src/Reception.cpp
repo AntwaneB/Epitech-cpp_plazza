@@ -37,9 +37,10 @@ Reception::~Reception()
 
 std::pair<NamedPipe::In*, NamedPipe::Out*> Reception::openKitchen()
 {
+	static size_t	count = 0;
+
 	Mutex mutex;
 	ScopedLock	lock(mutex);
-	static size_t	count = 0;
 
 	std::stringstream sstm;
 	sstm << "/tmp/buchse_a_receptionin_" << count;
@@ -51,8 +52,13 @@ std::pair<NamedPipe::In*, NamedPipe::Out*> Reception::openKitchen()
 
 	new KitchenFactory(kitchenPathIn, kitchenPathOut, _cooksCount, _resupplyTime);
 
+	Mutex mutexPipe;
+	mutexPipe.lock();
 	NamedPipe::In*		in = new NamedPipe::In(kitchenPathIn);
+	mutexPipe.unlock();
+	mutexPipe.lock();
 	NamedPipe::Out*	out = new NamedPipe::Out(kitchenPathOut);
+	mutexPipe.unlock();
 
 	_kitchens.push_back(std::make_pair(in, out));
 	count++;

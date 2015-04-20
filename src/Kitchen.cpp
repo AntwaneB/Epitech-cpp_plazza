@@ -55,7 +55,7 @@ void Kitchen::handleCommand(const std::string& command, Clock & clock)
 	Mutex			mutex;
 	ScopedLock	lock(mutex);
 
-	if (_dead)
+	if (_dead && command != "die")
 	{
 		std::cout << "Oh, no ! The kitchen was unused for too long !" << std::endl;
 		_toReception->write("kitchen_closed");
@@ -69,10 +69,10 @@ void Kitchen::handleCommand(const std::string& command, Clock & clock)
 		}
 		else if (command.substr(0, 4) == "cook")
 		{
+			std::cout << "Pizza to cook : '" << command.substr(5) << "'" << std::endl;
 			clock.resetSec();
 			_cooks->pushTask(new Cook(APizza::unpack(command.substr(5))));
 			_cooks->runTasks();
-
 		}
 		else if (command == "die")
 		{

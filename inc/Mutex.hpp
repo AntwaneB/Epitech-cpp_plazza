@@ -29,6 +29,9 @@ public:
 	};
 
 public:
+	enum Status { LOCKED, UNLOCKED };
+
+public:
 	Mutex();
 	virtual ~Mutex();
 
@@ -44,6 +47,7 @@ private:
 
 private:
 	pthread_mutex_t*	_mutex;
+	Mutex::Status		_status;
 };
 
 #endif	/* MUTEX_HPP */
