@@ -5,21 +5,21 @@
  * Created on April 16, 2015, 6:53 PM
  */
 
-#ifndef AMERICANA_HPP
-#define	AMERICANA_HPP
+#ifndef AMERICAINE_HPP
+#define	AMERICAINE_HPP
 
 #include "APizza.hpp"
 
-class Americana : public APizza
+class Americaine : public APizza
 {
 public:
-	virtual ~Americana();
+	virtual ~Americaine();
 
-	static APizza*	newAmericana(APizza::SizePizza, double);
+	static APizza*	newAmericaine(APizza::SizePizza, double);
 
 private:
-	Americana(APizza::SizePizza, double);
+	Americaine(APizza::SizePizza, double);
 
 };
 
-#endif	/* AMERICANA_HPP */
+#endif	/* AMERICAINE_HPP */

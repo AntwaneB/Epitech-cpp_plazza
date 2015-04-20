@@ -72,7 +72,7 @@ APizza*	APizza::stringToAPizza(std::vector<std::string> const pizza)
 	pizzasCtor.insert(std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>::value_type(APizza::Margarita, &Margarita::newMargarita));
 	pizzaCvt["regina"] = APizza::Regina;
 	pizzaCvt["margarita"] = APizza::Margarita;
-	pizzaCvt["americana"] = APizza::Americana;
+	pizzaCvt["americaine"] = APizza::Americaine;
 	pizzaCvt["fantasia"] = APizza::Fantasia;
 	sizeCvt["S"] = APizza::S;
 	sizeCvt["M"] = APizza::M;

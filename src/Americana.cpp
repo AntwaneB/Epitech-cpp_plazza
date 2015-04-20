@@ -1,20 +1,20 @@
 /*
- * File:   Margarita.cpp
+ * File:   Americana.cpp
  * Author: buchse_a
  *
  * Created on April 16, 2015, 6:53 PM
  */
 
 #include <iostream>
-#include "Margarita.hpp"
+#include "Americana.hpp"
 
-APizza*	Margarita::newMargarita(APizza::SizePizza size, double cookingTime)
+APizza*	Americaine::newAmericaine(APizza::SizePizza size, double cookingTime)
 {
-	return (new Margarita(size, cookingTime));
+	return (new Americaine(size, cookingTime));
 }
 
-Margarita::Margarita(APizza::SizePizza size, double cookingTime)
-	: APizza(APizza::Margarita, size)
+Americaine::Americaine(APizza::SizePizza size, double cookingTime)
+	: APizza(APizza::Americaine, size)
 {
 	_ingredients.push_back(APizza::Ingredients::Doe);
 	_ingredients.push_back(APizza::Ingredients::Tomato);
@@ -22,6 +22,6 @@ Margarita::Margarita(APizza::SizePizza size, double cookingTime)
 	_cookingTime = 1.0 * cookingTime;
 }
 
-Margarita::~Margarita()
+Americaine::~Americaine()
 {
 }

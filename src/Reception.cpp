@@ -8,6 +8,9 @@
 #include "Mutex.hpp"
 #include "ScopedLock.hpp"
 #include "Margarita.hpp"
+#include "Regina.hpp"
+#include "Fantasia.hpp"
+#include "Americana.hpp"
 #include "StringHelper.hpp"
 
 Reception::Reception(double cookingTime, size_t cooksCount, size_t resupplyTime)
@@ -15,11 +18,11 @@ Reception::Reception(double cookingTime, size_t cooksCount, size_t resupplyTime)
 {
 	_pizzasCtor.insert(std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>::value_type(APizza::Margarita, &Margarita::newMargarita));
 	_pizzasCtor.insert(std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>::value_type(APizza::Regina, &Regina::newRegina));
-	_pizzasCtor.insert(std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>::value_type(APizza::Americana, &::newAmericana));
-	_pizzasCtor.insert(std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>::value_type(APizza::Fantasia, &Margarita::newFantasia));
+	_pizzasCtor.insert(std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>::value_type(APizza::Americaine, &Americaine::newAmericaine));
+	_pizzasCtor.insert(std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>::value_type(APizza::Fantasia, &Fantasia::newFantasia));
 	_pizzaCvt["regina"] = APizza::Regina;
 	_pizzaCvt["margarita"] = APizza::Margarita;
-	_pizzaCvt["americana"] = APizza::Americana;
+	_pizzaCvt["americana"] = APizza::Americaine;
 	_pizzaCvt["fantasia"] = APizza::Fantasia;
 	_sizeCvt["S"] = APizza::S;
 	_sizeCvt["M"] = APizza::M;

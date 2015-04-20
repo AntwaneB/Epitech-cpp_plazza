@@ -34,7 +34,10 @@ SRCS		  =  main.cpp \
 		     Reception.cpp \
 		     Clock.cpp \
 		     \
-		     Margarita.cpp
+		     Margarita.cpp \
+		     Regina.cpp \
+		     Americana.cpp \
+		     Fantasia.cpp
 
 OBJS_DIR	  =  obj
 OBJS		  =  $(SRCS:%.cpp=$(OBJS_DIR)/%.o)
