@@ -40,44 +40,6 @@ bool	App::validateArgs() const
 	return (true);
 }
 
-Thread	thread1;
-Thread	thread2;
-Thread	threadWaiter;
-
-void*	runThreadContent1(void* time)
-{
-	std::cout << "Starting thread execution" << std::endl;
-	sleep(2);
-	std::cout << "Middle thread execution" << std::endl;
-	thread1.stop(strdup("Owned"));
-	sleep(50);
-	std::cout << "Ending thread execution" << std::endl;
-
-	return (time);
-}
-
-void*	runThreadContent2(void* time)
-{
-	std::cout << "Starting thread execution" << std::endl;
-	sleep(2);
-	std::cout << "Middle thread execution" << std::endl;
-	sleep(5);
-	std::cout << "Ending thread execution" << std::endl;
-
-	return (time);
-}
-
-void*	waiter(void* time)
-{
-	void* ret1 = thread1.wait();
-	std::cout << "Retour du thread 1 : " << (char*)ret1 << std::endl;
-
-	void* ret2 = thread2.wait();
-	std::cout << "Retour du thread 2 : " << (char*)ret2 << std::endl;
-
-	return (time);
-}
-
 int	App::run() const
 {
 	try
@@ -85,25 +47,6 @@ int	App::run() const
 		Reception	reception(atof(_av[1]), atoi(_av[2]), atoi(_av[3]));
 
 		reception.start();
-		/*
-		Clock	clock;
-
-		while ("supernatural c'est trop bien")
-		{
-			seconds_t sec = clock.tick();
-			if (sec >= 5.0)
-			{
-				std::cout << (int)sec << " secondes" << std::endl;
-				clock.resetSec();
-				exit(0);
-			}
-		}
-
-		thread1.run(&runThreadContent1, strdup("Hey salut"));
-		thread2.run(&runThreadContent2, strdup("Hey coucou"));
-		sleep(1);
-		waiter(NULL);
-		*/
 	} catch (std::exception const & e)
 	{
 		std::cerr << e.what() << std::endl;
