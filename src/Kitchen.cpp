@@ -91,12 +91,5 @@ void Kitchen::handleCommand(const std::string& command, Clock & clock)
 
 size_t Kitchen::countOrdersSpots() const
 {
-/*
-	static size_t minus = 0;
-
-	minus++;
-
-	return (_cooksCount - minus > _cooksCount ? 0 : _cooksCount - minus); // TO CHANGE
-*/
 	return (_cooks->countAvailable());
 }
