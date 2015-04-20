@@ -31,10 +31,12 @@ void ThreadPool::runTasks()
 {
 	for (std::list<Thread*>::iterator thread = _threads.begin(); thread != _threads.end(); ++thread)
 	{
-		if ((*thread)->getStatus() == Thread::NOTSTARTED)
+		if (!_tasks.empty() && (*thread)->getStatus() == Thread::NOTSTARTED)
 		{
 			(*thread)->runTask(_tasks.front());
 			_tasks.pop();
 		}
+		if (_tasks.empty())
+			break;
 	}
 }

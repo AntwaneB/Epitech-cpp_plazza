@@ -5,6 +5,7 @@
  * Created on April 13, 2015, 2:00 PM
  */
 
+#include <iostream>
 #include "APizza.hpp"
 #include "Reception.hpp"
 #include "StringHelper.hpp"
@@ -44,10 +45,10 @@ std::string APizza::pack(const APizza& pizza)
 {
 	std::map<APizza::TypePizza, std::string> TypePizzaMap =
 	{
-		{ APizza::Regina, "Regina" },
-		{ APizza::Margarita, "Margarita" },
-		{ APizza::Americana, "Americana" },
-		{ APizza::Fantasia, "Fantasia" }
+		{ APizza::Regina, "regina" },
+		{ APizza::Margarita, "margarita" },
+		{ APizza::Americaine, "americaine" },
+		{ APizza::Fantasia, "fantasia" }
 	};
 
 	std::map<APizza::SizePizza, std::string> SizePizzaMap =
@@ -78,6 +79,7 @@ APizza*	APizza::stringToAPizza(std::vector<std::string> const pizza)
 	sizeCvt["L"] = APizza::L;
 	sizeCvt["XL"] = APizza::XL;
 	sizeCvt["XXL"] = APizza::XXL;
+
 	return ((pizzasCtor.find(pizzaCvt.find(pizza[0])->second)->second)(sizeCvt.find(pizza[1])->second, 1.0));
 }
 

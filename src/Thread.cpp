@@ -6,6 +6,7 @@
  */
 
 #include <stdexcept>
+#include <iostream>
 #include "Thread.hpp"
 
 Thread::Thread()
@@ -77,7 +78,7 @@ void Thread::runTask(ITask* task)
 void* Thread::threadRunner(void* arg)
 {
 	Thread* thread = static_cast<Thread*>(arg);
-	std::cout << "Coucou" << std::endl;
+
 	thread->_task->execute();
 	thread->_status = Thread::NOTSTARTED;
 

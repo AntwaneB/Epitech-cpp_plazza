@@ -20,7 +20,6 @@ Cook::~Cook()
 
 void Cook::execute()
 {
-	std::cout << _pizza->getCookingTime() << std::endl;
 	usleep(_pizza->getCookingTime() * 1000000);
-	std::cout << "Cook is done cooking " << APizza::pack(*_pizza);
+	std::cout << "Cook is done cooking " << APizza::pack(*_pizza) << std::endl;
 }
