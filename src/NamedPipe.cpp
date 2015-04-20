@@ -11,6 +11,7 @@
 #include <sstream>
 #include <iostream>
 #include "Mutex.hpp"
+#include "ScopedLock.hpp"
 #include "NamedPipe.hpp"
 
 NamedPipe::APipe::APipe(std::string const & path)
@@ -26,18 +27,18 @@ NamedPipe::In::In(std::string const & path)
 	: APipe(path)
 {
 	Mutex	mutex;
-	mutex.lock();
+	ScopedLock lock(mutex);
 	if (access(_path.c_str(), R_OK) == -1)
 	{
 		if (mkfifo(_path.c_str(), 0644) == -1)
-			throw NamedPipe::Exception(std::string("NamedPipe::In::In: ") + strerror(errno) + _path);
+			if (errno != EEXIST)
+				throw NamedPipe::Exception(std::string("NamedPipe::In::In: ") + strerror(errno) + _path);
 	}
 
 	_stream.open(_path);
 
 	if (_stream.fail())
 		throw NamedPipe::Exception("Couldn't open named pipe.");
-	mutex.unlock();
 }
 
 NamedPipe::In::~In()
@@ -66,7 +67,8 @@ NamedPipe::Out::Out(std::string const & path)
 	if (access(_path.c_str(), W_OK) == -1)
 	{
 		if (mkfifo(_path.c_str(), 0644) == -1)
-			throw NamedPipe::Exception(std::string("NamedPipe::Out::Out: ") + strerror(errno));
+			if (errno != EEXIST)
+				throw NamedPipe::Exception(std::string("NamedPipe::Out::Out: ") + strerror(errno));
 	}
 
 	_stream.open(_path);

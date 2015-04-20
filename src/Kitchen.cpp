@@ -32,8 +32,13 @@ Kitchen::~Kitchen()
 
 void Kitchen::execute()
 {
+	Mutex			mutex;
+	mutex.lock();
 	_toReception = new NamedPipe::Out(_pathOut);
+	mutex.unlock();
+	mutex.lock();
 	_fromReception = new NamedPipe::In(_pathIn);
+	mutex.unlock();
 	std::string command;
 
 	Clock clock;
@@ -86,9 +91,12 @@ void Kitchen::handleCommand(const std::string& command, Clock & clock)
 
 size_t Kitchen::countOrdersSpots() const
 {
-	static size_t minus = -1;
+/*
+	static size_t minus = 0;
 
 	minus++;
 
 	return (_cooksCount - minus > _cooksCount ? 0 : _cooksCount - minus); // TO CHANGE
+*/
+	return (_cooks->countAvailable());
 }

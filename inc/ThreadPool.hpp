@@ -21,6 +21,7 @@ public:
 	void		runTasks(void);
 
 	std::vector<Thread::Status>	getStatus(void) const;
+	size_t								countAvailable(void) const;
 
 private:
 	std::list<Thread*>	_threads;
