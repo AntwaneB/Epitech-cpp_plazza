@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include "Cook.hpp"
+#include "StringHelper.hpp"
 #include "Mutex.hpp"
 #include "ScopedLock.hpp"
 #include "Kitchen.hpp"
@@ -55,41 +56,66 @@ void Kitchen::execute()
 	}
 }
 
-void Kitchen::handleCommand(const std::string& command, Clock & clock)
+size_t Kitchen::countOrdersSpots() const
+{
+	return (_cooks->countAvailable());
+}
+
+void Kitchen::handleCommand(std::string& command, Clock & clock)
 {
 	Mutex			mutex;
 	ScopedLock	lock(mutex);
 
-	if (_dead && command != "die")
+	std::map<std::string, bool (Kitchen::*)(const std::string&)> actions;
+	actions.insert(std::map<std::string, bool (Kitchen::*)(const std::string&)>::value_type("die", &Kitchen::handleDie));
+	actions.insert(std::map<std::string, bool (Kitchen::*)(const std::string&)>::value_type("dead", &Kitchen::handleDead));
+	actions.insert(std::map<std::string, bool (Kitchen::*)(const std::string&)>::value_type("count_available_spots", &Kitchen::handleCount));
+	actions.insert(std::map<std::string, bool (Kitchen::*)(const std::string&)>::value_type("cook", &Kitchen::handleCook));
+
+	command = _dead ? "die" : command;
+	std::vector<std::string> parts = StringHelper::strtovec(command, " ");
+	if (!parts.empty() && actions.find(parts[0]) != actions.end())
 	{
-		std::cout << "Oh, no ! The kitchen was unused for too long !" << std::endl;
-		_toReception->write("kitchen_closed");
-		exit(0);
-	}
-	else
-	{
-		if (command == "count_available_spots")
-		{
-			_toReception->write(std::to_string(this->countOrdersSpots()));
-		}
-		else if (command.substr(0, 4) == "cook")
-		{
-			std::cout << "Pizza to cook : '" << command.substr(5) << "'" << std::endl;
+		if ((this->*(actions.find(parts[0])->second))(command))
 			clock.resetSec();
-			_cooks->pushTask(new Cook(APizza::unpack(command.substr(5))));
-			_cooks->runTasks();
-		}
-		else if (command == "die")
-		{
-			std::cout << "Kitchen " << getpid() << " is closing" << std::endl;
-			exit(0);
-		}
-		else
-			std::cerr << "Bad command : '" << command << "'" << std::endl;
 	}
 }
 
-size_t Kitchen::countOrdersSpots() const
+bool Kitchen::handleCook(const std::string& command)
 {
-	return (_cooks->countAvailable());
+	std::cout << "Pizza to cook : '" << command.substr(5) << "'" << std::endl;
+	_cooks->pushTask(new Cook(APizza::unpack(command.substr(5))));
+	_cooks->runTasks();
+
+	return (true);
+}
+
+bool Kitchen::handleCount(const std::string& command)
+{
+	(void)command;
+
+	_toReception->write(std::to_string(this->countOrdersSpots()));
+
+	return (false);
+}
+
+bool Kitchen::handleDead(const std::string& command)
+{
+	(void)command;
+
+	std::cout << "Kitchen " << getpid() << " was unused for too long !" << std::endl;
+	_toReception->write("kitchen_closed");
+	exit(EXIT_FAILURE);
+
+	return (false);
+}
+
+bool Kitchen::handleDie(const std::string& command)
+{
+	(void)command;
+
+	std::cout << "Kitchen " << getpid() << " is closing it's doors" << std::endl;
+	exit(EXIT_SUCCESS);
+
+	return (false);
 }

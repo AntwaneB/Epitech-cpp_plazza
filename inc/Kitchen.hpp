@@ -33,7 +33,11 @@ private:
 	void		cook(APizza*) const;
 	size_t	countOrdersSpots() const;
 
-	void	handleCommand(std::string const &, Clock &);
+	void	handleCommand(std::string &, Clock &);
+	bool	handleDead(std::string const & command);
+	bool	handleCount(std::string const & command);
+	bool	handleCook(std::string const & command);
+	bool	handleDie(std::string const & command);
 
 private:
 	std::string			_pathIn;
