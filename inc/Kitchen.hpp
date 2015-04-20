@@ -37,6 +37,7 @@ private:
 	bool	handleDead(std::string const & command);
 	bool	handleCount(std::string const & command);
 	bool	handleCook(std::string const & command);
+	bool	handleCanCook(std::string const & command);
 	bool	handleDie(std::string const & command);
 
 private:
@@ -51,7 +52,7 @@ private:
 	size_t				_resupplyTime;
 
 	std::queue<APizza*>							_orders;
-	std::map<APizza::Ingredients, size_t>	_supplies;
+	std::map<APizza::Ingredients, int>	_supplies;
 
 	bool					_dead;
 };

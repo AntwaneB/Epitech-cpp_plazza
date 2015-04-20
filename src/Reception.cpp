@@ -88,11 +88,14 @@ void	Reception::handleQueue()
 
 			std::string cooksCount;
 			(*fromKitchen) >> cooksCount;
-//			std::cout << std::endl << "Their's '" << cooksCount << "' cooks available in this kitchen !" << std::endl << std::endl;
 
-			if (cooksCount != "kitchen_closed")
+			(*toKitchen) << "can_cook " + APizza::pack(*pizza);
+			std::string canCook;
+			(*fromKitchen) >> canCook;
+
+			if (cooksCount != "kitchen_closed" && canCook == "true")
 				freeCooks.insert(std::map<std::pair<NamedPipe::In*, NamedPipe::Out*>, int>::value_type(std::make_pair((*kitchen).first, (*kitchen).second), std::stoi(cooksCount)));
-			else
+			else if (cooksCount == "kitchen_closed")
 			{
 				delete (*kitchen).first;
 				delete (*kitchen).second;
@@ -101,7 +104,7 @@ void	Reception::handleQueue()
 			}
 		}
 
-		if (!_kitchens.empty())
+		if (!_kitchens.empty() && !freeCooks.empty())
 		{
 			std::pair<std::pair<NamedPipe::In*, NamedPipe::Out*>, int> freeKitchen(*(std::max_element(freeCooks.begin(), freeCooks.end())));
 

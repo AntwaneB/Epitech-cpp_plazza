@@ -19,6 +19,19 @@ Kitchen::Kitchen(const std::string& pathIn, const std::string& pathOut, size_t c
 	_fromReception = NULL;
 	_process = NULL;
 	_cooks = new ThreadPool(_cooksCount);
+
+	_supplies =
+	{
+		{ APizza::Ingredients::Doe, 5 },
+		{ APizza::Ingredients::Tomato, 5 },
+		{ APizza::Ingredients::Gruyere, 5 },
+		{ APizza::Ingredients::Ham, 5 },
+		{ APizza::Ingredients::Mushrooms, 5 },
+		{ APizza::Ingredients::Steak, 5 },
+		{ APizza::Ingredients::Eggplant, 5 },
+		{ APizza::Ingredients::GoatCheese, 5 },
+		{ APizza::Ingredients::ChiefLove, 5 }
+	};
 }
 
 Kitchen::~Kitchen()
@@ -71,6 +84,7 @@ void Kitchen::handleCommand(std::string& command, Clock & clock)
 	actions.insert(std::map<std::string, bool (Kitchen::*)(const std::string&)>::value_type("dead", &Kitchen::handleDead));
 	actions.insert(std::map<std::string, bool (Kitchen::*)(const std::string&)>::value_type("count_available_spots", &Kitchen::handleCount));
 	actions.insert(std::map<std::string, bool (Kitchen::*)(const std::string&)>::value_type("cook", &Kitchen::handleCook));
+	actions.insert(std::map<std::string, bool (Kitchen::*)(const std::string&)>::value_type("can_cook", &Kitchen::handleCanCook));
 
 	command = _dead ? "die" : command;
 	std::vector<std::string> parts = StringHelper::strtovec(command, " ");
@@ -81,10 +95,43 @@ void Kitchen::handleCommand(std::string& command, Clock & clock)
 	}
 }
 
+bool Kitchen::handleCanCook(const std::string& command)
+{
+	Mutex			mutex;
+	ScopedLock	lock(mutex);
+
+	APizza*	pizza = APizza::unpack(command.substr(9));
+	std::vector<APizza::Ingredients> ingredients = pizza->getIngredients();
+	std::map<APizza::Ingredients, int> tmpSupplies = _supplies;
+
+	bool canCook = true;
+	for (std::vector<APizza::Ingredients>::const_iterator ingredient = ingredients.begin(); ingredient != ingredients.end() && canCook; ++ingredient)
+	{
+		tmpSupplies.find(*ingredient)->second--;
+		if (tmpSupplies.find(*ingredient)->second < 0)
+			canCook = false;
+	}
+
+	_toReception->write(canCook ? "true" : "false");
+
+	return (false);
+}
+
 bool Kitchen::handleCook(const std::string& command)
 {
+	Mutex			mutex;
+	ScopedLock	lock(mutex);
+
+	APizza*	pizza = APizza::unpack(command.substr(5));
+	std::vector<APizza::Ingredients> ingredients = pizza->getIngredients();
+
+	for (std::vector<APizza::Ingredients>::const_iterator ingredient = ingredients.begin(); ingredient != ingredients.end(); ++ingredient)
+	{
+		_supplies.find(*ingredient)->second--;
+	}
+
 	std::cout << "Pizza to cook : '" << command.substr(5) << "'" << std::endl;
-	_cooks->pushTask(new Cook(APizza::unpack(command.substr(5))));
+	_cooks->pushTask(new Cook(pizza));
 	_cooks->runTasks();
 
 	return (true);
