@@ -19,7 +19,7 @@ Fantasia::Fantasia(APizza::SizePizza size, double cookingTime)
 	_ingredients.push_back(APizza::Ingredients::Doe);
 	_ingredients.push_back(APizza::Ingredients::Tomato);
 	_ingredients.push_back(APizza::Ingredients::Gruyere);
-	_cookingTime = 1.0 * cookingTime;
+	_cookingTime = 4.0 * cookingTime;
 }
 
 Fantasia::~Fantasia()

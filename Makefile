@@ -62,7 +62,10 @@ INCS		  =  Exception.hpp \
 		     Reception.hpp \
 		     Clock.hpp \
 		     \
-		     Margarita.hpp
+		     Margarita.hpp \
+		     Regina.hpp \
+		     Americana.hpp \
+		     Fantasia.hpp
 
 DEPS		  =  $(patsubst %,$(INCS_DIR)/%,$(INCS))
 
@@ -76,10 +79,10 @@ CFLAGS		  += -g
 ## COMPILATION RULES ##
 #######################
 
-all:		     $(NAME)
-
 $(NAME):	     $(OBJS)
 		     $(CC) $(OBJS) $(CFLAGS) -o $(NAME)
+
+all:		     $(NAME)
 
 $(OBJS_DIR)/%.o:     $(SRCS_DIR)/%.cpp $(DEPS)
 		     @$(MKDIR) $(OBJS_DIR)

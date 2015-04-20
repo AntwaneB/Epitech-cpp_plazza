@@ -10,6 +10,9 @@
 #include "Reception.hpp"
 #include "StringHelper.hpp"
 #include "Margarita.hpp"
+#include "Regina.hpp"
+#include "Fantasia.hpp"
+#include "Americana.hpp"
 
 APizza::APizza(APizza::TypePizza type, APizza::SizePizza size)
 	: _type(type), _size(size)
@@ -70,6 +73,9 @@ APizza*	APizza::stringToAPizza(std::vector<std::string> const pizza)
 	std::map<std::string, APizza::SizePizza>	sizeCvt;
 
 	pizzasCtor.insert(std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>::value_type(APizza::Margarita, &Margarita::newMargarita));
+	pizzasCtor.insert(std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>::value_type(APizza::Regina, &Regina::newRegina));
+	pizzasCtor.insert(std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>::value_type(APizza::Americaine, &Americaine::newAmericaine));
+	pizzasCtor.insert(std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>::value_type(APizza::Fantasia, &Fantasia::newFantasia));
 	pizzaCvt["regina"] = APizza::Regina;
 	pizzaCvt["margarita"] = APizza::Margarita;
 	pizzaCvt["americaine"] = APizza::Americaine;
@@ -85,6 +91,7 @@ APizza*	APizza::stringToAPizza(std::vector<std::string> const pizza)
 
 APizza*		APizza::unpack(std::string const & pizza)
 {
+	std::cout << "Pizza to cook : '" << pizza << "'" << std::endl;
 	std::vector<std::string> order = StringHelper::strtovec(pizza, " ");
 
 	return (stringToAPizza(order));
