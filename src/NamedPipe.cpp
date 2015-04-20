@@ -25,6 +25,8 @@ NamedPipe::APipe::~APipe()
 NamedPipe::In::In(std::string const & path)
 	: APipe(path)
 {
+	Mutex	mutex;
+	mutex.lock();
 	if (access(_path.c_str(), R_OK) == -1)
 	{
 		if (mkfifo(_path.c_str(), 0644) == -1)
@@ -35,6 +37,7 @@ NamedPipe::In::In(std::string const & path)
 
 	if (_stream.fail())
 		throw NamedPipe::Exception("Couldn't open named pipe.");
+	mutex.unlock();
 }
 
 NamedPipe::In::~In()
@@ -58,15 +61,19 @@ void	NamedPipe::In::read(std::string & str)
 NamedPipe::Out::Out(std::string const & path)
 	: APipe(path)
 {
+	Mutex	mutex;
+	mutex.lock();
 	if (access(_path.c_str(), W_OK) == -1)
 	{
 		if (mkfifo(_path.c_str(), 0644) == -1)
 			throw NamedPipe::Exception(std::string("NamedPipe::Out::Out: ") + strerror(errno));
 	}
+
 	_stream.open(_path);
 
 	if (_stream.fail())
 		throw NamedPipe::Exception("Couldn't open named pipe.");
+	mutex.unlock();
 }
 
 NamedPipe::Out::~Out()
