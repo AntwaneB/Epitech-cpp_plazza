@@ -19,6 +19,7 @@ Americaine::Americaine(APizza::SizePizza size, double cookingTime)
 	_ingredients.push_back(APizza::Ingredients::Doe);
 	_ingredients.push_back(APizza::Ingredients::Tomato);
 	_ingredients.push_back(APizza::Ingredients::Gruyere);
+	_ingredients.push_back(APizza::Ingredients::Steak);
 	_cookingTime = 2.0 * cookingTime;
 }
 

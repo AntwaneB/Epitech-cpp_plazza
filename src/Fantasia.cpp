@@ -18,7 +18,9 @@ Fantasia::Fantasia(APizza::SizePizza size, double cookingTime)
 {
 	_ingredients.push_back(APizza::Ingredients::Doe);
 	_ingredients.push_back(APizza::Ingredients::Tomato);
-	_ingredients.push_back(APizza::Ingredients::Gruyere);
+	_ingredients.push_back(APizza::Ingredients::Eggplant);
+	_ingredients.push_back(APizza::Ingredients::GoatCheese);
+	_ingredients.push_back(APizza::Ingredients::ChiefLove);
 	_cookingTime = 4.0 * cookingTime;
 }
 
