@@ -5,7 +5,7 @@
 ## Login   <buchse_a@epitech.net>
 ##
 ## Started on  Fri Feb  6 11:34:26 2015 Antoine Buchser
-## Last update Wed Feb 11 13:40:14 2015 Antoine Buchser
+## Last update Mon Apr 20 15:18:23 2015 Thomas MORITZ
 ##
 
 CC		  =  g++
@@ -37,7 +37,9 @@ SRCS		  =  main.cpp \
 		     Margarita.cpp \
 		     Regina.cpp \
 		     Americana.cpp \
-		     Fantasia.cpp
+		     Fantasia.cpp \
+		     \
+		     Graphics.cpp
 
 OBJS_DIR	  =  obj
 OBJS		  =  $(SRCS:%.cpp=$(OBJS_DIR)/%.o)
@@ -65,11 +67,13 @@ INCS		  =  Exception.hpp \
 		     Margarita.hpp \
 		     Regina.hpp \
 		     Americana.hpp \
-		     Fantasia.hpp
+		     Fantasia.hpp \
+		     \
+		     Graphics.hpp
 
 DEPS		  =  $(patsubst %,$(INCS_DIR)/%,$(INCS))
 
-CFLAGS		  += -I./inc -lpthread
+CFLAGS		  += -I./inc -lpthread -lsfml-graphics -lsfml-window -lsfml-system
 CFLAGS		  += -std=c++11 -Wall -Wextra -W -Werror -fPIC
 
 CFLAGS		  += -g
