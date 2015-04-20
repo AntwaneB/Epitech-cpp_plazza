@@ -48,11 +48,45 @@ void	App::drawGui() const
 {
 	int ac = 1;
 	char *av[1] = { strdup("./plazza") };
-
 	QApplication app(ac, av);
 
-	QPushButton button("Test");
-	button.show();
+	QWidget window;
+	window.setFixedSize(800, 600);
+	window.setGeometry(
+		QStyle::alignedRect(
+		Qt::LeftToRight,
+		Qt::AlignCenter,
+		window.size(),
+		qApp->desktop()->availableGeometry()
+	));
+
+	QLineEdit	row1;
+	QLineEdit	row2;
+
+	QComboBox	pizzaType;
+	pizzaType.addItem("Margarita");
+	pizzaType.addItem("Americaine");
+	pizzaType.addItem("Regina");
+	pizzaType.addItem("Fantasia");
+
+	QComboBox	pizzaSize;
+	pizzaSize.addItem("S");
+	pizzaSize.addItem("M");
+	pizzaSize.addItem("L");
+	pizzaSize.addItem("XL");
+	pizzaSize.addItem("XXL");
+
+	QLineEdit	count;
+	QPushButton	submitBtn("Passer la commande");
+
+	QGridLayout* layout = new QGridLayout;
+	layout->addWidget(&pizzaType, 0, 0);
+	layout->addWidget(&pizzaSize, 0, 1);
+	layout->addWidget(&count, 0, 2);
+	layout->addWidget(&submitBtn, 0, 3);
+
+	window.setLayout(layout);
+	window.show();
 
 	app.exec();
 }
