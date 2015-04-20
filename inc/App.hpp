@@ -12,6 +12,7 @@
 #define	APP_HPP
 
 #include <string>
+#include <Thread.hpp>
 
 class App
 {
@@ -19,7 +20,9 @@ public:
 	App(int, char**);
 	~App();
 
-	int	run(void) const;
+	int	run(void);
+	void	drawGui(void) const;
+	Thread*	getGuiThread(void);
 
 private:
 	bool	validateArgs(void) const;
@@ -27,6 +30,8 @@ private:
 private:
 	int			_ac;
 	char**		_av;
+
+	Thread*		_GUIThread;
 };
 
 #endif /* !APP_HPP */

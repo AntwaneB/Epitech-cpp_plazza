@@ -74,6 +74,8 @@ INCS		  =  Exception.hpp \
 DEPS		  =  $(patsubst %,$(INCS_DIR)/%,$(INCS))
 
 CFLAGS		  += -I./inc -lpthread -lsfml-graphics -lsfml-window -lsfml-system
+CFLAGS		  += -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtGui -I/usr/include/qt4
+CFLAGS		  += -lQtGui -lQtCore
 CFLAGS		  += -std=c++11 -Wall -Wextra -W -Werror -fPIC
 
 CFLAGS		  += -g
