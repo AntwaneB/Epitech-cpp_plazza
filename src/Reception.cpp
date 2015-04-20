@@ -14,9 +14,12 @@ Reception::Reception(double cookingTime, size_t cooksCount, size_t resupplyTime)
 	: _cookingTime(cookingTime), _cooksCount(cooksCount), _resupplyTime(resupplyTime)
 {
 	_pizzasCtor.insert(std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>::value_type(APizza::Margarita, &Margarita::newMargarita));
+	_pizzasCtor.insert(std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>::value_type(APizza::Regina, &Regina::newRegina));
+	_pizzasCtor.insert(std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>::value_type(APizza::Americana, &::newAmericana));
+	_pizzasCtor.insert(std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>::value_type(APizza::Fantasia, &Margarita::newFantasia));
 	_pizzaCvt["regina"] = APizza::Regina;
 	_pizzaCvt["margarita"] = APizza::Margarita;
-	_pizzaCvt["americaine"] = APizza::Americaine;
+	_pizzaCvt["americana"] = APizza::Americana;
 	_pizzaCvt["fantasia"] = APizza::Fantasia;
 	_sizeCvt["S"] = APizza::S;
 	_sizeCvt["M"] = APizza::M;
