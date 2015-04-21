@@ -63,7 +63,7 @@ std::string APizza::pack(const APizza& pizza)
 		{ APizza::XXL, "XXL" }
 	};
 
-	return (TypePizzaMap[pizza.getType()] + " " + SizePizzaMap[pizza.getSize()]);
+	return (TypePizzaMap[pizza.getType()] + " " + SizePizzaMap[pizza.getSize()] + " " + std::to_string(pizza.getCookingTime()));
 }
 
 APizza*	APizza::stringToAPizza(std::vector<std::string> const pizza)
@@ -86,7 +86,7 @@ APizza*	APizza::stringToAPizza(std::vector<std::string> const pizza)
 	sizeCvt["XL"] = APizza::XL;
 	sizeCvt["XXL"] = APizza::XXL;
 
-	return ((pizzasCtor.find(pizzaCvt.find(pizza[0])->second)->second)(sizeCvt.find(pizza[1])->second, 1.0));
+	return ((pizzasCtor.find(pizzaCvt.find(pizza[0])->second)->second)(sizeCvt.find(pizza[1])->second, stoi(pizza[2])));
 }
 
 APizza*		APizza::unpack(std::string const & pizza)
