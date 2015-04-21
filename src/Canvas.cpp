@@ -32,7 +32,7 @@ void Canvas::onInit()
 
 void Canvas::onUpdate()
 {
-	this->clear(sf::Color(0, 128, 0));
+	this->clear(sf::Color(128, 128, 128));
 
 	_sprite.rotate(_clock.getElapsedTime().asSeconds() * 100.f);
 

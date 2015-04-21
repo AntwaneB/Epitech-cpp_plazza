@@ -111,10 +111,8 @@ int	App::run()
 {
 	try
 	{
-//		_GUIThread = new Thread;
-//		_GUIThread->run(&runGui, this);
-		runGui(this);
-
+		_GUIThread = new Thread;
+		_GUIThread->run(&runGui, this);
 
 		Reception	reception(atof(_av[1]), atoi(_av[2]), atoi(_av[3]));
 
