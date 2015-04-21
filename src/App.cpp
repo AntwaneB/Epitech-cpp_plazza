@@ -38,7 +38,7 @@ App::~App()
 
 bool	App::validateArgs() const
 {
-	if (_ac != 4 || atoi(_av[1]) < 0 || atoi(_av[2]) < 0 || atoi(_av[3]) < 0 || 
+	if (_ac != 4 || atoi(_av[1]) < 0 || atoi(_av[2]) < 0 || atoi(_av[3]) < 0 ||
 		!StringHelper::isDigitalString(_av[1]) || !StringHelper::isDigitalString(_av[2]) || !StringHelper::isDigitalString(_av[3]))
 		return (false);
 	return (true);
@@ -83,11 +83,12 @@ void	App::drawGui() const
 	count.setMinimum(1);
 
 	QPushButton	submitBtn("Passer la commande");
+	submitBtn.setFixedHeight(60);
 
 	QLineEdit	input;
 
 //	QTextEdit	textarea;
-	Graphics*		canvas = new Graphics(&window, QPoint(20, 20), QSize(360, 360), 50, 5);
+	Graphics*		canvas = new Graphics(&window, QPoint(20, 20), QSize(360, 360), 9, 5);
 	canvas->show();
 
 	QGridLayout* layout = new QGridLayout;
@@ -95,8 +96,8 @@ void	App::drawGui() const
 	layout->addWidget(&pizzaType, 1, 0);
 	layout->addWidget(&pizzaSize, 1, 1);
 	layout->addWidget(&count, 1, 2);
-	layout->addWidget(&submitBtn, 1, 3);
-	layout->addWidget(&input, 2, 0, 1, 4);
+	layout->addWidget(&submitBtn, 1, 3, 2, 1);
+	layout->addWidget(&input, 2, 0, 1, 3);
 
 	window.setLayout(layout);
 	window.show();

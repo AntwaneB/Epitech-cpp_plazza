@@ -91,7 +91,7 @@ APizza*	APizza::stringToAPizza(std::vector<std::string> const pizza)
 	sizeCvt["XL"] = APizza::XL;
 	sizeCvt["XXL"] = APizza::XXL;
 
-	return ((pizzasCtor.find(pizzaCvt.find(pizza[0])->second)->second)(sizeCvt.find(pizza[1])->second, stoi(pizza[2])));
+	return ((pizzasCtor.find(pizzaCvt.find(pizza[0])->second)->second)(sizeCvt.find(pizza[1])->second, std::stoi(pizza[2])));
 }
 
 APizza*		APizza::unpack(std::string const & pizza)
