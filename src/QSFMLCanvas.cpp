@@ -5,10 +5,6 @@
  * Created on April 21, 2015, 10:33 AM
  */
 
-#ifdef Q_WS_X11
-	#include <Qt/qx11info_x11.h>
-	#include <X11/Xlib.h>
-#endif
 #include "QSFMLCanvas.hpp"
 
 QSFMLCanvas::QSFMLCanvas(QWidget* parent, const QPoint& position, const QSize& size, size_t frameTime)
@@ -36,10 +32,6 @@ void QSFMLCanvas::showEvent(QShowEvent* e)
 
 	if (!_initialized)
 	{
-		#ifdef Q_WS_X11
-//			XFlush(QX11Info::display());
-		#endif
-
 		this->sf::Window::create(winId());
 
 		onInit();
