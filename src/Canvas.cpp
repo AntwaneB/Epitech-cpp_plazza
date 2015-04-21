@@ -9,7 +9,6 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics/Transformable.hpp>
-
 #include "Canvas.hpp"
 
 Canvas::Canvas(QWidget* parent, const QPoint& position, const QSize& size)
