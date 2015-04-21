@@ -8,6 +8,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Clock.hpp>
+#include <SFML/Graphics/Transformable.hpp>
 
 #include "Canvas.hpp"
 
@@ -25,6 +26,7 @@ void Canvas::onInit()
 	_texture.loadFromFile("assets/test.jpg");
 
 	_sprite.setTexture(_texture);
+	_sprite.setPosition(sf::Vector2f(_texture.getSize()) / 4.f);
 	_sprite.setOrigin(sf::Vector2f(_texture.getSize()) / 2.f);
 
 	_clock.restart();
