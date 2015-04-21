@@ -24,12 +24,15 @@ bool	StringHelper::isDigitalString(std::string const str)
 			return (false);
 		i++;
 	}
-	i++;
-	while (str[i] != '\0')
+	if (str[i] == '.')
 	{
-		if (!std::isdigit(str[i]))
-			return (false);
 		i++;
+		while (str[i] != '\0')
+		{
+			if (!std::isdigit(str[i]))
+				return (false);
+			i++;
+		}
 	}
 	return (true);
 }

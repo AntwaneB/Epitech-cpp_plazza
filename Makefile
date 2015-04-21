@@ -8,7 +8,7 @@
 ## Last update Mon Apr 20 15:18:23 2015 Thomas MORITZ
 ##
 
-CC		  =  g++
+CXX		  =  g++
 
 NAME		  =  plazza
 
@@ -41,10 +41,14 @@ SRCS		  =  main.cpp \
 		     \
 		     Graphics.cpp \
 		     QSFMLCanvas.cpp \
-		     Canvas.cpp
+		     Canvas.cpp \
+		     GUI.cpp
+
+MOC_HEADERS	  =  GUI.hpp
+MOC_SRCS	  =  $(MOC_HEADERS:.hpp=.moc.cpp)
 
 OBJS_DIR	  =  obj
-OBJS		  =  $(SRCS:%.cpp=$(OBJS_DIR)/%.o)
+OBJS		  =  $(SRCS:%.cpp=$(OBJS_DIR)/%.o) $(MOC_SRCS:%.cpp=$(OBJS_DIR)/%.o)
 
 INCS_DIR	  =  inc
 INCS		  =  Exception.hpp \
@@ -73,16 +77,20 @@ INCS		  =  Exception.hpp \
 		     \
 		     Graphics.hpp \
 		     QSFMLCanvas.hpp \
-		     Canvas.hpp
+		     Canvas.hpp \
+		     GUI.hpp
 
 DEPS		  =  $(patsubst %,$(INCS_DIR)/%,$(INCS))
 
-CFLAGS		  += -I./inc -lpthread -lsfml-graphics -lsfml-window -lsfml-system
-CFLAGS		  += -I/usr/include/qt5/QtCore -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtWidgets -I/usr/include/qt5 -I/usr/include/qt5/*
-CFLAGS		  += -lQt5Gui -lQt5Core -lQt5Widgets
-CFLAGS		  += -std=c++11 -Wall -Wextra -W -Werror -fPIC
+CXXFLAGS	  += -I./inc -lpthread -lsfml-graphics -lsfml-window -lsfml-system
+CXXFLAGS	  += -I/usr/include/qt5/QtCore -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtWidgets -I/usr/include/qt5 -I/usr/include/qt5/*
+CXXFLAGS	  += -lQt5Gui -lQt5Core -lQt5Widgets
+CXXFLAGS	  += -std=c++11 -Wall -Wextra -W -Werror -fPIC
 
-CFLAGS		  += -g
+CXXFLAGS	  += -g
+
+MOC_FLAGS	  =  -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+MOC_FLAGS	  += -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I. -I. -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -I. -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include
 
 
 #######################
@@ -90,14 +98,16 @@ CFLAGS		  += -g
 #######################
 
 $(NAME):	     $(OBJS)
-		     $(CC) $(OBJS) $(CFLAGS) -o $(NAME)
+		     $(CXX) $(OBJS) $(CXXFLAGS) -o $(NAME)
 
 all:		     $(NAME)
 
 $(OBJS_DIR)/%.o:     $(SRCS_DIR)/%.cpp $(DEPS)
 		     @$(MKDIR) $(OBJS_DIR)
-		     $(CC) $(CFLAGS) -c -o $@ $<
+		     $(CXX) $(CXXFLAGS) -c -o $@ $<
 
+$(OBJS_DIR)/%.moc.cpp:	$(INCS_DIR)/%.hpp
+			moc $(MOC_FLAGS) $< -o $@
 
 ################
 ## MISC RULES ##

@@ -13,27 +13,34 @@ Graphics::Graphics(QWidget* parent, const QPoint& position, const QSize& size, s
 {
 }
 
+Graphics::~Graphics()
+{
+}
+
 void Graphics::onInit()
 {
 	_winWidth = 778;
 	_winHeight = 512;
 
-	_colsK = static_cast<int>(ceil(sqrt(_nbKitchen)));
-	_linesK = static_cast<int>(floor(sqrt(_nbKitchen)));
+	if (_nbKitchen != 0)
+	{
+		_colsK = static_cast<int>(ceil(sqrt(_nbKitchen)));
+		_linesK = static_cast<int>(floor(sqrt(_nbKitchen)));
 
-	_kitchenWidth = _winWidth / _colsK - 1;
-	_kitchenHeight = _winHeight / _linesK - 1;
+		_kitchenWidth = _winWidth / _colsK - 1;
+		_kitchenHeight = _winHeight / _linesK - 1;
 
-	_colsC = static_cast<int>(ceil(sqrt(_nbCooks)));
-	_linesC = static_cast<int>(floor(sqrt(_nbCooks)));
+		_colsC = static_cast<int>(ceil(sqrt(_nbCooks)));
+		_linesC = static_cast<int>(floor(sqrt(_nbCooks)));
 
-	_cookWidth = _kitchenWidth / _colsC;
-	_cookHeight = _kitchenHeight / _linesC;
+		_cookWidth = _kitchenWidth / _colsC;
+		_cookHeight = _kitchenHeight / _linesC;
 
-	_kitchenBorder.setSize(sf::Vector2f(_kitchenWidth, _kitchenHeight));
-	_kitchenBorder.setFillColor(sf::Color::Black);
-	_kitchenBody.setSize(sf::Vector2f(_kitchenWidth - 4, _kitchenHeight - 4));
-	_kitchenBody.setFillColor(sf::Color(128, 128, 128));
+		_kitchenBorder.setSize(sf::Vector2f(_kitchenWidth, _kitchenHeight));
+		_kitchenBorder.setFillColor(sf::Color::Black);
+		_kitchenBody.setSize(sf::Vector2f(_kitchenWidth - 4, _kitchenHeight - 4));
+		_kitchenBody.setFillColor(sf::Color(128, 128, 128));
+	}
 
 	this->clear(sf::Color(128, 128, 128));
 }
@@ -61,6 +68,22 @@ void Graphics::onUpdate()
 	}
 }
 
-Graphics::~Graphics()
+void Graphics::setDatas(std::vector<size_t> const & activeCooks)
 {
+	_activeCooks = activeCooks;
+	_nbKitchen = _activeCooks.size();
+
+	_colsK = static_cast<int>(ceil(sqrt(_nbKitchen)));
+	_linesK = static_cast<int>(floor(sqrt(_nbKitchen)));
+
+	_kitchenWidth = _winWidth / _colsK - 1;
+	_kitchenHeight = _winHeight / _linesK - 1;
+
+	_cookWidth = _kitchenWidth / _colsC;
+	_cookHeight = _kitchenHeight / _linesC;
+
+	_kitchenBorder.setSize(sf::Vector2f(_kitchenWidth, _kitchenHeight));
+	_kitchenBorder.setFillColor(sf::Color::Black);
+	_kitchenBody.setSize(sf::Vector2f(_kitchenWidth - 4, _kitchenHeight - 4));
+	_kitchenBody.setFillColor(sf::Color(128, 128, 128));
 }

@@ -10,16 +10,13 @@
 
 #include <iostream>
 #include <unistd.h>
-#include <QApplication>
-#include <QtWidgets>
-#include <SFML/Window/Window.hpp>
 #include "Exception.hpp"
 #include "App.hpp"
 #include "Thread.hpp"
 #include "Reception.hpp"
-#include "Canvas.hpp"
-#include "Graphics.hpp"
 #include "StringHelper.hpp"
+#include "GUI.hpp"
+#include "Process.hpp"
 
 App::App(int ac, char** av)
 	: _ac(ac), _av(av), _GUIThread(NULL)
@@ -49,70 +46,12 @@ Thread*	App::getGuiThread()
 	return (_GUIThread);
 }
 
-void	App::drawGui() const
+void*	runGui(void* app)
 {
-	int ac = 1;
-	char *av[1] = { strdup("./plazza") };
-	QApplication app(ac, av);
+	(void)app;
 
-	QFrame window;
-	window.setFixedSize(800, 600);
-	window.setWindowTitle("The Plazza");
-	window.setGeometry(
-		QStyle::alignedRect(
-		Qt::LeftToRight,
-		Qt::AlignCenter,
-		window.size(),
-		qApp->desktop()->availableGeometry()
-	));
-
-	QComboBox	pizzaType;
-	pizzaType.addItem("Margarita");
-	pizzaType.addItem("Americaine");
-	pizzaType.addItem("Regina");
-	pizzaType.addItem("Fantasia");
-
-	QComboBox	pizzaSize;
-	pizzaSize.addItem("S");
-	pizzaSize.addItem("M");
-	pizzaSize.addItem("L");
-	pizzaSize.addItem("XL");
-	pizzaSize.addItem("XXL");
-
-	QSpinBox		count;
-	count.setMinimum(1);
-	count.setMaximum(999);
-
-	QPushButton	submitBtn("Passer la commande");
-	submitBtn.setFixedHeight(60);
-
-	QObject::connect(&submitBtn, SIGNAL(clicked()), qApp, SLOT(quit()));
-
-	QLineEdit	input;
-
-//	QTextEdit	textarea;
-	Graphics*		canvas = new Graphics(&window, QPoint(20, 20), QSize(360, 360), 9, 5);
-	canvas->show();
-
-	QGridLayout* layout = new QGridLayout;
-	layout->addWidget(canvas, 0, 0, 1, 4);
-	layout->addWidget(&pizzaType, 1, 0);
-	layout->addWidget(&pizzaSize, 1, 1);
-	layout->addWidget(&count, 1, 2);
-	layout->addWidget(&submitBtn, 1, 3, 2, 1);
-	layout->addWidget(&input, 2, 0, 1, 3);
-
-	window.setLayout(layout);
-	window.show();
-
-	app.exec();
-}
-
-void*	runGui(void* arg)
-{
-	App*	app = static_cast<App*>(arg);
-
-	app->drawGui();
+	GUI gui;
+	Process guiProcess(gui);
 
 	return (NULL);
 }
@@ -121,12 +60,14 @@ int	App::run()
 {
 	try
 	{
-		_GUIThread = new Thread;
-		_GUIThread->run(&runGui, this);
+		GUI		gui;
+		Process	guiProcess(gui);
 
 		Reception	reception(atof(_av[1]), atoi(_av[2]), atoi(_av[3]));
 
 		reception.start();
+
+		guiProcess.wait();
 	}
 	catch (std::exception const & e)
 	{

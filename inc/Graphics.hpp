@@ -11,6 +11,7 @@
 #include <iostream>
 #include <sstream>
 #include <map>
+#include <vector>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "QSFMLCanvas.hpp"
@@ -23,6 +24,7 @@ public:
 
 	virtual void 		onInit();
 	virtual void 		onUpdate();
+	void					setDatas(std::vector<size_t> const &);
 
 private:
 	size_t 					_nbKitchen;
@@ -44,6 +46,8 @@ private:
 	sf::RectangleShape 	_kitchenBody;
 	sf::Sprite 				_cookActive;
 	sf::Sprite 				_cookIdle;
+
+	std::vector<size_t>	_activeCooks;
 };
 
 #endif	/* SDLGRAPHICS_HPP */
