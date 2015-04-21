@@ -14,7 +14,7 @@ APizza*	Margarita::newMargarita(APizza::SizePizza size, double cookingTime)
 }
 
 Margarita::Margarita(APizza::SizePizza size, double cookingTime)
-	: APizza(APizza::Margarita, size)
+	: APizza(APizza::Margarita, size, cookingTime)
 {
 	_ingredients.push_back(APizza::Ingredients::Doe);
 	_ingredients.push_back(APizza::Ingredients::Tomato);

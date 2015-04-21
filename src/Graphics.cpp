@@ -20,11 +20,10 @@ void Graphics::onInit()
 	size_t ccols = static_cast<int>(ceil(sqrt(_nbCook)));
 	size_t clines = static_cast<int>(floor(sqrt(_nbCook)));
 
-//	this->_window.create(sf::VideoMode(778 + cols, 545 + lines), "06 45 36 41 47");
 	this->_height = 545 / lines;
 	this->_width = 778 / cols;
 
-	this->clear(sf::Color::Black);
+	this->clear(sf::Color(128, 128, 128));
 	_bigRect.setSize(sf::Vector2f(_width, _height));
 	_littleRect.setSize(sf::Vector2f(_width - 2, _height - 2));
 	_bigRect.setFillColor(sf::Color::Red);
@@ -49,7 +48,27 @@ void Graphics::onInit()
 
 void Graphics::onUpdate()
 {
+	size_t		i;
+	int				x;
+	int				y;
 
+	x = 1;
+	y = 1;
+
+	for (i = 0; i < this->_nbKitchen; i++)
+	{
+		_bigRect.setPosition(x, y);
+		_littleRect.setPosition(x + 1, y + 1);
+		this->draw(_bigRect);
+		this->draw(_littleRect);
+		x += this->_width + 1;
+		if (x >= 778)
+		{
+			x = 1;
+			y += this->_height + 1;
+		}
+	}
+	this->draw(_cook);
 }
 
 Graphics::~Graphics()
@@ -67,17 +86,17 @@ void Graphics::initPizzeria()
 	y = 1;
 
 	for (i = 0; i < this->_nbKitchen; i++)
+	{
+		_bigRect.setPosition(x, y);
+		_littleRect.setPosition(x + 1, y + 1);
+		this->draw(_bigRect);
+		this->draw(_littleRect);
+		x += this->_width + 1;
+		if (x >= 800)
 		{
-			_bigRect.setPosition(x, y);
-			_littleRect.setPosition(x + 1, y + 1);
-			this->draw(_bigRect);
-			this->draw(_littleRect);
-			x += this->_width + 1;
-			if (x >= 800)
-			{
-				x = 1;
-				y += this->_height + 1;
-			}
+			x = 1;
+			y += this->_height + 1;
 		}
-		this->draw(_cook);
+	}
+	this->draw(_cook);
 }

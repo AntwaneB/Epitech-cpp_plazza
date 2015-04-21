@@ -47,13 +47,14 @@ public:
 	};
 
 public:
-	APizza(APizza::TypePizza, APizza::SizePizza);
+	APizza(APizza::TypePizza, APizza::SizePizza, double cookingTimeModifier);
 	virtual ~APizza() = 0;
 
 	APizza::TypePizza						getType(void) const;
 	APizza::SizePizza						getSize(void) const;
 	std::vector<APizza::Ingredients>	getIngredients(void) const;
 	double									getCookingTime(void) const;
+	double									getModifier(void) const;
 
 	static std::string					pack(APizza const &);
 	static APizza*							unpack(std::string const &);
@@ -66,6 +67,7 @@ protected:
 	APizza::SizePizza						_size;
 	std::vector<APizza::Ingredients>	_ingredients;
 	double									_cookingTime;
+	double									_cookingTimeModifier;
 };
 
 #endif	/* APIZZA_HPP */

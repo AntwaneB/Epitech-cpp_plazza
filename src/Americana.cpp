@@ -14,7 +14,7 @@ APizza*	Americaine::newAmericaine(APizza::SizePizza size, double cookingTime)
 }
 
 Americaine::Americaine(APizza::SizePizza size, double cookingTime)
-	: APizza(APizza::Americaine, size)
+	: APizza(APizza::Americaine, size, cookingTime)
 {
 	_ingredients.push_back(APizza::Ingredients::Doe);
 	_ingredients.push_back(APizza::Ingredients::Tomato);

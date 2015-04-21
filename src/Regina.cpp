@@ -14,7 +14,7 @@ APizza*	Regina::newRegina(APizza::SizePizza size, double cookingTime)
 }
 
 Regina::Regina(APizza::SizePizza size, double cookingTime)
-	: APizza(APizza::Regina, size)
+	: APizza(APizza::Regina, size, cookingTime)
 {
 	_ingredients.push_back(APizza::Ingredients::Doe);
 	_ingredients.push_back(APizza::Ingredients::Tomato);

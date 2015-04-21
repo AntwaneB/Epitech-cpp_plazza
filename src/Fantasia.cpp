@@ -14,7 +14,7 @@ APizza*	Fantasia::newFantasia(APizza::SizePizza size, double cookingTime)
 }
 
 Fantasia::Fantasia(APizza::SizePizza size, double cookingTime)
-	: APizza(APizza::Fantasia, size)
+	: APizza(APizza::Fantasia, size, cookingTime)
 {
 	_ingredients.push_back(APizza::Ingredients::Doe);
 	_ingredients.push_back(APizza::Ingredients::Tomato);

@@ -14,8 +14,8 @@
 #include "Fantasia.hpp"
 #include "Americana.hpp"
 
-APizza::APizza(APizza::TypePizza type, APizza::SizePizza size)
-	: _type(type), _size(size)
+APizza::APizza(APizza::TypePizza type, APizza::SizePizza size, double cookingTimeModifier)
+	: _type(type), _size(size), _cookingTimeModifier(cookingTimeModifier)
 {
 
 }
@@ -44,6 +44,11 @@ double APizza::getCookingTime(void) const
 	return (_cookingTime);
 }
 
+double APizza::getModifier(void) const
+{
+	return (_cookingTimeModifier);
+}
+
 std::string APizza::pack(const APizza& pizza)
 {
 	std::map<APizza::TypePizza, std::string> TypePizzaMap =
@@ -63,7 +68,7 @@ std::string APizza::pack(const APizza& pizza)
 		{ APizza::XXL, "XXL" }
 	};
 
-	return (TypePizzaMap[pizza.getType()] + " " + SizePizzaMap[pizza.getSize()] + " " + std::to_string(pizza.getCookingTime()));
+	return (TypePizzaMap[pizza.getType()] + " " + SizePizzaMap[pizza.getSize()] + " " + std::to_string(pizza.getModifier()));
 }
 
 APizza*	APizza::stringToAPizza(std::vector<std::string> const pizza)
