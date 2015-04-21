@@ -15,6 +15,16 @@ StringHelper::~StringHelper()
 {
 }
 
+bool	StringHelper::isDigitalString(std::string const str)
+{
+	for (int i = 0; str[i] != '\0'; i++)
+	{
+		if (!isdigit(str[i]))
+			return (false);
+	}
+	return (true);
+}
+
 bool	StringHelper::inStr(char const c, std::string const & str)
 {
 	for (size_t i = 0; i < str.size(); i++)
