@@ -19,6 +19,7 @@
 #include "Reception.hpp"
 #include "Canvas.hpp"
 #include "Graphics.hpp"
+#include "StringHelper.hpp"
 
 App::App(int ac, char** av)
 	: _ac(ac), _av(av), _GUIThread(NULL)
@@ -35,20 +36,10 @@ App::~App()
 	}
 }
 
-bool	App::isDigitalString(std::string str) const
-{
-	for (int i = 0; str[i] != '\0'; i++)
-	{
-		if (!isdigit(str[i]))
-			return (false);
-	}
-	return (true);
-}
-
 bool	App::validateArgs() const
 {
 	if (_ac != 4 || atoi(_av[1]) < 0 || atoi(_av[2]) < 0 || atoi(_av[3]) < 0 || 
-		!this->isDigitalString(_av[1]) || !this->isDigitalString(_av[2]) || !this->isDigitalString(_av[3]))
+		!StringHelper::isDigitalString(_av[1]) || !StringHelper::isDigitalString(_av[2]) || !StringHelper::isDigitalString(_av[3]))
 		return (false);
 	return (true);
 }
