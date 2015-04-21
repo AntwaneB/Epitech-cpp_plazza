@@ -34,9 +34,20 @@ App::~App()
 	}
 }
 
+bool	App::isDigitalString(std::string str) const
+{
+	for (int i = 0; str[i] != '\0'; i++)
+	{
+		if (!isdigit(str[i]))
+			return (false);
+	}
+	return (true);
+}
+
 bool	App::validateArgs() const
 {
-	if (_ac != 4 || atoi(_av[1]) < 0 || atoi(_av[2]) < 0 || atoi(_av[3]) < 0)
+	if (_ac != 4 || atoi(_av[1]) < 0 || atoi(_av[2]) < 0 || atoi(_av[3]) < 0 || 
+		!this->isDigitalString(_av[1]) || !this->isDigitalString(_av[2]) || !this->isDigitalString(_av[3]))
 		return (false);
 	return (true);
 }
