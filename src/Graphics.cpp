@@ -8,95 +8,59 @@
 #include <Graphics.hpp>
 #include	"math.h"
 
-Graphics::Graphics(QWidget* parent, const QPoint& position, const QSize& size, size_t nbKitchen, size_t nbCook)
-	: QSFMLCanvas(parent, position, size), _nbKitchen(nbKitchen), _nbCook(nbCook)
+Graphics::Graphics(QWidget* parent, const QPoint& position, const QSize& size, size_t nbKitchen, size_t nbCooks)
+	: QSFMLCanvas(parent, position, size), _nbKitchen(nbKitchen), _nbCooks(nbCooks)
 {
 }
 
 void Graphics::onInit()
 {
-	size_t cols = static_cast<int>(ceil(sqrt(_nbKitchen)));
-	size_t lines = static_cast<int>(floor(sqrt(_nbKitchen)));
-	size_t ccols = static_cast<int>(ceil(sqrt(_nbCook)));
-	size_t clines = static_cast<int>(floor(sqrt(_nbCook)));
+	_winWidth = 778;
+	_winHeight = 512;
 
-	this->_height = 545 / lines;
-	this->_width = 778 / cols;
+	_colsK = static_cast<int>(ceil(sqrt(_nbKitchen)));
+	_linesK = static_cast<int>(floor(sqrt(_nbKitchen)));
+
+	_kitchenWidth = _winWidth / _colsK - 1;
+	_kitchenHeight = _winHeight / _linesK - 1;
+
+	_colsC = static_cast<int>(ceil(sqrt(_nbCooks)));
+	_linesC = static_cast<int>(floor(sqrt(_nbCooks)));
+
+	_cookWidth = _kitchenWidth / _colsC;
+	_cookHeight = _kitchenHeight / _linesC;
+
+	_kitchenBorder.setSize(sf::Vector2f(_kitchenWidth, _kitchenHeight));
+	_kitchenBorder.setFillColor(sf::Color::Black);
+	_kitchenBody.setSize(sf::Vector2f(_kitchenWidth - 4, _kitchenHeight - 4));
+	_kitchenBody.setFillColor(sf::Color(128, 128, 128));
 
 	this->clear(sf::Color(128, 128, 128));
-	_bigRect.setSize(sf::Vector2f(_width, _height));
-	_littleRect.setSize(sf::Vector2f(_width - 2, _height - 2));
-	_bigRect.setFillColor(sf::Color::Red);
-	_littleRect.setFillColor(sf::Color::Black);
-
-	sf::Texture tcook;
-	tcook.loadFromFile("assets/cook.png");
-	_cook.setTexture(tcook);
-	(void)clines;
-	(void)ccols;
-	//_cook.setScale(sf::Vector2f(0.5f, 0.5f));
-
-	/*std::cout << "lol2" << std::endl;
-	sf::Image nocook;
-	cook.loadFromFile("./cook.png");
-	sf::Texture tnocook;
-	tcook.loadFromImage(nocook);
-	_nocook.setTexture(tnocook);
-	std::cout << "lol3" << std::endl;*/
-	//_nocook.setScale(sf::Vector2f(_height / ccols * 0.03f, _height / clines * 0.03f));
 }
 
 void Graphics::onUpdate()
 {
-	size_t		i;
-	int				x;
-	int				y;
+	size_t x = 1;
+	size_t y = 1;
 
-	x = 1;
-	y = 1;
-
-	for (i = 0; i < this->_nbKitchen; i++)
+	size_t j = 1;
+	for (size_t i = 1; i <= _nbKitchen; i++)
 	{
-		_bigRect.setPosition(x, y);
-		_littleRect.setPosition(x + 1, y + 1);
-		this->draw(_bigRect);
-		this->draw(_littleRect);
-		x += this->_width + 1;
-		if (x >= 778)
+		_kitchenBorder.setPosition(x, y);
+		_kitchenBody.setPosition(x + 2, y + 2);
+		this->draw(_kitchenBorder);
+		this->draw(_kitchenBody);
+
+		x += _kitchenWidth + 1;
+		if (i / j >= _colsK)
 		{
 			x = 1;
-			y += this->_height + 1;
+			y += _kitchenHeight + 1;
+			j++;
 		}
 	}
-	this->draw(_cook);
 }
 
 Graphics::~Graphics()
 {
-
-}
-
-void Graphics::initPizzeria()
-{
-	size_t		i;
-	int				x;
-	int				y;
-
-	x = 1;
-	y = 1;
-
-	for (i = 0; i < this->_nbKitchen; i++)
-	{
-		_bigRect.setPosition(x, y);
-		_littleRect.setPosition(x + 1, y + 1);
-		this->draw(_bigRect);
-		this->draw(_littleRect);
-		x += this->_width + 1;
-		if (x >= 800)
-		{
-			x = 1;
-			y += this->_height + 1;
-		}
-	}
-	this->draw(_cook);
 }

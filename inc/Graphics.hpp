@@ -21,19 +21,29 @@ public:
 	Graphics(QWidget* parent, const QPoint& position, const QSize& size, size_t, size_t);
 	virtual ~Graphics();
 
-	void 		initPizzeria();
-	void 		onInit();
-	void 		onUpdate();
+	virtual void 		onInit();
+	virtual void 		onUpdate();
 
 private:
-	size_t 							_nbKitchen;
-	sf::RectangleShape 	_bigRect;
-	sf::RectangleShape 	_littleRect;
-	sf::Sprite 					_cook;
-	sf::Sprite 					_nocook;
-	size_t 							_height;
-	size_t 							_width;
-	size_t							_nbCook;
+	size_t 					_nbKitchen;
+	size_t					_nbCooks;
+
+	size_t					_colsK;
+	size_t					_linesK;
+	size_t					_colsC;
+	size_t					_linesC;
+
+	size_t					_winWidth;
+	size_t					_winHeight;
+	size_t					_kitchenWidth;
+	size_t					_kitchenHeight;
+	size_t					_cookWidth;
+	size_t					_cookHeight;
+
+	sf::RectangleShape 	_kitchenBorder;
+	sf::RectangleShape 	_kitchenBody;
+	sf::Sprite 				_cookActive;
+	sf::Sprite 				_cookIdle;
 };
 
 #endif	/* SDLGRAPHICS_HPP */
