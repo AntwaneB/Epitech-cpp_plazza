@@ -7,7 +7,6 @@ int	main(int ac, char **av)
 	srand(time(NULL));
 
 	App*	app = NULL;
-
 	try
 	{
 		app = new App(ac, av);

@@ -8,33 +8,29 @@
 #ifndef GRAPHICS_HPP
 #define	GRAPHICS_HPP
 
-/*#include <pthread.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
-#include <SDL/SDL_ttf.h>
-#include <SDL/SDL_mixer.h>
-#include <X11/Xlib.h>*/
 #include <iostream>
 #include <sstream>
 #include <map>
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 
-class Graphics
+
+class Graphics : public QSFMLCanvas
 {
 public:
-	Graphics(size_t);
 	virtual ~Graphics();
 	void 		initPizzeria();
-	void		winRefresh();
-
+	void 		onInit();
+	void 		onUpdate();
 private:
-	/*SDL_Surface		*_win;
-	size_t 				_kitchen;
-	SDL_Surface 	*_bigRect;
-	SDL_Surface 	*_littleRect;
-	size_t 				_height;
-	size_t 				_width;*/
+	size_t 							_nbKitchen;
+	sf::RectangleShape 	_bigRect;
+	sf::RectangleShape 	_littleRect;
+	sf::Sprite 					_cook;
+	sf::Sprite 					_nocook;
+	size_t 							_height;
+	size_t 							_width;
+	size_t							_nbCook;
 };
 
 #endif	/* SDLGRAPHICS_HPP */

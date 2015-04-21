@@ -5,30 +5,52 @@
  * Created on March 24, 2015, 1:42 PM
  */
 
-#include <SFML/Graphics.hpp>
 #include <Graphics.hpp>
 #include	"math.h"
 
-Graphics::Graphics(size_t kitchen)
+Graphics::Graphics(QWidget* parent, const QPoint& position, const QSize& size, size_t nbKitchen, size_t nbCook)
+	: QSFMLCanvas(parent, position, size), _nbKitchen(nbKitchen), _nbCook(nbCook)
+{
+}
+
+void Graphics::onInit()
 {
 	(void)kitchen;
-	sf::RenderWindow win(sf::VideoMode(800, 600), "06 45 36 41 47");
-	/*if (XInitThreads() == 0)
-		exit (EXIT_FAILURE);
-	if (SDL_Init(SDL_INIT_VIDEO) != 0)
-		exit (EXIT_FAILURE);
-	if ((this->_win = SDL_SetVideoMode(800, 600, 32, SDL_ANYFORMAT)) == NULL)
-		exit (EXIT_FAILURE);
-	SDL_WM_SetCaption("06 45 36 41 47", NULL);
-	size_t cols = static_cast<int>(ceil(sqrt(kitchen)));
-	size_t lines = static_cast<int>(floor(sqrt(kitchen)));
-	this->_height = 600 / lines;
-	this->_width = 800 / cols;
-	this->_kitchen = kitchen;
-	this->_bigRect = SDL_CreateRGBSurface(0, this->_width, this->_height, 32, 0, 0, 0, 0);
-	SDL_FillRect(this->_bigRect, NULL, SDL_MapRGB(this->_bigRect->format, 255, 0, 0));
-	this->_littleRect = SDL_CreateRGBSurface(0, this->_width - 2, this->_height - 2, 32, 0, 0, 0, 0);
-	SDL_FillRect(this->_littleRect, NULL, SDL_MapRGB(this->_littleRect->format, 0, 0, 0));*/
+	size_t cols = static_cast<int>(ceil(sqrt(_nbKitchen)));
+	size_t lines = static_cast<int>(floor(sqrt(_nbKitchen)));
+	size_t ccols = static_cast<int>(ceil(sqrt(_nbCook)));
+	size_t clines = static_cast<int>(floor(sqrt(_nbCook)));
+
+	this->_window.create(sf::VideoMode(778 + cols, 545 + lines), "06 45 36 41 47");
+	this->_height = 545 / lines;
+	this->_width = 778 / cols;
+
+	_window.clear(sf::Color::Black);
+	_bigRect.setSize(sf::Vector2f(_width, _height));
+	_littleRect.setSize(sf::Vector2f(_width - 2, _height - 2));
+	_bigRect.setFillColor(sf::Color::Red);
+	_littleRect.setFillColor(sf::Color::Black);
+
+	sf::Texture tcook;
+	tcook.loadFromFile("./cook.jpg");
+	_cook.setTexture(tcook);
+	(void)clines;
+	(void)ccols;
+	//_cook.setScale(sf::Vector2f(0.5f, 0.5f));
+
+	/*std::cout << "lol2" << std::endl;
+	sf::Image nocook;
+	cook.loadFromFile("./cook.png");
+	sf::Texture tnocook;
+	tcook.loadFromImage(nocook);
+	_nocook.setTexture(tnocook);
+	std::cout << "lol3" << std::endl;*/
+	//_nocook.setScale(sf::Vector2f(_height / ccols * 0.03f, _height / clines * 0.03f));
+}
+
+void Graphics::onUpdate()
+{
+
 }
 
 Graphics::~Graphics()
@@ -38,30 +60,25 @@ Graphics::~Graphics()
 
 void Graphics::initPizzeria()
 {
-/*	size_t i;
-	SDL_Rect		pos;
+	size_t		i;
+	int				x;
+	int				y;
 
-	pos.x = 0;
-	pos.y = 0;
-	SDL_Surface	*resize;
+	x = 1;
+	y = 1;
 
 	for (i = 0; i < this->_kitchen; i++)
 		{
-			SDL_BlitSurface(this->_bigRect, NULL, this->_win, &pos);
-			SDL_BlitSurface(this->_littleRect, NULL, this->_win, &pos);
-			pos.x += this->_width;
-			if (pos.x >= 800)
+			_bigRect.setPosition(x, y);
+			_littleRect.setPosition(x + 1, y + 1);
+			_window.draw(_bigRect);
+			_window.draw(_littleRect);
+			x += this->_width + 1;
+			if (x >= 800)
 			{
-				pos.x = 0;
-				pos.y += this->_height;
+				x = 1;
+				y += this->_height + 1;
 			}
 		}
-	resize = SDL_ScaleSurface(this->_bigRect, 300, 300);
-	SDL_BlitSurface(resize, NULL, this->_win, NULL);
-	SDL_Flip(this->_win);*/
-}
-
-void	Graphics::winRefresh()
-{
-	//SDL_Flip(this->_win);
+		_window.draw(_cook);
 }
