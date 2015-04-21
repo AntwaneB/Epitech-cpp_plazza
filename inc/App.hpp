@@ -26,6 +26,7 @@ public:
 
 private:
 	bool	validateArgs(void) const;
+	bool	isDigitalString(std::string str) const;
 
 private:
 	int			_ac;
