@@ -97,14 +97,14 @@ MOC_FLAGS	  += -I./inc -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/in
 ## COMPILATION RULES ##
 #######################
 
-$(NAME):	     $(OBJS)
-		     $(CXX) $(OBJS) $(CXXFLAGS) -o $(NAME)
+$(NAME):		$(OBJS)
+			$(CXX) $(OBJS) $(CXXFLAGS) -o $(NAME)
 
-all:		     $(NAME)
+all:			$(NAME)
 
-$(OBJS_DIR)/%.o:     $(SRCS_DIR)/%.cpp $(DEPS)
-		     @$(MKDIR) $(OBJS_DIR)
-		     $(CXX) $(CXXFLAGS) -c -o $@ $<
+$(OBJS_DIR)/%.o:	$(SRCS_DIR)/%.cpp $(DEPS)
+		        @$(MKDIR) $(OBJS_DIR)
+			$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 $(OBJS_DIR)/%.moc.cpp:	$(INCS_DIR)/%.hpp
 			moc $(MOC_FLAGS) $< -o $@
