@@ -13,15 +13,18 @@
 #include <map>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-
+#include "QSFMLCanvas.hpp"
 
 class Graphics : public QSFMLCanvas
 {
 public:
+	Graphics(QWidget* parent, const QPoint& position, const QSize& size, size_t, size_t);
 	virtual ~Graphics();
+
 	void 		initPizzeria();
 	void 		onInit();
 	void 		onUpdate();
+
 private:
 	size_t 							_nbKitchen;
 	sf::RectangleShape 	_bigRect;

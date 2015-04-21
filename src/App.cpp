@@ -18,6 +18,7 @@
 #include "Thread.hpp"
 #include "Reception.hpp"
 #include "Canvas.hpp"
+#include "Graphics.hpp"
 
 App::App(int ac, char** av)
 	: _ac(ac), _av(av), _GUIThread(NULL)
@@ -84,7 +85,7 @@ void	App::drawGui() const
 	QLineEdit	input;
 
 //	QTextEdit	textarea;
-	Canvas*		canvas = new Canvas(&window, QPoint(20, 20), QSize(360, 360));
+	Graphics*		canvas = new Graphics(&window, QPoint(20, 20), QSize(360, 360), 50, 5);
 	canvas->show();
 
 	QGridLayout* layout = new QGridLayout;
