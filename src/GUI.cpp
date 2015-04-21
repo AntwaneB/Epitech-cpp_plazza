@@ -39,7 +39,7 @@ void GUI::execute(void)
 
 		QTimer *timer = new QTimer;
 	   QObject::connect(timer, SIGNAL(timeout()), this, SLOT(updateWindow()));
-		timer->start(100);
+		timer->start(500);
 
 		app.exec();
 	}
@@ -117,5 +117,14 @@ void GUI::endInit()
 
 void GUI::updateWindow()
 {
+	static int i = 0;
 
+	i++;
+	if (i == 10)
+	{
+		QPushButton*	test = new QPushButton("Test");
+		_layout->addWidget(test, 3, 0, 1, 4);
+		_components.push_back(test);
+	}
+	std::cout << "hey" << std::endl;
 }
