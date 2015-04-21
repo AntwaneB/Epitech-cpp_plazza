@@ -81,6 +81,7 @@ void	App::drawGui() const
 
 	QSpinBox		count;
 	count.setMinimum(1);
+	count.setMaximum(999);
 
 	QPushButton	submitBtn("Passer la commande");
 	submitBtn.setFixedHeight(60);
