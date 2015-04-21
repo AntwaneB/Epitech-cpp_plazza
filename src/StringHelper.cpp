@@ -17,10 +17,19 @@ StringHelper::~StringHelper()
 
 bool	StringHelper::isDigitalString(std::string const str)
 {
-	for (int i = 0; str[i] != '\0'; i++)
+	int i = 0;
+	while (str[i] != '\0' && str[i] != '.')
 	{
-		if (!isdigit(str[i]))
+		if (!std::isdigit(str[i]))
 			return (false);
+		i++;
+	}
+	i++;
+	while (str[i] != '\0')
+	{
+		if (!std::isdigit(str[i]))
+			return (false);
+		i++;
 	}
 	return (true);
 }
