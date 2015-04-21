@@ -81,6 +81,8 @@ void	App::drawGui() const
 
 	QPushButton	submitBtn("Passer la commande");
 
+	QLineEdit	input;
+
 //	QTextEdit	textarea;
 	Canvas*		canvas = new Canvas(&window, QPoint(20, 20), QSize(360, 360));
 	canvas->show();
@@ -91,6 +93,7 @@ void	App::drawGui() const
 	layout->addWidget(&pizzaSize, 1, 1);
 	layout->addWidget(&count, 1, 2);
 	layout->addWidget(&submitBtn, 1, 3);
+	layout->addWidget(&input, 2, 0, 1, 4);
 
 	window.setLayout(layout);
 	window.show();
