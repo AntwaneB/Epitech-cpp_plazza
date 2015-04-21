@@ -52,6 +52,7 @@ void	App::drawGui() const
 
 	QWidget window;
 	window.setFixedSize(800, 600);
+	window.setWindowTitle("The Plazza");
 	window.setGeometry(
 		QStyle::alignedRect(
 		Qt::LeftToRight,
@@ -59,9 +60,6 @@ void	App::drawGui() const
 		window.size(),
 		qApp->desktop()->availableGeometry()
 	));
-
-	QLineEdit	row1;
-	QLineEdit	row2;
 
 	QComboBox	pizzaType;
 	pizzaType.addItem("Margarita");
@@ -76,15 +74,19 @@ void	App::drawGui() const
 	pizzaSize.addItem("XL");
 	pizzaSize.addItem("XXL");
 
-	QLineEdit	count;
+	QSpinBox		count;
+	count.setMinimum(1);
 
 	QPushButton	submitBtn("Passer la commande");
 
+	QTextEdit	textarea;
+
 	QGridLayout* layout = new QGridLayout;
-	layout->addWidget(&pizzaType, 0, 0);
-	layout->addWidget(&pizzaSize, 0, 1);
-	layout->addWidget(&count, 0, 2);
-	layout->addWidget(&submitBtn, 0, 3);
+	layout->addWidget(&textarea, 0, 0, 1, 4);
+	layout->addWidget(&pizzaType, 1, 0);
+	layout->addWidget(&pizzaSize, 1, 1);
+	layout->addWidget(&count, 1, 2);
+	layout->addWidget(&submitBtn, 1, 3);
 
 	window.setLayout(layout);
 	window.show();
