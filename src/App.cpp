@@ -84,6 +84,8 @@ void	App::drawGui() const
 
 	QPushButton	submitBtn("Passer la commande");
 
+	QObject::connect(&submitBtn, SIGNAL(clicked()), qApp, SLOT(quit()));
+
 	QLineEdit	input;
 
 //	QTextEdit	textarea;
