@@ -11,11 +11,13 @@
 #include <iostream>
 #include <unistd.h>
 #include <QApplication>
-#include <QtGui>
+#include <QtWidgets>
+#include <SFML/Window/Window.hpp>
 #include "Exception.hpp"
 #include "App.hpp"
 #include "Thread.hpp"
 #include "Reception.hpp"
+#include "Canvas.hpp"
 
 App::App(int ac, char** av)
 	: _ac(ac), _av(av), _GUIThread(NULL)
@@ -50,7 +52,7 @@ void	App::drawGui() const
 	char *av[1] = { strdup("./plazza") };
 	QApplication app(ac, av);
 
-	QWidget window;
+	QFrame window;
 	window.setFixedSize(800, 600);
 	window.setWindowTitle("The Plazza");
 	window.setGeometry(
@@ -79,10 +81,12 @@ void	App::drawGui() const
 
 	QPushButton	submitBtn("Passer la commande");
 
-	QTextEdit	textarea;
+//	QTextEdit	textarea;
+	Canvas*		canvas = new Canvas(&window, QPoint(20, 20), QSize(360, 360));
+	canvas->show();
 
 	QGridLayout* layout = new QGridLayout;
-	layout->addWidget(&textarea, 0, 0, 1, 4);
+	layout->addWidget(canvas, 0, 0, 1, 4);
 	layout->addWidget(&pizzaType, 1, 0);
 	layout->addWidget(&pizzaSize, 1, 1);
 	layout->addWidget(&count, 1, 2);
@@ -107,8 +111,10 @@ int	App::run()
 {
 	try
 	{
-		_GUIThread = new Thread;
-		_GUIThread->run(&runGui, this);
+//		_GUIThread = new Thread;
+//		_GUIThread->run(&runGui, this);
+		runGui(this);
+
 
 		Reception	reception(atof(_av[1]), atoi(_av[2]), atoi(_av[3]));
 

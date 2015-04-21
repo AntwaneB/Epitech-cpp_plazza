@@ -39,7 +39,9 @@ SRCS		  =  main.cpp \
 		     Americana.cpp \
 		     Fantasia.cpp \
 		     \
-		     Graphics.cpp
+		     Graphics.cpp \
+		     QSFMLCanvas.cpp \
+		     Canvas.cpp
 
 OBJS_DIR	  =  obj
 OBJS		  =  $(SRCS:%.cpp=$(OBJS_DIR)/%.o)
@@ -69,13 +71,15 @@ INCS		  =  Exception.hpp \
 		     Americana.hpp \
 		     Fantasia.hpp \
 		     \
-		     Graphics.hpp
+		     Graphics.hpp \
+		     QSFMLCanvas.hpp \
+		     Canvas.hpp
 
 DEPS		  =  $(patsubst %,$(INCS_DIR)/%,$(INCS))
 
 CFLAGS		  += -I./inc -lpthread -lsfml-graphics -lsfml-window -lsfml-system
-CFLAGS		  += -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtGui -I/usr/include/qt4
-CFLAGS		  += -lQtGui -lQtCore
+CFLAGS		  += -I/usr/include/qt5/QtCore -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtWidgets -I/usr/include/qt5 -I/usr/include/qt5/*
+CFLAGS		  += -lQt5Gui -lQt5Core -lQt5Widgets
 CFLAGS		  += -std=c++11 -Wall -Wextra -W -Werror -fPIC
 
 CFLAGS		  += -g
