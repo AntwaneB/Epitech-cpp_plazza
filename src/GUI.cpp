@@ -6,6 +6,9 @@
  */
 
 #include "GUI.hpp"
+#include "Mutex.hpp"
+#include "ScopedLock.hpp"
+#include "StringHelper.hpp"
 
 GUI::GUI()
 	: _initialized(false)
@@ -44,7 +47,7 @@ void GUI::execute(void)
 
 		QTimer *timer = new QTimer;
 	   QObject::connect(timer, SIGNAL(timeout()), this, SLOT(updateWindow()));
-		timer->start(500);
+		timer->start(1000);
 
 		app.exec();
 	}
@@ -122,13 +125,27 @@ void GUI::endInit()
 
 void GUI::updateWindow()
 {
-	static int i = 0;
+	(*_guiPipes.second) << "get_kitchens";
 
-	i++;
-	if (i == 10)
+	std::string result;
+	(*_guiPipes.first) >> result;
+	if (!result.empty())
 	{
-		QPushButton*	test = new QPushButton("Test");
-		_layout->addWidget(test, 3, 0, 1, 4);
-		_components.push_back(test);
+		result = result.substr(9);
+		result = result.substr(0, result.size() - 1);
 	}
+
+	std::vector<size_t> activeCooks;
+
+	if (!result.empty())
+	{
+		std::vector<std::string>	kitchens = StringHelper::strtovec(result, " ");
+
+		for (std::vector<std::string>::const_iterator it = kitchens.begin(); it != kitchens.end(); ++it)
+			activeCooks.push_back(std::stoi(*it));
+
+		_canvas->setDatas(activeCooks);
+	}
+	else
+		_canvas->setDatas(activeCooks);
 }

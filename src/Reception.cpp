@@ -63,6 +63,8 @@ std::pair<NamedPipe::In*, NamedPipe::Out*> Reception::openKitchen()
 	_kitchens.push_back(std::make_pair(in, out));
 	count++;
 
+	_guiKitchens.resize(_guiKitchens.size() + 1);
+
 	return (_kitchens.back());
 }
 
@@ -80,9 +82,6 @@ void	Reception::handleQueue()
 		std::map<std::pair<NamedPipe::In*, NamedPipe::Out*>, int> freeCooks;
 		for (std::list<std::pair<NamedPipe::In*, NamedPipe::Out*> >::iterator kitchen = _kitchens.begin(); kitchen != _kitchens.end(); ++kitchen)
 		{
-			std::list<int>::iterator itGui = _guiKitchens.begin();
-			std::advance(itGui, i);
-
 			NamedPipe::Out*	toKitchen = (*kitchen).second;
 			NamedPipe::In*		fromKitchen = (*kitchen).first;
 
@@ -95,6 +94,8 @@ void	Reception::handleQueue()
 			std::string canCook;
 			(*fromKitchen) >> canCook;
 
+			std::list<int>::iterator itGui = _guiKitchens.begin();
+			std::advance(itGui, i);
 			*itGui = cooksCount == "kitchen_closed" ? -1 : std::stoi(cooksCount);
 
 			if (cooksCount != "kitchen_closed" && canCook == "true")
@@ -105,6 +106,8 @@ void	Reception::handleQueue()
 				delete (*kitchen).second;
 				kitchen = _kitchens.erase(kitchen);
 				--kitchen;
+				_guiKitchens.erase(itGui);
+				i--;
 			}
 			i++;
 		}
@@ -152,7 +155,24 @@ void	Reception::closeKitchens()
 
 void	Reception::guiListener()
 {
-	std::cout << "coucou" << std::endl;
+	while (true)
+	{
+		std::string command;
+		(*_guiPipes.first) >> command;
+
+		if (command == "get_kitchens")
+		{
+			std::string result = "kitchens:";
+
+			for (std::list<int>::const_iterator it = _guiKitchens.begin(); it != _guiKitchens.end(); ++it)
+			{
+				result += std::to_string(*it);
+				result += " ";
+			}
+
+			(*_guiPipes.second) << result;
+		}
+	}
 }
 
 void	Reception::start()
@@ -172,6 +192,14 @@ void	Reception::start()
 
 		return (NULL);
 	}, this);
+
+	/*
+	_guiKitchens.push_back(3);
+	_guiKitchens.push_back(3);
+	_guiKitchens.push_back(2);
+	_guiKitchens.push_back(4);
+	_guiKitchens.push_back(1);
+	*/
 
 	while (run)
 	{

@@ -44,8 +44,10 @@ private:
 
 	sf::RectangleShape 	_kitchenBorder;
 	sf::RectangleShape 	_kitchenBody;
-	sf::Sprite 				_cookActive;
-	sf::Sprite 				_cookIdle;
+	sf::RectangleShape 	_cookActive;
+	sf::RectangleShape 	_cookIdle;
+//	sf::Sprite 				_cookActive;
+//	sf::Sprite 				_cookIdle;
 
 	std::vector<size_t>	_activeCooks;
 };
