@@ -154,9 +154,10 @@ void	Reception::closeKitchens()
 
 void	Reception::guiListener()
 {
+	std::string command;
+
 	while (true)
 	{
-		std::string command;
 		(*_guiPipes.first) >> command;
 
 		if (command == "get_kitchens")

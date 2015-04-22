@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <algorithm>
 #include "Cook.hpp"
 #include "StringHelper.hpp"
 #include "Mutex.hpp"
@@ -44,6 +45,22 @@ Kitchen::~Kitchen()
 		delete _process;
 }
 
+void Kitchen::refillSupplies()
+{
+	while (true)
+	{
+		sleep(5);
+
+		Mutex mutex;
+		mutex.lock();
+
+		for (std::map<APizza::Ingredients, int>::iterator it = _supplies.begin(); it != _supplies.end(); ++it)
+			it->second += 1;
+		std::cout << "Refilling supplies" << std::endl;
+		mutex.unlock();
+	}
+}
+
 void Kitchen::execute()
 {
 	Mutex			mutex;
@@ -53,11 +70,20 @@ void Kitchen::execute()
 	mutex.lock();
 	_fromReception = new NamedPipe::In(_pathIn);
 	mutex.unlock();
-	std::string command;
+
+	Thread	suppliesThread;
+	suppliesThread.run([](void* arg) -> void* {
+		Kitchen* kitchen = static_cast<Kitchen*>(arg);
+
+		kitchen->refillSupplies();
+
+		return (NULL);
+	}, this);
 
 	Clock clock;
 
-	while ("Ceci est une boucle infinie, c'est à dire une boucle qui ne termine jamais.")
+	std::string command;
+	while (true)
 	{
 		_fromReception->read(command);
 

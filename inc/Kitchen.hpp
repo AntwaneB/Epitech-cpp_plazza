@@ -29,6 +29,8 @@ public:
 
 	virtual void	execute(void);
 
+	void	refillSupplies(void);
+
 private:
 	void		cook(APizza*) const;
 	size_t	countOrdersSpots() const;
@@ -51,7 +53,7 @@ private:
 	size_t				_cooksCount;
 	size_t				_resupplyTime;
 
-	std::queue<APizza*>							_orders;
+	std::queue<APizza*>						_orders;
 	std::map<APizza::Ingredients, int>	_supplies;
 
 	bool					_dead;
