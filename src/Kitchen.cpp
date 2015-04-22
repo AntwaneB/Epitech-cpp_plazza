@@ -74,9 +74,7 @@ void Kitchen::execute()
 	Thread	suppliesThread;
 	suppliesThread.run([](void* arg) -> void* {
 		Kitchen* kitchen = static_cast<Kitchen*>(arg);
-
 		kitchen->refillSupplies();
-
 		return (NULL);
 	}, this);
 
@@ -112,7 +110,7 @@ void Kitchen::handleCommand(std::string& command, Clock & clock)
 	actions.insert(std::map<std::string, bool (Kitchen::*)(const std::string&)>::value_type("cook", &Kitchen::handleCook));
 	actions.insert(std::map<std::string, bool (Kitchen::*)(const std::string&)>::value_type("can_cook", &Kitchen::handleCanCook));
 
-	command = _dead ? "die" : command;
+	command = _dead ? "dead" : command;
 	std::vector<std::string> parts = StringHelper::strtovec(command, " ");
 	if (!parts.empty() && actions.find(parts[0]) != actions.end())
 	{
