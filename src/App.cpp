@@ -19,7 +19,7 @@
 #include "Process.hpp"
 
 App::App(int ac, char** av)
-	: _ac(ac), _av(av), _GUIThread(NULL)
+	: _ac(ac), _av(av)
 {
 	if (!this->validateArgs())
 		throw ArgumentsException("usage:\n" \
@@ -41,26 +41,11 @@ bool	App::validateArgs() const
 	return (true);
 }
 
-Thread*	App::getGuiThread()
-{
-	return (_GUIThread);
-}
-
-void*	runGui(void* app)
-{
-	(void)app;
-
-	GUI gui;
-	Process guiProcess(gui);
-
-	return (NULL);
-}
-
 int	App::run()
 {
 	try
 	{
-		GUI		gui;
+		GUI		gui(atoi(_av[2]));
 		Process	guiProcess(gui);
 
 		Reception	reception(atof(_av[1]), atoi(_av[2]), atoi(_av[3]));

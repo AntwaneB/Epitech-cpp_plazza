@@ -116,7 +116,6 @@ void	Reception::handleQueue()
 		{
 			std::pair<std::pair<NamedPipe::In*, NamedPipe::Out*>, int> freeKitchen(*(std::max_element(freeCooks.begin(), freeCooks.end())));
 
-			// Opening a new kitchen if needed
 			NamedPipe::Out*	toKitchen = freeKitchen.second > 0 ? freeKitchen.first.second : this->openKitchen().second;
 			(*toKitchen) << "cook " + APizza::pack(*pizza);
 		}
@@ -192,14 +191,6 @@ void	Reception::start()
 
 		return (NULL);
 	}, this);
-
-	/*
-	_guiKitchens.push_back(3);
-	_guiKitchens.push_back(3);
-	_guiKitchens.push_back(2);
-	_guiKitchens.push_back(4);
-	_guiKitchens.push_back(1);
-	*/
 
 	while (run)
 	{

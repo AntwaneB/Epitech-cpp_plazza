@@ -18,7 +18,7 @@ class GUI : public QObject, public ITask
 	Q_OBJECT
 
 public:
-	GUI();
+	GUI(size_t);
 	virtual ~GUI();
 
 	void	execute(void);
@@ -34,6 +34,7 @@ private:
 
 private:
 	bool							_initialized;
+	size_t						_cooksPerKitchen;
 	std::pair<NamedPipe::In*, NamedPipe::Out*> _guiPipes;
 
 	QFrame*						_window;

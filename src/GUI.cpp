@@ -10,8 +10,8 @@
 #include "ScopedLock.hpp"
 #include "StringHelper.hpp"
 
-GUI::GUI()
-	: _initialized(false)
+GUI::GUI(size_t cooksPerKitchen)
+	: _initialized(false), _cooksPerKitchen(cooksPerKitchen)
 {
 }
 
@@ -109,7 +109,7 @@ void GUI::initInputs()
 
 void GUI::initCanvas()
 {
-	_canvas = new Graphics(_window, QPoint(20, 20), QSize(360, 360), 0, 5); // TEMPORAIRE
+	_canvas = new Graphics(_window, QPoint(20, 20), QSize(360, 360), 0, _cooksPerKitchen); // TEMPORAIRE
 	_canvas->show();
 
 	_layout->addWidget(_canvas, 0, 0, 1, 4);
