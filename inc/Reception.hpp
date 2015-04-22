@@ -25,6 +25,7 @@ public:
 	virtual ~Reception();
 
 	void		start(void);
+	void		guiListener(void);
 
 private:
 	void											createPizza(std::vector<std::string>);
@@ -42,7 +43,10 @@ private:
 	size_t	_resupplyTime;
 
 	std::list<std::pair<NamedPipe::In*, NamedPipe::Out*> >	_kitchens;
-	std::queue<APizza*>										_orders;
+	std::queue<APizza*>													_orders;
+
+	std::list<int>															_guiKitchens;
+	std::pair<NamedPipe::In*, NamedPipe::Out*>					_guiPipes;
 };
 
 #endif	/* RECEPTION_HPP */

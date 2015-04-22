@@ -28,6 +28,11 @@ void GUI::execute(void)
 {
 	if (!_initialized)
 	{
+		NamedPipe::Out*	out = new NamedPipe::Out("/tmp/buchse_a_from-gui");
+		NamedPipe::In*		in = new NamedPipe::In("/tmp/buchse_a_to-gui");
+		_guiPipes.first = in;
+		_guiPipes.second = out;
+
 		int ac = 1; char *av[] = { strdup("./plazza") };
 		QApplication app(ac, av);
 
@@ -126,5 +131,4 @@ void GUI::updateWindow()
 		_layout->addWidget(test, 3, 0, 1, 4);
 		_components.push_back(test);
 	}
-	std::cout << "hey" << std::endl;
 }

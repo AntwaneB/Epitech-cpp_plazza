@@ -11,6 +11,7 @@
 #include <QtWidgets>
 #include "Graphics.hpp"
 #include "ITask.hpp"
+#include "NamedPipe.hpp"
 
 class GUI : public QObject, public ITask
 {
@@ -33,6 +34,7 @@ private:
 
 private:
 	bool							_initialized;
+	std::pair<NamedPipe::In*, NamedPipe::Out*> _guiPipes;
 
 	QFrame*						_window;
 	QGridLayout*				_layout;
