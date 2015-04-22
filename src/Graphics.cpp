@@ -51,6 +51,8 @@ void Graphics::onInit()
 
 void Graphics::onUpdate()
 {
+	this->clear(sf::Color(128, 128, 128));
+
 	size_t x = 1;
 	size_t y = 1;
 
