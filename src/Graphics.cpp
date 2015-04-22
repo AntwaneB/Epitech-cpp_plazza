@@ -64,6 +64,7 @@ void Graphics::onUpdate()
 		this->draw(_kitchenBorder);
 		this->draw(_kitchenBody);
 
+		// Drawing cooks
 		size_t xC = x + 3;
 		size_t yC = y + 3;
 
@@ -89,6 +90,7 @@ void Graphics::onUpdate()
 				jC++;
 			}
 		}
+		// End drawing cooks
 
 		x += _kitchenWidth + 1;
 		if (i / j >= _colsK)
