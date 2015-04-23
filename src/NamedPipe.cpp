@@ -87,7 +87,8 @@ NamedPipe::Out::~Out()
 
 NamedPipe::Out&	NamedPipe::Out::operator<<(std::string const & str)
 {
-	_stream << str << std::endl;
+	if (this && _stream.good())
+		_stream << str << std::endl;
 
 	return (*this);
 }
