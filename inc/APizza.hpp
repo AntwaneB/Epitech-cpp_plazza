@@ -56,6 +56,8 @@ public:
 	double									getCookingTime(void) const;
 	double									getModifier(void) const;
 
+	std::string								toString(void) const;
+
 	static std::string					pack(APizza const &);
 	static APizza*							unpack(std::string const &);
 

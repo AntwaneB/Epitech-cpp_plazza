@@ -21,5 +21,5 @@ Cook::~Cook()
 void Cook::execute()
 {
 	usleep(_pizza->getCookingTime() * 1000000);
-	std::cout << "Cook is done cooking " << APizza::pack(*_pizza) << std::endl;
+	std::cout << "\033[1m\033[37m[Kitchen " << getpid() << "]\033[0m \033[32mPizza cooked : " << _pizza->toString() << "\033[0m" << std::endl;
 }

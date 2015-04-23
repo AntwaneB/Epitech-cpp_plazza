@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <unistd.h>
 #include "Cook.hpp"
 #include "StringHelper.hpp"
 #include "Mutex.hpp"
@@ -47,9 +48,22 @@ Kitchen::~Kitchen()
 
 void Kitchen::refillSupplies()
 {
+	std::map<APizza::Ingredients, std::string> ingredientsStr =
+	{
+		{ APizza::Ingredients::Doe, "Doe" },
+		{ APizza::Ingredients::Tomato, "Tomato" },
+		{ APizza::Ingredients::Gruyere, "Gruyere" },
+		{ APizza::Ingredients::Ham, "Ham" },
+		{ APizza::Ingredients::Mushrooms, "Mushrooms" },
+		{ APizza::Ingredients::Steak, "Steak" },
+		{ APizza::Ingredients::Eggplant, "Eggplant" },
+		{ APizza::Ingredients::GoatCheese, "Goat cheese" },
+		{ APizza::Ingredients::ChiefLove, "Chief love" }
+	};
+
 	while (!_dead)
 	{
-		sleep(5);
+		usleep(_resupplyTime * 1000);
 
 		if (!_dead)
 		{
@@ -58,7 +72,16 @@ void Kitchen::refillSupplies()
 
 			for (std::map<APizza::Ingredients, int>::iterator it = _supplies.begin(); it != _supplies.end(); ++it)
 				it->second += 1;
-//			std::cout << "Refilling supplies" << std::endl;
+
+			std::string ingredients = "";
+			for (std::map<APizza::Ingredients, int>::iterator it = _supplies.begin(); it != _supplies.end(); ++it)
+			{
+				ingredients += std::to_string(it->second);
+				ingredients += " ";
+				ingredients += ingredientsStr[it->first];
+				ingredients += ", ";
+			}
+			std::cout << "\033[1m\033[37m[Kitchen " << getpid() << "]\033[0m Resupplying stock : { " << ingredients.substr(0, ingredients.size() - 2) << " }" << std::endl;
 			mutex.unlock();
 		}
 	}
@@ -74,7 +97,7 @@ void Kitchen::checkActivity()
 		if (sec >= _lifeTime)
 		{
 			_dead = true;
-			std::cout << "Kitchen " << getpid() << " was inactive for too long !" << std::endl;
+			std::cout << "\033[1m\033[37m[Kitchen " << getpid() << "]\033[0m \033[31mThis kitchen was inactive for too long !\033[0m" << std::endl;
 		}
 	}
 }
@@ -173,7 +196,7 @@ bool Kitchen::handleCook(const std::string& command)
 		_supplies.find(*ingredient)->second--;
 	}
 
-	std::cout << "Pizza to cook : '" << command.substr(5) << "'" << std::endl;
+	std::cout << "\033[1m\033[37m[Kitchen " << getpid() << "]\033[0m Order received : " << pizza->toString() << std::endl;
 	_cooks->pushTask(new Cook(pizza));
 	_cooks->runTasks();
 
@@ -193,9 +216,8 @@ bool Kitchen::handleDead(const std::string& command)
 {
 	(void)command;
 
-	std::cout << "Kitchen " << getpid() << " is closing it's doors, due to it's inactivity" << std::endl;
+	std::cout << "\033[1m\033[37m[Kitchen " << getpid() << "]\033[0m This kitchen is closing it's doors, due to it's inactivity" << std::endl;
 	_toReception->write("kitchen_closed");
-	//exit(EXIT_FAILURE);
 
 	return (false);
 }
@@ -204,7 +226,7 @@ bool Kitchen::handleDie(const std::string& command)
 {
 	(void)command;
 
-	std::cout << "Kitchen " << getpid() << " is closing it's doors" << std::endl;
+	std::cout << "\033[1m\033[37m[Kitchen " << getpid() << "]\033[0m This kitchen is closing it's doors" << std::endl;
 	_toReception->write("kitchen_closed");
 	exit(EXIT_SUCCESS);
 

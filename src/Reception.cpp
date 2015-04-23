@@ -242,8 +242,6 @@ void	Reception::start()
 
 	while (run)
 	{
-		std::cout << "> " << std::flush;
-
 		std::string save;
 		std::getline(std::cin, save);
 		if (save == "exit")
