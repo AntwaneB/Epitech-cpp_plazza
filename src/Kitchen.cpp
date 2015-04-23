@@ -205,6 +205,7 @@ bool Kitchen::handleDie(const std::string& command)
 	(void)command;
 
 	std::cout << "Kitchen " << getpid() << " is closing it's doors" << std::endl;
+	_toReception->write("kitchen_closed");
 	exit(EXIT_SUCCESS);
 
 	return (false);

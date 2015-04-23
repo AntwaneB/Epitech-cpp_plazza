@@ -63,7 +63,11 @@ int	App::run()
 		reception.start();
 
 		if (_gui)
+		{
 			guiProcess->wait();
+			delete guiProcess;
+			delete gui;
+		}
 	}
 	catch (std::exception const & e)
 	{

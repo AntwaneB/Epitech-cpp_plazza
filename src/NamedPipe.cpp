@@ -49,7 +49,8 @@ NamedPipe::In::~In()
 
 NamedPipe::In&	NamedPipe::In::operator>>(std::string & str)
 {
-	std::getline(_stream, str);
+	if (this && _stream.good())
+		std::getline(_stream, str);
 
 	return (*this);
 }
