@@ -14,7 +14,7 @@
 #include "Kitchen.hpp"
 
 Kitchen::Kitchen(const std::string& pathIn, const std::string& pathOut, size_t cooks, size_t resupplyTime)
-	: _pathIn(pathOut), _pathOut(pathIn), _cooksCount(cooks), _resupplyTime(resupplyTime), _dead(false)
+	: _pathIn(pathOut), _pathOut(pathIn), _cooksCount(cooks), _resupplyTime(resupplyTime), _dead(false), _lifeTime(5)
 {
 	_toReception = NULL;
 	_fromReception = NULL;
@@ -86,7 +86,7 @@ void Kitchen::execute()
 		_fromReception->read(command);
 
 		seconds_t sec = clock.tick();
-		if (sec >= 5.0)
+		if (sec >= _lifeTime)
 			_dead = true;
 
 		this->handleCommand(command, clock);
@@ -125,6 +125,7 @@ bool Kitchen::handleCanCook(const std::string& command)
 	ScopedLock	lock(mutex);
 
 	APizza*	pizza = APizza::unpack(command.substr(9));
+	_lifeTime = pizza->getCookingTime() > 5.0 ? pizza->getCookingTime() : 5.0;
 	std::vector<APizza::Ingredients> ingredients = pizza->getIngredients();
 	std::map<APizza::Ingredients, int> tmpSupplies = _supplies;
 

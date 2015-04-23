@@ -116,12 +116,39 @@ void	Reception::handleQueue()
 		{
 			std::pair<std::pair<NamedPipe::In*, NamedPipe::Out*>, int> freeKitchen(*(std::max_element(freeCooks.begin(), freeCooks.end())));
 
+			// Updating GUI count
+			size_t i = 0; bool found = false;
+			for (std::list<std::pair<NamedPipe::In*, NamedPipe::Out*> >::iterator kitchen = _kitchens.begin(); kitchen != _kitchens.end() && !found; ++kitchen)
+				if ((*kitchen).second == freeKitchen.first.second)
+					found = true;
+				else
+					i++;
+
 			NamedPipe::Out*	toKitchen = freeKitchen.second > 0 ? freeKitchen.first.second : this->openKitchen().second;
+
+			// Updating GUI count
+			std::list<int>::iterator itGui = _guiKitchens.begin();
+			if (found)
+			{
+				std::advance(itGui, i);
+				*itGui -= 1;
+			}
+			else
+			{
+				std::advance(itGui, _guiKitchens.size() - 1);
+				*itGui = _cooksCount - 1;
+			}
 			(*toKitchen) << "cook " + APizza::pack(*pizza);
 		}
 		else
 		{
 			NamedPipe::Out*	toKitchen = this->openKitchen().second;
+
+			// Updating GUI count
+			std::list<int>::iterator itGui = _guiKitchens.begin();
+			std::advance(itGui, _guiKitchens.size() - 1);
+			*itGui = _cooksCount - 1;
+
 			(*toKitchen) << "cook " + APizza::pack(*pizza);
 		}
 	}
@@ -132,6 +159,7 @@ void	Reception::createPizza(std::vector<std::string> pizza)
 	if (!pizza.empty() && pizza.size() == 3 && _pizzaCvt.find(pizza[0]) != _pizzaCvt.end() && _sizeCvt.find(pizza[1]) != _sizeCvt.end())
 	{
 		pizza[2].erase(0, 1);
+
 		int nb = std::stoi(pizza[2]);
 		for (int i = 0; i < nb; i++)
 		{

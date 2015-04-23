@@ -142,7 +142,7 @@ void GUI::updateWindow()
 		std::vector<std::string>	kitchens = StringHelper::strtovec(result, " ");
 
 		for (std::vector<std::string>::const_iterator it = kitchens.begin(); it != kitchens.end(); ++it)
-			activeCooks.push_back(std::stoi(*it));
+			activeCooks.push_back(_cooksPerKitchen - std::stoi(*it));
 
 		_canvas->setDatas(activeCooks);
 	}

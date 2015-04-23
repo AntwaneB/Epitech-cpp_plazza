@@ -57,6 +57,7 @@ private:
 	std::map<APizza::Ingredients, int>	_supplies;
 
 	bool					_dead;
+	seconds_t			_lifeTime;
 };
 
 #endif	/* KITCHEN_HPP */

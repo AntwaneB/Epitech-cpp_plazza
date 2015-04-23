@@ -117,8 +117,6 @@ void Graphics::setDatas(std::vector<size_t> const & activeCooks)
 
 		_cookWidth = (_kitchenWidth - 2 - _colsC * 2) / _colsC;
 		_cookHeight = (_kitchenHeight - 2 - _linesC * 2) / _linesC;
-//		std::cout << "cookWidth : " << _cookWidth << std::endl;
-//		std::cout << "cookHeight : " << _cookHeight << std::endl;
 
 		_kitchenBorder.setSize(sf::Vector2f(_kitchenWidth, _kitchenHeight));
 		_kitchenBorder.setFillColor(sf::Color::Black);
