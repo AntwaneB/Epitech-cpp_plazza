@@ -11,6 +11,8 @@
 Graphics::Graphics(QWidget* parent, const QPoint& position, const QSize& size, size_t nbKitchen, size_t nbCooks)
 	: QSFMLCanvas(parent, position, size), _nbKitchen(nbKitchen), _nbCooks(nbCooks)
 {
+	_tcookActive.loadFromFile("./assets/cookActive.png");
+	_tcookIdle.loadFromFile("./assets/cookIdle.png");
 }
 
 Graphics::~Graphics()
@@ -40,10 +42,12 @@ void Graphics::onInit()
 		_kitchenBody.setSize(sf::Vector2f(_kitchenWidth - 4, _kitchenHeight - 4));
 		_kitchenBody.setFillColor(sf::Color(128, 128, 128));
 
-		_cookActive.setSize(sf::Vector2f(_cookWidth, _cookHeight));
-		_cookActive.setFillColor(sf::Color(0, 128, 0));
-		_cookIdle.setSize(sf::Vector2f(_cookWidth, _cookHeight));
-		_cookIdle.setFillColor(sf::Color(0, 0, 128));
+		double ratio = (_cookWidth) / 300.0;
+		std::cout << "---------------ratio : " << ratio << std::endl;
+		_cookActive.setTexture(_tcookActive);
+		_cookActive.setScale(sf::Vector2f(ratio, ratio));
+		_cookIdle.setTexture(_tcookIdle);
+		_cookIdle.setScale(sf::Vector2f(ratio, ratio));
 	}
 
 	this->clear(sf::Color(128, 128, 128));
@@ -123,9 +127,11 @@ void Graphics::setDatas(std::vector<size_t> const & activeCooks)
 		_kitchenBody.setSize(sf::Vector2f(_kitchenWidth - 4, _kitchenHeight - 4));
 		_kitchenBody.setFillColor(sf::Color(128, 128, 128));
 
-		_cookActive.setSize(sf::Vector2f(_cookWidth, _cookHeight));
-		_cookActive.setFillColor(sf::Color(0, 128, 0));
-		_cookIdle.setSize(sf::Vector2f(_cookWidth, _cookHeight));
-		_cookIdle.setFillColor(sf::Color(0, 0, 128));
+		double ratio = (_cookWidth) / 300.0;
+		std::cout << "---------------ratio : " << ratio << std::endl;
+		_cookActive.setTexture(_tcookActive);
+		_cookActive.setScale(sf::Vector2f(ratio, ratio));
+		_cookIdle.setTexture(_tcookIdle);
+		_cookIdle.setScale(sf::Vector2f(ratio, ratio));
 	}
 }
