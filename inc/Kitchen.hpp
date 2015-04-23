@@ -30,12 +30,13 @@ public:
 	virtual void	execute(void);
 
 	void	refillSupplies(void);
+	void	checkActivity(void);
 
 private:
 	void		cook(APizza*) const;
 	size_t	countOrdersSpots() const;
 
-	void	handleCommand(std::string &, Clock &);
+	void	handleCommand(std::string &);
 	bool	handleDead(std::string const & command);
 	bool	handleCount(std::string const & command);
 	bool	handleCook(std::string const & command);
@@ -58,6 +59,7 @@ private:
 
 	bool					_dead;
 	seconds_t			_lifeTime;
+	Clock					_lifeClock;
 };
 
 #endif	/* KITCHEN_HPP */

@@ -47,17 +47,35 @@ Kitchen::~Kitchen()
 
 void Kitchen::refillSupplies()
 {
-	while (true)
+	while (!_dead)
 	{
 		sleep(5);
 
-		Mutex mutex;
-		mutex.lock();
+		if (!_dead)
+		{
+			Mutex mutex;
+			mutex.lock();
 
-		for (std::map<APizza::Ingredients, int>::iterator it = _supplies.begin(); it != _supplies.end(); ++it)
-			it->second += 1;
-		std::cout << "Refilling supplies" << std::endl;
-		mutex.unlock();
+			for (std::map<APizza::Ingredients, int>::iterator it = _supplies.begin(); it != _supplies.end(); ++it)
+				it->second += 1;
+			std::cout << "Refilling supplies" << std::endl;
+			mutex.unlock();
+		}
+	}
+}
+
+void Kitchen::checkActivity()
+{
+	_lifeClock.resetSec();
+
+	while (!_dead)
+	{
+		seconds_t sec = _lifeClock.tick();
+		if (sec >= _lifeTime)
+		{
+			_dead = true;
+			std::cout << "Kitchen " << getpid() << " was inactive for too long (" << static_cast<int>(sec) << " seconds) !" << std::endl;
+		}
 	}
 }
 
@@ -78,18 +96,18 @@ void Kitchen::execute()
 		return (NULL);
 	}, this);
 
-	Clock clock;
+	Thread	lifeThread;
+	lifeThread.run([](void* arg) -> void* {
+		Kitchen* kitchen = static_cast<Kitchen*>(arg);
+		kitchen->checkActivity();
+		return (NULL);
+	}, this);
 
 	std::string command;
 	while (true)
 	{
 		_fromReception->read(command);
-
-		seconds_t sec = clock.tick();
-		if (sec >= _lifeTime)
-			_dead = true;
-
-		this->handleCommand(command, clock);
+		this->handleCommand(command);
 	}
 }
 
@@ -98,7 +116,7 @@ size_t Kitchen::countOrdersSpots() const
 	return (_cooks->countAvailable());
 }
 
-void Kitchen::handleCommand(std::string& command, Clock & clock)
+void Kitchen::handleCommand(std::string& command)
 {
 	Mutex			mutex;
 	ScopedLock	lock(mutex);
@@ -115,7 +133,7 @@ void Kitchen::handleCommand(std::string& command, Clock & clock)
 	if (!parts.empty() && actions.find(parts[0]) != actions.end())
 	{
 		if ((this->*(actions.find(parts[0])->second))(command))
-			clock.resetSec();
+			_lifeClock.resetSec();
 	}
 }
 
@@ -125,7 +143,7 @@ bool Kitchen::handleCanCook(const std::string& command)
 	ScopedLock	lock(mutex);
 
 	APizza*	pizza = APizza::unpack(command.substr(9));
-	_lifeTime = pizza->getCookingTime() > 5.0 ? pizza->getCookingTime() : 5.0;
+	_lifeTime = pizza->getCookingTime() + 5.0 > _lifeTime ? pizza->getCookingTime() + 5.0 : _lifeTime;
 	std::vector<APizza::Ingredients> ingredients = pizza->getIngredients();
 	std::map<APizza::Ingredients, int> tmpSupplies = _supplies;
 
@@ -175,7 +193,7 @@ bool Kitchen::handleDead(const std::string& command)
 {
 	(void)command;
 
-	std::cout << "Kitchen " << getpid() << " was unused for too long !" << std::endl;
+	std::cout << "Kitchen " << getpid() << " is closing it's doors, due to it's inactivity" << std::endl;
 	_toReception->write("kitchen_closed");
 	exit(EXIT_FAILURE);
 
