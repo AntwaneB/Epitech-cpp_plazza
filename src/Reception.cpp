@@ -256,7 +256,7 @@ void	Reception::start()
 			std::vector<std::string> orders = StringHelper::strtovec(save, ";");
 			for (size_t i = 0; i < orders.size(); i++)
 			{
-				createPizza(StringHelper::strtovec(orders[i], " "));
+				createPizza(StringHelper::strtovec(orders[i], " \t"));
 			}
 			this->handleQueue();
 		}

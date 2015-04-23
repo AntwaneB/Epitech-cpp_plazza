@@ -58,7 +58,7 @@ void Kitchen::refillSupplies()
 
 			for (std::map<APizza::Ingredients, int>::iterator it = _supplies.begin(); it != _supplies.end(); ++it)
 				it->second += 1;
-			std::cout << "Refilling supplies" << std::endl;
+//			std::cout << "Refilling supplies" << std::endl;
 			mutex.unlock();
 		}
 	}
@@ -74,7 +74,7 @@ void Kitchen::checkActivity()
 		if (sec >= _lifeTime)
 		{
 			_dead = true;
-			std::cout << "Kitchen " << getpid() << " was inactive for too long (" << static_cast<int>(sec) << " seconds) !" << std::endl;
+			std::cout << "Kitchen " << getpid() << " was inactive for too long !" << std::endl;
 		}
 	}
 }
