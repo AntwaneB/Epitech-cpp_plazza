@@ -195,7 +195,7 @@ bool Kitchen::handleDead(const std::string& command)
 
 	std::cout << "Kitchen " << getpid() << " is closing it's doors, due to it's inactivity" << std::endl;
 	_toReception->write("kitchen_closed");
-	exit(EXIT_FAILURE);
+	//exit(EXIT_FAILURE);
 
 	return (false);
 }

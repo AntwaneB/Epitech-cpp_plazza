@@ -105,6 +105,8 @@ void	Reception::handleQueue()
 				freeCooks.insert(std::map<std::pair<NamedPipe::In*, NamedPipe::Out*>, int>::value_type(std::make_pair((*kitchen).first, (*kitchen).second), std::stoi(cooksCount)));
 			else if (cooksCount == "kitchen_closed")
 			{
+				(*toKitchen) << "die";
+
 				delete (*kitchen).first;
 				delete (*kitchen).second;
 				kitchen = _kitchens.erase(kitchen);
