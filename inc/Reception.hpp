@@ -21,7 +21,7 @@ class Reception;
 class Reception
 {
 public:
-	Reception(double cookingTime, size_t cooksCount, size_t resupplyTime);
+	Reception(double cookingTime, size_t cooksCount, size_t resupplyTime, bool gui);
 	virtual ~Reception();
 
 	void		start(void);
@@ -47,6 +47,8 @@ private:
 
 	std::list<int>															_guiKitchens;
 	std::pair<NamedPipe::In*, NamedPipe::Out*>					_guiPipes;
+
+	bool	_gui;
 };
 
 #endif	/* RECEPTION_HPP */

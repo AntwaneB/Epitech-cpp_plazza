@@ -19,8 +19,13 @@
 #include "Process.hpp"
 
 App::App(int ac, char** av)
-	: _ac(ac), _av(av)
+	: _ac(ac), _av(av), _gui(false)
 {
+	if (_ac == 5 && std::string(_av[4]) == "--gui")
+	{
+		_ac = 4;
+		_gui = true;
+	}
 	if (!this->validateArgs())
 		throw ArgumentsException("usage:\n" \
 										 "./plazza [cooking time] [cooks per kitchen] [resupply time]");
@@ -45,14 +50,20 @@ int	App::run()
 {
 	try
 	{
-		GUI		gui(atoi(_av[2]));
-		Process	guiProcess(gui);
+		GUI*		gui;
+		Process*	guiProcess;
+		if (_gui)
+		{
+			gui = new GUI(atoi(_av[2]));
+			guiProcess = new Process(*gui);
+		}
 
-		Reception	reception(atof(_av[1]), atoi(_av[2]), atoi(_av[3]));
+		Reception	reception(atof(_av[1]), atoi(_av[2]), atoi(_av[3]), _gui);
 
 		reception.start();
 
-		guiProcess.wait();
+		if (_gui)
+			guiProcess->wait();
 	}
 	catch (std::exception const & e)
 	{

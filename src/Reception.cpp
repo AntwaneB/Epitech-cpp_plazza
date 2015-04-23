@@ -13,8 +13,8 @@
 #include "Americana.hpp"
 #include "StringHelper.hpp"
 
-Reception::Reception(double cookingTime, size_t cooksCount, size_t resupplyTime)
-	: _cookingTime(cookingTime), _cooksCount(cooksCount), _resupplyTime(resupplyTime)
+Reception::Reception(double cookingTime, size_t cooksCount, size_t resupplyTime, bool gui)
+	: _cookingTime(cookingTime), _cooksCount(cooksCount), _resupplyTime(resupplyTime), _gui(gui)
 {
 	_pizzasCtor.insert(std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>::value_type(APizza::Margarita, &Margarita::newMargarita));
 	_pizzasCtor.insert(std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>::value_type(APizza::Regina, &Regina::newRegina));
@@ -95,8 +95,11 @@ void	Reception::handleQueue()
 			(*fromKitchen) >> canCook;
 
 			std::list<int>::iterator itGui = _guiKitchens.begin();
-			std::advance(itGui, i);
-			*itGui = cooksCount == "kitchen_closed" ? -1 : std::stoi(cooksCount);
+			if (_gui)
+			{
+				std::advance(itGui, i);
+				*itGui = cooksCount == "kitchen_closed" ? -1 : std::stoi(cooksCount);
+			}
 
 			if (cooksCount != "kitchen_closed" && canCook == "true")
 				freeCooks.insert(std::map<std::pair<NamedPipe::In*, NamedPipe::Out*>, int>::value_type(std::make_pair((*kitchen).first, (*kitchen).second), std::stoi(cooksCount)));
@@ -106,8 +109,11 @@ void	Reception::handleQueue()
 				delete (*kitchen).second;
 				kitchen = _kitchens.erase(kitchen);
 				--kitchen;
-				_guiKitchens.erase(itGui);
-				i--;
+				if (_gui)
+				{
+					_guiKitchens.erase(itGui);
+					i--;
+				}
 			}
 			i++;
 		}
@@ -118,38 +124,46 @@ void	Reception::handleQueue()
 
 			// Updating GUI count
 			size_t i = 0; bool found = false;
-			for (std::list<std::pair<NamedPipe::In*, NamedPipe::Out*> >::iterator kitchen = _kitchens.begin(); kitchen != _kitchens.end() && !found; ++kitchen)
-				if ((*kitchen).second == freeKitchen.first.second)
-					found = true;
-				else
-					i++;
+			if (_gui)
+			{
+				for (std::list<std::pair<NamedPipe::In*, NamedPipe::Out*> >::iterator kitchen = _kitchens.begin(); kitchen != _kitchens.end() && !found; ++kitchen)
+					if ((*kitchen).second == freeKitchen.first.second)
+						found = true;
+					else
+						i++;
+			}
 
 			NamedPipe::Out*	toKitchen = freeKitchen.second > 0 ? freeKitchen.first.second : this->openKitchen().second;
+			(*toKitchen) << "cook " + APizza::pack(*pizza);
 
 			// Updating GUI count
-			std::list<int>::iterator itGui = _guiKitchens.begin();
-			if (found)
+			if (_gui)
 			{
-				std::advance(itGui, i);
-				*itGui -= 1;
+				std::list<int>::iterator itGui = _guiKitchens.begin();
+				if (found)
+				{
+					std::advance(itGui, i);
+					*itGui -= 1;
+				}
+				else
+				{
+					std::advance(itGui, _guiKitchens.size() - 1);
+					*itGui = _cooksCount - 1;
+				}
 			}
-			else
-			{
-				std::advance(itGui, _guiKitchens.size() - 1);
-				*itGui = _cooksCount - 1;
-			}
-			(*toKitchen) << "cook " + APizza::pack(*pizza);
 		}
 		else
 		{
 			NamedPipe::Out*	toKitchen = this->openKitchen().second;
+			(*toKitchen) << "cook " + APizza::pack(*pizza);
 
 			// Updating GUI count
-			std::list<int>::iterator itGui = _guiKitchens.begin();
-			std::advance(itGui, _guiKitchens.size() - 1);
-			*itGui = _cooksCount - 1;
-
-			(*toKitchen) << "cook " + APizza::pack(*pizza);
+			if (_gui)
+			{
+				std::list<int>::iterator itGui = _guiKitchens.begin();
+				std::advance(itGui, _guiKitchens.size() - 1);
+				*itGui = _cooksCount - 1;
+			}
 		}
 	}
 }
@@ -207,19 +221,22 @@ void	Reception::start()
 {
 	bool			run = true;
 
-	NamedPipe::In*		in = new NamedPipe::In("/tmp/buchse_a_from-gui");
-	NamedPipe::Out*	out = new NamedPipe::Out("/tmp/buchse_a_to-gui");
-	_guiPipes.first = in;
-	_guiPipes.second = out;
+	if (_gui)
+	{
+		NamedPipe::In*		in = new NamedPipe::In("/tmp/buchse_a_from-gui");
+		NamedPipe::Out*	out = new NamedPipe::Out("/tmp/buchse_a_to-gui");
+		_guiPipes.first = in;
+		_guiPipes.second = out;
 
-	Thread guiListenerThread;
-	guiListenerThread.run([](void* arg) -> void* {
-		Reception*	reception = static_cast<Reception*>(arg);
+		Thread* guiListenerThread = new Thread;
+		guiListenerThread->run([](void* arg) -> void* {
+			Reception*	reception = static_cast<Reception*>(arg);
 
-		reception->guiListener();
+			reception->guiListener();
 
-		return (NULL);
-	}, this);
+			return (NULL);
+		}, this);
+	}
 
 	while (run)
 	{

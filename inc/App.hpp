@@ -29,6 +29,8 @@ private:
 private:
 	int			_ac;
 	char**		_av;
+
+	bool			_gui;
 };
 
 #endif /* !APP_HPP */

@@ -128,7 +128,7 @@ void Kitchen::handleCommand(std::string& command)
 	actions.insert(std::map<std::string, bool (Kitchen::*)(const std::string&)>::value_type("cook", &Kitchen::handleCook));
 	actions.insert(std::map<std::string, bool (Kitchen::*)(const std::string&)>::value_type("can_cook", &Kitchen::handleCanCook));
 
-	command = _dead ? "dead" : command;
+	command = command != "die" && _dead ? "dead" : command;
 	std::vector<std::string> parts = StringHelper::strtovec(command, " ");
 	if (!parts.empty() && actions.find(parts[0]) != actions.end())
 	{
