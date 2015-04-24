@@ -47,7 +47,7 @@ void GUI::execute(void)
 
 		QTimer *timer = new QTimer;
 		QObject::connect(timer, SIGNAL(timeout()), this, SLOT(updateWindow()));
-		QObject::connect("le boutton", SIGNAL(clicked()), this, SLOT(manageInput()));
+		QObject::connect(_components.find("submitBtn")->second, SIGNAL(clicked()), this, SLOT(manageInput()));
 		timer->start(1000);
 
 		app.exec();
@@ -153,5 +153,8 @@ void GUI::updateWindow()
 
 void GUI::manageInput(void)
 {
-	std::cout << "LOL" << std::endl;
+	std::cout << dynamic_cast<QComboBox*>(_components.find("pizzaType")->second)->currentText().toStdString() << std::endl;
+	std::cout << dynamic_cast<QComboBox*>(_components.find("pizzaSize")->second)->currentText().toStdString() << std::endl;
+	std::cout << dynamic_cast<QSpinBox*>(_components.find("pizzaCount")->second)->text().toStdString() << std::endl;
+	std::cout << dynamic_cast<QLineEdit*>(_components.find("input")->second)->text().toStdString() << std::endl;
 }

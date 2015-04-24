@@ -26,13 +26,13 @@ public:
 
 public slots:
 	void	updateWindow(void);
+	void	manageInput(void);
 
 private:
 	void	initWindow(void);
 	void	initInputs(void);
 	void	initCanvas(void);
 	void	endInit(void);
-	void	manageInput(void);
 
 private:
 	bool							_initialized;
