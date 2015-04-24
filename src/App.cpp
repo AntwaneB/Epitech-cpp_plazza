@@ -40,7 +40,7 @@ App::~App()
 
 bool	App::validateArgs() const
 {
-	if (_ac != 4 || atoi(_av[1]) < 0 || atoi(_av[2]) < 0 || atoi(_av[3]) < 0 ||
+	if (_ac != 4 || atof(_av[1]) <= 0.0 || atoi(_av[2]) <= 0 || atoi(_av[3]) <= 0 ||
 		!StringHelper::isDigitalString(_av[1]) || !StringHelper::isDigitalString(_av[2]) || !StringHelper::isDigitalString(_av[3]))
 		return (false);
 	return (true);
