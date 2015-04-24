@@ -9,6 +9,7 @@
 #define	GUI_HPP
 
 #include <QtWidgets>
+#include <map>
 #include "Graphics.hpp"
 #include "ITask.hpp"
 #include "NamedPipe.hpp"
@@ -41,7 +42,7 @@ private:
 	QGridLayout*				_layout;
 	Graphics*					_canvas;
 
-	std::vector<QWidget*>	_components;
+	std::map<std::string, QWidget*>	_components;
 };
 
 #endif	/* GUI_HPP */
