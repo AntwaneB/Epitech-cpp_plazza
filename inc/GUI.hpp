@@ -31,6 +31,7 @@ private:
 	void	initInputs(void);
 	void	initCanvas(void);
 	void	endInit(void);
+	void	manageInput(void);
 
 private:
 	bool							_initialized;

@@ -46,7 +46,8 @@ void GUI::execute(void)
 		this->endInit();
 
 		QTimer *timer = new QTimer;
-	   QObject::connect(timer, SIGNAL(timeout()), this, SLOT(updateWindow()));
+		QObject::connect(timer, SIGNAL(timeout()), this, SLOT(updateWindow()));
+		QObject::connect("le boutton", SIGNAL(clicked()), this, SLOT(manageInput()));
 		timer->start(1000);
 
 		app.exec();
@@ -148,4 +149,9 @@ void GUI::updateWindow()
 	}
 	else
 		_canvas->setDatas(activeCooks);
+}
+
+void GUI::manageInput(void)
+{
+	std::cout << "LOL" << std::endl;
 }
