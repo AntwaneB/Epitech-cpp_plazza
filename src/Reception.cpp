@@ -70,6 +70,9 @@ std::pair<NamedPipe::In*, NamedPipe::Out*> Reception::openKitchen()
 
 void	Reception::handleQueue()
 {
+	Mutex	globalMutex;
+	ScopedLock	globalLock(globalMutex);
+
 	if (!_orders.empty() && _kitchens.empty())
 		this->openKitchen();
 
@@ -223,6 +226,7 @@ void	Reception::guiListener()
 			{
 				createPizza(StringHelper::strtovec(orders[i], " \t"));
 			}
+			this->handleQueue();
 		}
 	}
 }
@@ -248,7 +252,7 @@ void	Reception::start()
 		}, this);
 	}
 
-	std::cout << "\033[1m\033[37mHey, welcome to \033[31mThe\033[0m \033[32mPlazza\033[0m !\033[0m" << std::endl;
+	std::cout << "\033[1m\033[37mHey, welcome to \033[31mThe\033[0m \033[32mPlazza\033[0m !\033[0m" << std::endl << std::endl;
 	while (run)
 	{
 		std::string save;
