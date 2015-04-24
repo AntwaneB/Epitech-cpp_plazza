@@ -153,8 +153,14 @@ void GUI::updateWindow()
 
 void GUI::manageInput(void)
 {
-	std::cout << dynamic_cast<QComboBox*>(_components.find("pizzaType")->second)->currentText().toStdString() << std::endl;
-	std::cout << dynamic_cast<QComboBox*>(_components.find("pizzaSize")->second)->currentText().toStdString() << std::endl;
-	std::cout << dynamic_cast<QSpinBox*>(_components.find("pizzaCount")->second)->text().toStdString() << std::endl;
-	std::cout << dynamic_cast<QLineEdit*>(_components.find("input")->second)->text().toStdString() << std::endl;
+	try
+	{
+		std::cout << dynamic_cast<QComboBox*>(_components.find("pizzaType")->second)->currentText().toStdString() << std::endl;
+		std::cout << dynamic_cast<QComboBox*>(_components.find("pizzaSize")->second)->currentText().toStdString() << std::endl;
+		std::cout << dynamic_cast<QSpinBox*>(_components.find("pizzaCount")->second)->text().toStdString() << std::endl;
+		std::cout << dynamic_cast<QLineEdit*>(_components.find("input")->second)->text().toStdString() << std::endl;
+	} catch (std::bad_cast const & e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 }

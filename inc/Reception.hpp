@@ -28,10 +28,10 @@ public:
 	void		guiListener(void);
 
 private:
-	void											createPizza(std::vector<std::string>);
+	void		createPizza(std::vector<std::string>);
+	void		handleQueue(void);
+	void		closeKitchens(void);
 	std::pair<NamedPipe::In*, NamedPipe::Out*>	openKitchen(void);
-	void											handleQueue(void);
-	void											closeKitchens(void);
 
 private:
 	std::map<APizza::TypePizza, APizza* (*)(APizza::SizePizza, double)>	_pizzasCtor;
