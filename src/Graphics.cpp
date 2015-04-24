@@ -126,7 +126,11 @@ void Graphics::setDatas(std::vector<size_t> const & activeCooks)
 		_kitchenBody.setSize(sf::Vector2f(_kitchenWidth - 4, _kitchenHeight - 4));
 		_kitchenBody.setFillColor(sf::Color(128, 128, 128));
 
-		double ratio = (_cookHeight) / 320.0;
+		double ratio;
+		if (_kitchenWidth < _kitchenHeight)
+			ratio = (_cookWidth) / 300.0;
+		else
+			ratio = (_cookHeight) / 320.0;
 		_cookActive.setTexture(_tcookActive);
 		_cookActive.setScale(sf::Vector2f(ratio, ratio));
 		_cookIdle.setTexture(_tcookIdle);
