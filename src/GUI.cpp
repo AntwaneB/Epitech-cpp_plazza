@@ -48,6 +48,7 @@ void GUI::execute(void)
 		QTimer *timer = new QTimer;
 		QObject::connect(timer, SIGNAL(timeout()), this, SLOT(updateWindow()));
 		QObject::connect(_components.find("submitBtn")->second, SIGNAL(clicked()), this, SLOT(manageInput()));
+		QObject::connect(_components.find("input")->second, SIGNAL(returnPressed()), this, SLOT(manageInput()));
 		timer->start(1000);
 
 		app.exec();
