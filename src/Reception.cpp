@@ -240,6 +240,7 @@ void	Reception::start()
 		}, this);
 	}
 
+	std::cout << "\033[1m\033[37mHey, welcome to \033[31mThe\033[0m \033[32mPlazza\033[0m !\033[0m" << std::endl;
 	while (run)
 	{
 		std::string save;
