@@ -156,13 +156,18 @@ void GUI::manageInput(void)
 {
 	try
 	{
-		std::cout << dynamic_cast<QComboBox*>(_components.find("pizzaType")->second)->currentText().toStdString() << std::endl;
-		std::cout << dynamic_cast<QComboBox*>(_components.find("pizzaSize")->second)->currentText().toStdString() << std::endl;
-		std::cout << dynamic_cast<QSpinBox*>(_components.find("pizzaCount")->second)->text().toStdString() << std::endl;
-		std::cout << dynamic_cast<QLineEdit*>(_components.find("input")->second)->text().toStdString() << std::endl;
+		std::string order = dynamic_cast<QLineEdit*>(_components.find("input")->second)->text().toStdString();
+		if (order.size() == 0)
+		{
+		std::string type = dynamic_cast<QComboBox*>(_components.find("pizzaType")->second)->currentText().toStdString();
+		std::string size = dynamic_cast<QComboBox*>(_components.find("pizzaSize")->second)->currentText().toStdString();
+		std::string count = dynamic_cast<QSpinBox*>(_components.find("pizzaCount")->second)->text().toStdString();
+		std::transform(type.begin(), type.end(), type.begin(), ::tolower);
+		order = type + " " + size + " x" + count;
+		}
 
-		std::string order = "";
 		(*_guiPipes.second) << std::string("order ") + order;
+		dynamic_cast<QLineEdit*>(_components.find("input")->second)->setText("");
 	} catch (std::bad_cast const & e)
 	{
 		std::cerr << e.what() << std::endl;
