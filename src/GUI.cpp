@@ -19,8 +19,8 @@ GUI::~GUI()
 {
 	if (_initialized)
 	{
-		for (size_t i = 0; i < _components.size(); i++)
-			delete _components[i];
+		for (std::map<std::string, QWidget*>::iterator it = _components.begin(); it != _components.end(); ++it)
+			delete it->second;
 		delete _canvas;
 		delete _layout;
 		delete _window;
@@ -101,11 +101,11 @@ void GUI::initInputs()
 	_layout->addWidget(submitBtn, 1, 3, 2, 1);
 	_layout->addWidget(input, 2, 0, 1, 3);
 
-	_components.push_back(pizzaType);
-	_components.push_back(pizzaSize);
-	_components.push_back(pizzaCount);
-	_components.push_back(submitBtn);
-	_components.push_back(input);
+	_components.insert(std::map<std::string, QWidget*>::value_type("pizzaType", pizzaType));
+	_components.insert(std::map<std::string, QWidget*>::value_type("pizzaSize", pizzaSize));
+	_components.insert(std::map<std::string, QWidget*>::value_type("pizzaCount", pizzaCount));
+	_components.insert(std::map<std::string, QWidget*>::value_type("submitBtn", submitBtn));
+	_components.insert(std::map<std::string, QWidget*>::value_type("input", input));
 }
 
 void GUI::initCanvas()
