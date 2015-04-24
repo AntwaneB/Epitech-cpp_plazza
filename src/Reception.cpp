@@ -216,6 +216,14 @@ void	Reception::guiListener()
 
 			(*_guiPipes.second) << result;
 		}
+		else if (command.substr(0, 5) == "order")
+		{
+			std::vector<std::string> orders = StringHelper::strtovec(command.substr(6), ";");
+			for (size_t i = 0; i < orders.size(); i++)
+			{
+				createPizza(StringHelper::strtovec(orders[i], " \t"));
+			}
+		}
 	}
 }
 
