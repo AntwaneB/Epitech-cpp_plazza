@@ -12,7 +12,7 @@ Fonctionnalités
 > - Gestion complète des pizzerias avec passage des commandes, actualisation du stock, ...
 > - Interface réalisée avec une vue SFML encapsulée dans une fenêtre Qt.
 
-![Visuel du 42sh](http://antoine.buchser.fr/uploads/projects/thumbnails/plazza.jpg)
+![Visuel du Plazza](http://antoine.buchser.fr/uploads/projects/thumbnails/plazza.jpg)
 
 Points intéressants à étudier !
 -------------
